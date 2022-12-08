@@ -15,7 +15,7 @@ import java.util.Set;
 public class VoteService implements IVotesService {
     private final IVoiceDao voiceDao;
 
-    public VoteService(VoiceDao voiceDao) {
+    public VoteService(IVoiceDao voiceDao) {
         this.voiceDao = voiceDao;
     }
 

@@ -11,7 +11,7 @@ public class GenreService implements IGenreService {
 
     private final IGenreDao genre;
 
-    public GenreService(GenreDao instance) {
+    public GenreService(IGenreDao instance) {
         genre = instance;
     }
 

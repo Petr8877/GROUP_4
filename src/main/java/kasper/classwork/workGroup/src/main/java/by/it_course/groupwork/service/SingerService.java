@@ -11,7 +11,7 @@ public class SingerService implements ISingerService {
 
     private final ISingerDao singer;
 
-    public SingerService(SingerDao instance) {
+    public SingerService(ISingerDao instance) {
         singer = instance;
     }
 

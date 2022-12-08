@@ -16,7 +16,7 @@ import java.io.PrintWriter;
 public class UserAnswerServlet extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req,
+    protected void doPost(HttpServletRequest req,
                          HttpServletResponse resp)
             throws ServletException, IOException {
 
