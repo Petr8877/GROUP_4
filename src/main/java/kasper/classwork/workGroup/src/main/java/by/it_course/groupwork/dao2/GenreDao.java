@@ -29,9 +29,9 @@ public class GenreDao implements IGenreDao {
     }
 
     @Override
-    public boolean isContain(String str) {
+    public boolean isContain(int id) {
         for (GenreDTO genre : genres) {
-            if(Objects.equals(genre.getName(),str)){
+            if(genre.getId() == id){
                 return true;
             }
         }

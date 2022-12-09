@@ -7,5 +7,5 @@ public interface IGenreDao {
 
     List<GenreDTO> getGenreList();
 
-    boolean isContain(String str);
+    boolean isContain(int id);
 }

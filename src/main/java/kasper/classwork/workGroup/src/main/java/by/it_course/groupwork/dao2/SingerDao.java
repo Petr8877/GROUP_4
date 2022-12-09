@@ -23,9 +23,9 @@ public class SingerDao implements ISingerDao {
     }
 
     @Override
-    public boolean isContain(String str) {
+    public boolean isContain(int id) {
         for (SingerDTO singer : singers) {
-            if(Objects.equals(singer.getName(),str)) {
+            if(singer.getId() == id) {
                 return true;
             }
         }

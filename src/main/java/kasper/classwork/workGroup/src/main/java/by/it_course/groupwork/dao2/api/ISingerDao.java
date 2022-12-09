@@ -7,5 +7,5 @@ public interface ISingerDao {
 
     List<SingerDTO> getSingerList();
 
-    boolean isContain(String str);
+    boolean isContain(int id);
 }
