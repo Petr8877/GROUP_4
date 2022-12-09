@@ -1,6 +1,6 @@
 package by.it_course.groupwork.service.api;
 
-import by.it_course.groupwork.dto.Voice;
+import by.it_course.groupwork.dto.VoiceDTO;
 
 import java.util.List;
 
@@ -16,5 +16,5 @@ public interface IVotesService {
      */
     void save(String singer, String[] genre, String aboutMe);
 
-    List<Voice> getAllVoice();
+    List<VoiceDTO> getAllVoice();
 }

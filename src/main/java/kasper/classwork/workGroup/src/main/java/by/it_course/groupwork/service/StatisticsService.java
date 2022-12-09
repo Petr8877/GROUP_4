@@ -3,9 +3,8 @@ package by.it_course.groupwork.service;
 import by.it_course.groupwork.dao.service.GenresServiceSingleton;
 import by.it_course.groupwork.dao.service.SingersServiceSingleton;
 import by.it_course.groupwork.dao.service.VoteServiceSingleton;
-import by.it_course.groupwork.dto.ResultForMap;
-import by.it_course.groupwork.dto.ShortAboutUser;
-import by.it_course.groupwork.dto.Voice;
+import by.it_course.groupwork.dto.ResultForMapDTO;
+import by.it_course.groupwork.dto.VoiceDTO;
 import by.it_course.groupwork.service.api.IGenreService;
 import by.it_course.groupwork.service.api.ISingerService;
 import by.it_course.groupwork.service.api.IStatisticsService;
@@ -26,13 +25,13 @@ public class StatisticsService implements IStatisticsService {
     public Map<String, Integer> getResultSingers() {
         ISingerService ss = SingersServiceSingleton.getInstance();
         List<String> singerList = ss.get();
-        List<Voice> allVoice = voteService.getAllVoice();
-        ResultForMap resultForMap = new ResultForMap();
+        List<VoiceDTO> allVoice = voteService.getAllVoice();
+        ResultForMapDTO resultForMap = new ResultForMapDTO();
         Map<String, Integer> resultSingers = resultForMap.getMapSingers();
         for (String s : singerList) {
             resultSingers.put(s, 0);
         }
-        for (Voice voice : allVoice) {
+        for (VoiceDTO voice : allVoice) {
             String singer = voice.getSinger();
             for (Map.Entry<String, Integer> stringIntegerEntry : resultSingers.entrySet()) {
                 if (stringIntegerEntry.getKey().equals(singer)) {
@@ -50,14 +49,14 @@ public class StatisticsService implements IStatisticsService {
     public Map<String, Integer> getResultGenres() {
         IGenreService gs = GenresServiceSingleton.getInstance();
         List<String> singerList = gs.get();
-        List<Voice> allVoice = voteService.getAllVoice();
+        List<VoiceDTO> allVoice = voteService.getAllVoice();
 
-        ResultForMap resultForMap = new ResultForMap();
+        ResultForMapDTO resultForMap = new ResultForMapDTO();
         Map<String, Integer> resultGenres = resultForMap.getMapGenres();
         for (String s : singerList) {
             resultGenres.put(s, 0);
         }
-        for (Voice voice : allVoice) {
+        for (VoiceDTO voice : allVoice) {
             String[] genres = voice.getGenre();
             for (String genre : genres) {
                 for (Map.Entry<String, Integer> stringIntegerEntry : resultGenres.entrySet()) {
@@ -75,10 +74,10 @@ public class StatisticsService implements IStatisticsService {
 
     @Override
     public Map<String, LocalDateTime> getUserInfo() {
-        List<Voice> allVoice = voteService.getAllVoice();
-        ResultForMap resultForMap = new ResultForMap();
+        List<VoiceDTO> allVoice = voteService.getAllVoice();
+        ResultForMapDTO resultForMap = new ResultForMapDTO();
         Map<String, LocalDateTime> resultUserInfo = resultForMap.getMapUserInfo();
-        for (Voice voice : allVoice) {
+        for (VoiceDTO voice : allVoice) {
             ShortAboutUser shortAboutUser = voice.getAboutUser();
             resultUserInfo.put(shortAboutUser.getAboutUser(), shortAboutUser.getCreationTime());
         }

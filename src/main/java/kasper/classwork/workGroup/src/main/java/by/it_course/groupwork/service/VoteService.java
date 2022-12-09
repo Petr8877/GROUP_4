@@ -1,11 +1,10 @@
 package by.it_course.groupwork.service;
 
-import by.it_course.groupwork.dao.VoiceDaoSingleton;
+import by.it_course.groupwork.dao.VotingDaoSingleton;
 import by.it_course.groupwork.dao.service.GenresServiceSingleton;
 import by.it_course.groupwork.dao.service.SingersServiceSingleton;
-import by.it_course.groupwork.dao2.VoiceDao;
-import by.it_course.groupwork.dao2.api.IVoiceDao;
-import by.it_course.groupwork.dto.Voice;
+import by.it_course.groupwork.dao2.api.IVotingDao;
+import by.it_course.groupwork.dto.VoiceDTO;
 import by.it_course.groupwork.service.api.IVotesService;
 
 import java.util.HashSet;
@@ -13,9 +12,9 @@ import java.util.List;
 import java.util.Set;
 
 public class VoteService implements IVotesService {
-    private final IVoiceDao voiceDao;
+    private final IVotingDao voiceDao;
 
-    public VoteService(IVoiceDao voiceDao) {
+    public VoteService(IVotingDao voiceDao) {
         this.voiceDao = voiceDao;
     }
 
@@ -34,12 +33,12 @@ public class VoteService implements IVotesService {
 
     @Override
     public void save(String singer, String[] genre, String aboutMe) {
-        Voice voice = new Voice(singer, genre, aboutMe);
-        VoiceDaoSingleton.getInstance().save(voice);
+        VoiceDTO voice = new VoiceDTO(singer, genre, aboutMe);
+        VotingDaoSingleton.getInstance().save(voice);
     }
 
     @Override
-    public List<Voice> getAllVoice() {
+    public List<VoiceDTO> getAllVoice() {
         return voiceDao.getVoiceList();
     }
 }

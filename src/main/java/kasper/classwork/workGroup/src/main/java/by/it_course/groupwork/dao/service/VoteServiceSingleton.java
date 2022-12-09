@@ -1,6 +1,6 @@
 package by.it_course.groupwork.dao.service;
 
-import by.it_course.groupwork.dao.VoiceDaoSingleton;
+import by.it_course.groupwork.dao.VotingDaoSingleton;
 import by.it_course.groupwork.service.VoteService;
 
 
@@ -11,7 +11,7 @@ public class VoteServiceSingleton {
         if (instance == null) {
             synchronized (VoteServiceSingleton.class) {
                 if (instance == null) {
-                    instance = new VoteService(VoiceDaoSingleton.getInstance());
+                    instance = new VoteService(VotingDaoSingleton.getInstance());
                 }
             }
         }

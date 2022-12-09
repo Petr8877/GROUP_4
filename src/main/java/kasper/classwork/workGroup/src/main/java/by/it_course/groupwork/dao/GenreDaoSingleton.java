@@ -1,12 +1,15 @@
 package by.it_course.groupwork.dao;
 
 import by.it_course.groupwork.dao2.GenreDao;
-
+import by.it_course.groupwork.dao2.api.IGenreDao;
 
 public class GenreDaoSingleton {
     private volatile static GenreDao instance;
 
-    public static GenreDao getInstance(){
+    private GenreDaoSingleton() {
+    }
+
+    public static IGenreDao getInstance(){
         if(instance == null){
             synchronized (GenreDaoSingleton.class){
                 if(instance==null){

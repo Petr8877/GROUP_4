@@ -1,30 +1,34 @@
 package by.it_course.groupwork.dao2;
 
-
-
 import by.it_course.groupwork.dao2.api.ISingerDao;
-
+import by.it_course.groupwork.dto.SingerDTO;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class SingerDao implements ISingerDao {
-    private List<String> singers = new ArrayList<>();
+    private List<SingerDTO> singers = new ArrayList<>();
 
     {
-        singers.add("Sting");
-        singers.add("Scorpions");
-        singers.add("Madonna");
-        singers.add("GreenDay");
+        singers.add(new SingerDTO("Sting", 1));
+        singers.add(new SingerDTO("Scorpions", 2));
+        singers.add(new SingerDTO("Madonna", 3));
+        singers.add(new SingerDTO("GreenDay", 4));
     }
 
     @Override
-    public List<String> getSingerList() {
+    public List<SingerDTO> getSingerList() {
         return singers;
     }
 
     @Override
     public boolean isContain(String str) {
-        return singers.contains(str);
+        for (SingerDTO singer : singers) {
+            if(Objects.equals(singer.getName(),str)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
