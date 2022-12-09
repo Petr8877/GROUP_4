@@ -5,29 +5,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ResultForMapDTO {
-    private Map<SingerDTO, Integer> mapSingers;
-    private Map<GenreDTO, Integer> mapGenres;
-    private Map<String, LocalDateTime> mapUserInfo;
+    private final Map<String, Integer> mapSingers;
+    private final Map<String, Integer> mapGenres;
+    private final Map<String, LocalDateTime> mapUserInfo;
 
-    public ResultForMapDTO(Map<SingerDTO, Integer> mapSingers,
-                           Map<GenreDTO, Integer> mapGenres,
+    public ResultForMapDTO(Map<String, Integer> mapSingers,
+                           Map<String, Integer> mapGenres,
                            Map<String, LocalDateTime> mapUserInfo) {
         this.mapSingers = mapSingers;
         this.mapGenres = mapGenres;
         this.mapUserInfo = mapUserInfo;
     }
 
-    public ResultForMapDTO() {
-        this.mapSingers = new HashMap<>();
-        this.mapGenres = new HashMap<>();
-        this.mapUserInfo = new HashMap<>();
-    }
-
-    public Map<SingerDTO, Integer> getMapSingers() {
+    public Map<String, Integer> getMapSingers() {
         return mapSingers;
     }
 
-    public Map<GenreDTO, Integer> getMapGenres() {
+    public Map<String, Integer> getMapGenres() {
         return mapGenres;
     }
 

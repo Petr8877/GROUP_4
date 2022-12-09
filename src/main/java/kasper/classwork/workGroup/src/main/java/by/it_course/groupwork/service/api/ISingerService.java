@@ -1,18 +1,14 @@
 package by.it_course.groupwork.service.api;
 
+import by.it_course.groupwork.dto.SingerDTO;
+
 import java.util.List;
 
 public interface ISingerService {
 
-    /**
-     * проветяет на соответствие переданого исполнителя с нашим списком
-     * @param str - получаем  из сервлета строку(исполнителя)
-     */
-    void check(String str) throws Exception;
+    boolean checkNumber(int number);
 
-    /**
-     *
-     * @return возвращает всех исполнителей из нашего списка(тип List<String>)
-     */
-    List<String> get();
+    boolean checkName(String name);
+
+    List<SingerDTO> get();
 }

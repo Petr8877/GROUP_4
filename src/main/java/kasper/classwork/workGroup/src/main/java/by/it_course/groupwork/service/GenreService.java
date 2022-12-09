@@ -1,31 +1,42 @@
 package by.it_course.groupwork.service;
 
-import by.it_course.groupwork.dao2.GenreDao;
 import by.it_course.groupwork.dao2.api.IGenreDao;
+import by.it_course.groupwork.dto.GenreDTO;
 import by.it_course.groupwork.service.api.IGenreService;
 
 
 import java.util.List;
+import java.util.Objects;
 
 public class GenreService implements IGenreService {
 
-    private final IGenreDao genre;
+    private final IGenreDao dao;
 
-    public GenreService(IGenreDao instance) {
-        genre = instance;
+    public GenreService(IGenreDao dao) {
+        this.dao = dao;
     }
 
     @Override
-    public void check(String[] str) throws Exception {
-        for (String s : str) {
-            if (!genre.getGenreList().contains(s)) {
-                throw new Exception("Please, select a genre from the list");
+    public boolean check(int number) {
+        if (number == 0){
+            throw new IllegalArgumentException("Введите номер жанра");
+        }
+        return this.dao.isContain(number);
+    }
+
+    @Override
+    public boolean checkName(String name) {
+        List<GenreDTO> list = dao.getGenreList();
+        for (GenreDTO genreDTO : list) {
+            if(Objects.equals(name, genreDTO.getName())) {
+                return true;
             }
         }
+        return false;
     }
 
     @Override
-    public List<String> get() {
-        return genre.getGenreList();
+    public List<GenreDTO> get() {
+        return dao.getGenreList();
     }
 }

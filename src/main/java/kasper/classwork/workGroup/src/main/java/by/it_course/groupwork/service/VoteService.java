@@ -1,44 +1,72 @@
 package by.it_course.groupwork.service;
 
-import by.it_course.groupwork.dao.VotingDaoSingleton;
-import by.it_course.groupwork.dao.service.GenresServiceSingleton;
-import by.it_course.groupwork.dao.service.SingersServiceSingleton;
 import by.it_course.groupwork.dao2.api.IVotingDao;
+import by.it_course.groupwork.dto.SavedVoiceDTO;
 import by.it_course.groupwork.dto.VoiceDTO;
+import by.it_course.groupwork.service.api.IGenreService;
+import by.it_course.groupwork.service.api.ISingerService;
 import by.it_course.groupwork.service.api.IVotesService;
 
+import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class VoteService implements IVotesService {
-    private final IVotingDao voiceDao;
+    private final IVotingDao votingDao;
 
-    public VoteService(IVotingDao voiceDao) {
-        this.voiceDao = voiceDao;
+    private final ISingerService singerService;
+
+    private final IGenreService genreService;
+
+    public VoteService(IVotingDao voiceDao, ISingerService singerService, IGenreService genreService) {
+        this.votingDao = voiceDao;
+        this.singerService = singerService;
+        this.genreService = genreService;
     }
 
+
     @Override
-    public void check(String singer, String[] genre, String aboutMe) throws Exception {
-        GenresServiceSingleton.getInstance().check(genre);
-        SingersServiceSingleton.getInstance().check(singer);
-        Set<String> set = new HashSet<>(List.of(genre));
-        if (set.size() < 3 || set.size() > 5) {
-            throw new Exception("Please, choice three - five different genres");
+    public void save(VoiceDTO voice) {
+        check(voice);
+        votingDao.save(new SavedVoiceDTO(voice));
+    }
+
+    private void check(VoiceDTO voice) {
+        String singer = voice.getSinger();
+
+        if (singer == null || singer.isBlank()) {
+            throw new IllegalArgumentException("Артист не введен");
         }
-        if (aboutMe == null || aboutMe.isEmpty()) {
-            throw new Exception("Please, Tell me about yourself");
+
+        if (singerService.checkName(voice.getSinger())) {
+            throw new IllegalArgumentException("Артист " + singer + " отсутствует в списке выбора");
         }
-    }
 
-    @Override
-    public void save(String singer, String[] genre, String aboutMe) {
-        VoiceDTO voice = new VoiceDTO(singer, genre, aboutMe);
-        VotingDaoSingleton.getInstance().save(voice);
-    }
+        Set<String> genres = new HashSet<>(Arrays.asList(voice.getGenre()));
 
-    @Override
-    public List<VoiceDTO> getAllVoice() {
-        return voiceDao.getVoiceList();
+        if (genres == null) {
+            throw new IllegalArgumentException("Жанры не переданы");
+        }
+
+        if (genres.size() < 3 || genres.size() > 5) {
+            throw new IllegalArgumentException("Введите 3-5 не повторяющихся жанров");
+        }
+
+        for (String genre : genres) {
+            if (genre == null) {
+                throw new IllegalArgumentException("Жанр не введен");
+            }
+
+            if (!genreService.checkName(genre)) {
+                throw new IllegalArgumentException("Введенный жанр не содержится в списке");
+            }
+        }
+
+        String aboutMe = voice.getMessage();
+
+        if (aboutMe == null || aboutMe.isBlank()) {
+            throw new IllegalArgumentException("Нужно ввести информацию о себе");
+        }
+
     }
 }
