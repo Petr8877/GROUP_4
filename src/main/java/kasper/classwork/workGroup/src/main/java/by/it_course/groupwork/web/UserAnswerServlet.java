@@ -54,6 +54,7 @@ public class UserAnswerServlet extends HttpServlet {
                 .toArray();
 
 
+
         String [] aboutUsers = parameterMap.get(ABOUT_USER_PARAM_NAME);
         String aboutUser = (aboutUsers == null) ? null : aboutUsers[0];
         VoiceDTO voiceDTO = new VoiceDTO(singer,genres,aboutUser);

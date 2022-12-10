@@ -43,11 +43,12 @@ public class VoteService implements IVotesService {
             throw new IllegalArgumentException("Артист " + singer + " отсутствует в списке выбора");
         }
 
+        HashSet<Integer> genres = new HashSet<>();
+        for (int val: voice.getGenre()) {
+            genres.add(val);
 
-//        for (int val: voice.getGenre()) {
-//
-//        }
-        HashSet<int[]> genres = new HashSet<>(Arrays.asList(voice.getGenre()));
+        }
+//        HashSet<int[]> genres = new HashSet<>(Arrays.asList(voice.getGenre()));
 
         if (genres == null) {
             throw new IllegalArgumentException("Жанры не переданы");
@@ -57,12 +58,12 @@ public class VoteService implements IVotesService {
             throw new IllegalArgumentException("Введите 3-5 не повторяющихся жанров");
         }
 
-        for (String genre : genres) {
+        for (Integer genre : genres) {
             if (genre == null) {
                 throw new IllegalArgumentException("Жанр не введен");
             }
 
-            if (!genreService.checkName(genre)) {
+            if (!genreService.check(genre)) {
                 throw new IllegalArgumentException("Введенный жанр не содержится в списке");
             }
         }

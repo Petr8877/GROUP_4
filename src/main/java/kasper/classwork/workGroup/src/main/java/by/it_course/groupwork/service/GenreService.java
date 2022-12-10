@@ -22,6 +22,7 @@ public class GenreService implements IGenreService {
             throw new IllegalArgumentException("Введите номер жанра");
         }
         return this.dao.isContain(number);
+
     }
 
     @Override

@@ -21,6 +21,7 @@ public class SingerService implements ISingerService {
             throw new IllegalArgumentException("Введите номер исполнителя");
         }
         return this.dao.isContain(number);
+
     }
 
     @Override

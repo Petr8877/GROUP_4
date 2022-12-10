@@ -45,7 +45,7 @@ public class StatisticsService implements IStatisticsService {
         List<SavedVoiceDTO> savedVoiceDTOS = votingDao.getVoiceList();
 
         for (SavedVoiceDTO voice : savedVoiceDTOS) {
-            String singer = voice.getVoice().getSinger();
+            Integer singer = voice.getVoice().getSinger();
             if (resultSingers.containsKey(singer)) {
                 resultSingers.put(singer, resultSingers.get(singer) + 1);
             }

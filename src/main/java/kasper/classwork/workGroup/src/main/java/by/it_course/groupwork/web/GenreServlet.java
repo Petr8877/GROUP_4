@@ -36,4 +36,5 @@ public class GenreServlet extends HttpServlet {
 
         genreDTOS.forEach(genreDTO -> writer.write("<p>" + genreDTO.getName() + "</p>"));
     }
+
 }

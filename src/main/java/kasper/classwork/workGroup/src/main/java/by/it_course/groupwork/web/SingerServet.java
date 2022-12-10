@@ -34,5 +34,5 @@ public class SingerServet extends HttpServlet {
 
         singerDTOS
                 .forEach(singerDTO -> writer.write("<p>"+singerDTO.getName()+"</p>"));
-    }
+     }
 }

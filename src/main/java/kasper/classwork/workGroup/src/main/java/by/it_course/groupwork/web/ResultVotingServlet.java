@@ -39,11 +39,11 @@ public class ResultVotingServlet extends HttpServlet {
 //        print(resultUserInfo, writer);
     }
 
-    private <K, V> void print(Map<K, V> map, PrintWriter writer) {
-        if (map != null) {
-            for (Map.Entry<K, V> param : map.entrySet()) {
-                writer.write("<p>" + param.getKey() + " - " + param.getValue() + "</p>");
-            }
-        }
-    }
+//    private <K, V> void print(Map<K, V> map, PrintWriter writer) {
+//        if (map != null) {
+//            for (Map.Entry<K, V> param : map.entrySet()) {
+//                writer.write("<p>" + param.getKey() + " - " + param.getValue() + "</p>");
+//            }
+//        }
+//    }
 }
