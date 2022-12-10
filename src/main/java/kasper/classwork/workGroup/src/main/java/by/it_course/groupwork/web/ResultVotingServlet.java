@@ -49,8 +49,8 @@ public class ResultVotingServlet extends HttpServlet {
         Map<String, LocalDateTime> userInfo = statisticsService.getUserInfo();
         writer.write("<p> Information about users </p>");
         for (Map.Entry<String, LocalDateTime> param : userInfo.entrySet()) {
-            writer.write("<p>" + param.getKey() + " - " + param.getValue() + "</p>");
-        }*/
+            writer.write("<p>" + param.getKey() + " - " + param.getValue() + "</p>");*/
+
 
     }
 
