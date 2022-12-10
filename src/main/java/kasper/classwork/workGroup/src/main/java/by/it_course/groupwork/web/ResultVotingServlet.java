@@ -24,19 +24,19 @@ public class ResultVotingServlet extends HttpServlet {
 
         PrintWriter writer = resp.getWriter();
         writer.write("<p>" + "Результаты голосования за лучших Исполнителей: " + "</p>");
-
-        Map<String, Integer> resultSingers = StatisticServiceSingleton.getInstance().getResultSingers();
-        print(resultSingers, writer);
-
-
-        writer.write("<p>" + "Результаты голосования за лучший жанр: " + "</p>");
-
-        Map<String, Integer> resultGenres = StatisticServiceSingleton.getInstance().getResultGenres();
-        print(resultGenres, writer);
-
-        writer.write("<p>" + "Результаты голосования за User: " + "</p>");
-        Map<String, LocalDateTime> resultUserInfo = StatisticServiceSingleton.getInstance().getUserInfo();
-        print(resultUserInfo, writer);
+//
+//        Map<String, Integer> resultSingers = StatisticServiceSingleton.getInstance().getResultSingers();
+//        print(resultSingers, writer);
+//
+//
+//        writer.write("<p>" + "Результаты голосования за лучший жанр: " + "</p>");
+//
+//        Map<String, Integer> resultGenres = StatisticServiceSingleton.getInstance().getResultGenres();
+//        print(resultGenres, writer);
+//
+//        writer.write("<p>" + "Результаты голосования за User: " + "</p>");
+//        Map<String, LocalDateTime> resultUserInfo = StatisticServiceSingleton.getInstance().getUserInfo();
+//        print(resultUserInfo, writer);
     }
 
     private <K, V> void print(Map<K, V> map, PrintWriter writer) {

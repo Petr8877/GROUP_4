@@ -8,6 +8,7 @@ import by.it_course.groupwork.service.api.ISingerService;
 import by.it_course.groupwork.service.api.IVotesService;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -32,17 +33,21 @@ public class VoteService implements IVotesService {
     }
 
     private void check(VoiceDTO voice) {
-        String singer = voice.getSinger();
+        Integer singer = voice.getSinger();
 
-        if (singer == null || singer.isBlank()) {
+        if (singer == null) {
             throw new IllegalArgumentException("Артист не введен");
         }
 
-        if (singerService.checkName(voice.getSinger())) {
+        if (singerService.checkNumber(voice.getSinger())) {
             throw new IllegalArgumentException("Артист " + singer + " отсутствует в списке выбора");
         }
 
-        Set<String> genres = new HashSet<>(Arrays.asList(voice.getGenre()));
+
+//        for (int val: voice.getGenre()) {
+//
+//        }
+        HashSet<int[]> genres = new HashSet<>(Arrays.asList(voice.getGenre()));
 
         if (genres == null) {
             throw new IllegalArgumentException("Жанры не переданы");

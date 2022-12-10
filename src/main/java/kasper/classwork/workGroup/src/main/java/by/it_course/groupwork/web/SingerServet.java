@@ -1,5 +1,7 @@
 package by.it_course.groupwork.web;
 import by.it_course.groupwork.dao.service.SingersServiceSingleton;
+import by.it_course.groupwork.dto.SingerDTO;
+import by.it_course.groupwork.service.api.ISingerService;
 
 
 import javax.servlet.ServletException;
@@ -13,7 +15,11 @@ import java.util.List;
 
 @WebServlet(name = "SingerServet", urlPatterns = "/singer")
 public class SingerServet extends HttpServlet {
+    private final ISingerService singerService;
 
+    public SingerServet() {
+        this.singerService = SingersServiceSingleton.getInstance();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -22,17 +28,11 @@ public class SingerServet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html; charset=UTF-8");
 
+        List<SingerDTO> singerDTOS = singerService.get();
+
         PrintWriter writer = resp.getWriter();
 
-        writer.write("<p>" + "Выберите лучшего исполнителя" + "</p>");
-        List<String > singers = SingersServiceSingleton.getInstance().get();
-
-        if(singers !=null) {
-            singers.forEach(singer ->writer.write("<p>" + singer + "</p>"));
-
-        }
-
-
-
+        singerDTOS
+                .forEach(singerDTO -> writer.write("<p>"+singerDTO.getName()+"</p>"));
     }
 }

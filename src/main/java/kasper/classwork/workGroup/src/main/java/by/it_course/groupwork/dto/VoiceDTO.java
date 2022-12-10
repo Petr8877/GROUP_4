@@ -4,21 +4,21 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class VoiceDTO {
-    private String singer;
-    private String[] genre;
+    private Integer singer;
+    private Integer[] genre;
     private String message;
 
-    public VoiceDTO(String singer, String[] genre, String message) {
+    public VoiceDTO(Integer singer, int[] genre, String message) {
         this.singer = singer;
         this.genre = genre;
         this.message = message;
     }
 
-    public String getSinger() {
+    public int getSinger() {
         return singer;
     }
 
-    public String[] getGenre() {
+    public int [] getGenre() {
         return genre;
     }
 
