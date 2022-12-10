@@ -39,7 +39,7 @@ public class VoteService implements IVotesService {
             throw new IllegalArgumentException("Артист не введен");
         }
 
-        if (singerService.checkNumber(voice.getSinger())) {
+        if (!singerService.checkNumber(voice.getSinger())) {
             throw new IllegalArgumentException("Артист " + singer + " отсутствует в списке выбора");
         }
 
@@ -48,7 +48,6 @@ public class VoteService implements IVotesService {
             genres.add(val);
 
         }
-//        HashSet<int[]> genres = new HashSet<>(Arrays.asList(voice.getGenre()));
 
         if (genres == null) {
             throw new IllegalArgumentException("Жанры не переданы");
