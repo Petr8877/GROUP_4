@@ -4,7 +4,6 @@ import by.it_course.groupwork.dao2.api.IGenreDao;
 import by.it_course.groupwork.dto.GenreDTO;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class GenreDao implements IGenreDao {
 

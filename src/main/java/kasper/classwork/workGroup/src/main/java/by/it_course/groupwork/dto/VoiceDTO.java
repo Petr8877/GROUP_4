@@ -4,11 +4,11 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class VoiceDTO {
-    private Integer singer;
+    private int singer;
     private int[] genre;
     private String message;
 
-    public VoiceDTO(Integer singer, int[] genre, String message) {
+    public VoiceDTO(int singer, int[] genre, String message) {
         this.singer = singer;
         this.genre = genre;
         this.message = message;

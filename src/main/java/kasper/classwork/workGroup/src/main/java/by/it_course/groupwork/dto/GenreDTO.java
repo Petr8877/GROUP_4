@@ -42,6 +42,6 @@ public class GenreDTO {
 
     @Override
     public String toString() {
-        return "Genre: name = " + name + ", id " + id;
+        return "Genre: id = " + id + ",  name " + name;
     }
 }

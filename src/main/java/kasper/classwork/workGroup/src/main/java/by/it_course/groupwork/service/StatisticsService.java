@@ -1,6 +1,5 @@
 package by.it_course.groupwork.service;
 
-import by.it_course.groupwork.dao2.VotingDao;
 import by.it_course.groupwork.dto.*;
 import by.it_course.groupwork.service.api.IGenreService;
 import by.it_course.groupwork.service.api.ISingerService;
@@ -39,10 +38,10 @@ public class StatisticsService implements IStatisticsService {
 
 
     }
+//тестовый прогон SingleStatisticDTO
+    private SingleStatisticDTO<SingerDTO, Integer> calcVoiceSingers(  ){
 
-    private Map<SingerDTO,Integer> calcVoiceSingers(  ){
-
-         Map<SingerDTO, Integer> mapSingers = new HashMap<>();
+        Map<SingerDTO, Integer> mapSingers = new HashMap<>();
 
         List<SavedVoiceDTO> savedVoiceDTOS = iVotesService.get();
         List<SingerDTO> singerDTOS = iSingerService.get();
@@ -58,11 +57,13 @@ public class StatisticsService implements IStatisticsService {
 
             }
         }
-        return mapSingers.entrySet().stream()
+        return new SingleStatisticDTO<>(mapSingers.entrySet().stream()
                 .sorted(Map.Entry.comparingByValue(Collections.reverseOrder(Integer::compare)))
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue
-                        , (v1, v2) -> v1, LinkedHashMap::new));
+                        , (v1, v2) -> v1, LinkedHashMap::new)));
     }
+
+
     private Map<GenreDTO,Integer> calcVoiceGenres(  ){
         Map<GenreDTO, Integer> mapGenres = new HashMap<>();
         List<SavedVoiceDTO> savedVoiceDTOS = iVotesService.get();
@@ -101,8 +102,17 @@ public class StatisticsService implements IStatisticsService {
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue
                         , (v1, v2) -> v1, LinkedHashMap::new));
     }
+
+//тестовый прогон AllStatisticDTO,под замену кода внутри
+   public AllStatisticDTO getAllSort(){
+        Map<SingerDTO, Integer> mapSingers = new HashMap<>();
+        Map<GenreDTO, Integer> mapGenres = calcVoiceGenres();
+        Map<String, LocalDateTime> mapUserInfo = calcUserInfo();
+        return new AllStatisticDTO(mapSingers, mapGenres, mapUserInfo);
+    }
+//тестовый прогон
     @Override
-    public Map<SingerDTO,Integer> getMapSingers() {
+    public SingleStatisticDTO<SingerDTO, Integer> getMapSingers() {
         return calcVoiceSingers();
     }
 

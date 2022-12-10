@@ -1,8 +1,13 @@
 package by.it_course.groupwork.web;
 
+import by.it_course.groupwork.dao.service.SingersServiceSingleton;
+import by.it_course.groupwork.dao.service.StatisticServiceSingleton;
 import by.it_course.groupwork.dao.service.VoteServiceSingleton;
+import by.it_course.groupwork.dto.SingerDTO;
+import by.it_course.groupwork.dto.SingleStatisticDTO;
 import by.it_course.groupwork.dto.VoiceDTO;
 import by.it_course.groupwork.service.VoteService;
+import by.it_course.groupwork.service.api.IStatisticsService;
 import by.it_course.groupwork.service.api.IVotesService;
 
 import javax.servlet.ServletException;
@@ -19,16 +24,14 @@ import java.util.stream.IntStream;
 @WebServlet(name = "UserAnswerServlet", urlPatterns = "/answer")
 public class UserAnswerServlet extends HttpServlet {
     private final IVotesService service;
+    private final IStatisticsService statisticsService;
     private final String SINGER_PARAM_NAME = "singer";
     private final String GENRE_PARAM_NAME = "genre";
     private final String ABOUT_USER_PARAM_NAME = "about_user";
     public UserAnswerServlet(){
         this.service = VoteServiceSingleton.getInstance();
+        this.statisticsService = StatisticServiceSingleton.getInstance();
     }
-
-
-
-
 
     @Override
     protected void doPost(HttpServletRequest req,
@@ -65,6 +68,15 @@ public class UserAnswerServlet extends HttpServlet {
         VoiceDTO voiceDTO = new VoiceDTO(singer,genres,aboutUser);
 
         service.save(voiceDTO);
+//Тестовый прогон SingleStatisticDTO
+        PrintWriter writer = resp.getWriter();
+
+        writer.write("<p>" + "Текущий результат голосования" + "</p>");
+
+        writer.write("<p>" + "За исполнителя: " + "</p>");
+
+        SingleStatisticDTO<SingerDTO, Integer> singerAll = statisticsService.getMapSingers();
+        writer.write("<p>" + singerAll + "</p>");
 
 
 

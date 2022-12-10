@@ -4,7 +4,6 @@ import by.it_course.groupwork.dao2.api.ISingerDao;
 import by.it_course.groupwork.dto.SingerDTO;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 
 public class SingerDao implements ISingerDao {
