@@ -5,6 +5,7 @@ import by.it_course.groupwork.dao.service.GenresServiceSingleton;
 import by.it_course.groupwork.dao.service.StatisticServiceSingleton;
 import by.it_course.groupwork.dto.GenreDTO;
 import by.it_course.groupwork.dto.SingerDTO;
+import by.it_course.groupwork.dto.StaticticsDTO;
 import by.it_course.groupwork.service.api.IStatisticsService;
 
 import javax.servlet.ServletException;
@@ -15,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @WebServlet(name = "ResultVotingServlet", urlPatterns = "/result")
@@ -49,6 +51,10 @@ public class ResultVotingServlet extends HttpServlet {
         for (Map.Entry<String, LocalDateTime> param : userInfo.entrySet()) {
             writer.write("<p>" + param.getKey() + " - " + param.getValue() + "</p>");
         }
+        StaticticsDTO staticticsDTO = new StaticticsDTO(statisticsService);
+
+         staticticsDTO.getAllStatistic().stream()
+                 .forEach(s -> writer.write("<p>"+ s+ "</p>"));
 
     }
 
