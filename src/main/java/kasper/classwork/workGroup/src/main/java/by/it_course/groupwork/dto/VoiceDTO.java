@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class VoiceDTO {
     private Integer singer;
-    private Integer[] genre;
+    private int[] genre;
     private String message;
 
     public VoiceDTO(Integer singer, int[] genre, String message) {
