@@ -17,9 +17,6 @@ public class StatisticsService implements IStatisticsService {
     private final IVotesService iVotesService;
     private final ISingerService iSingerService;
     private final IGenreService iGenreService;
-    private final Map<SingerDTO, Integer> mapSingers = new HashMap<>();
-    private final Map<GenreDTO, Integer> mapGenres = new HashMap<>();
-    private final Map<String, LocalDateTime> mapUserInfo = new HashMap<>();
 
 
     public StatisticsService(IVotesService iVotesService,
@@ -44,6 +41,9 @@ public class StatisticsService implements IStatisticsService {
     }
 
     private Map<SingerDTO,Integer> calcVoiceSingers(  ){
+
+         Map<SingerDTO, Integer> mapSingers = new HashMap<>();
+
         List<SavedVoiceDTO> savedVoiceDTOS = iVotesService.get();
         List<SingerDTO> singerDTOS = iSingerService.get();
         for (SingerDTO singerDTO :  singerDTOS) {
@@ -64,6 +64,7 @@ public class StatisticsService implements IStatisticsService {
                         , (v1, v2) -> v1, LinkedHashMap::new));
     }
     private Map<GenreDTO,Integer> calcVoiceGenres(  ){
+        Map<GenreDTO, Integer> mapGenres = new HashMap<>();
         List<SavedVoiceDTO> savedVoiceDTOS = iVotesService.get();
         List<GenreDTO> genreDTOS = iGenreService.get();
         for (GenreDTO genreDTO :  genreDTOS) {
@@ -88,6 +89,7 @@ public class StatisticsService implements IStatisticsService {
     }
 
     private Map<String, LocalDateTime> calcUserInfo(  ){
+        Map<String, LocalDateTime> mapUserInfo = new HashMap<>();
         List<SavedVoiceDTO> savedVoiceDTOS = iVotesService.get();
 
         for (SavedVoiceDTO savedVoiceDTO :  savedVoiceDTOS) {

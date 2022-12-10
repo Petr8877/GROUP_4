@@ -19,14 +19,15 @@ import java.util.stream.IntStream;
 @WebServlet(name = "UserAnswerServlet", urlPatterns = "/answer")
 public class UserAnswerServlet extends HttpServlet {
     private final IVotesService service;
+    private final String SINGER_PARAM_NAME = "singer";
+    private final String GENRE_PARAM_NAME = "genre";
+    private final String ABOUT_USER_PARAM_NAME = "about_user";
     public UserAnswerServlet(){
         this.service = VoteServiceSingleton.getInstance();
     }
 
 
-    private final String SINGER_PARAM_NAME = "singer";
-    private final String GENRE_PARAM_NAME = "genre";
-    private final String ABOUT_USER_PARAM_NAME = "about_user";
+
 
 
     @Override
@@ -52,10 +53,14 @@ public class UserAnswerServlet extends HttpServlet {
                 .stream(parameterMap.get(GENRE_PARAM_NAME))
                 .mapToInt(s -> Integer.parseInt(s))
                 .toArray();
+        if (genres==null ){
+            throw new IllegalArgumentException("Choose genres");
+        }
 
 
 
         String [] aboutUsers = parameterMap.get(ABOUT_USER_PARAM_NAME);
+
         String aboutUser = (aboutUsers == null) ? null : aboutUsers[0];
         VoiceDTO voiceDTO = new VoiceDTO(singer,genres,aboutUser);
 

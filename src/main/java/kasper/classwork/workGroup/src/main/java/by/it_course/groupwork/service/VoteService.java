@@ -37,9 +37,6 @@ public class VoteService implements IVotesService {
     private void check(VoiceDTO voice) {
         Integer singer = voice.getSinger();
 
-        if (singer == null) {
-            throw new IllegalArgumentException("Артист не введен");
-        }
 
         if (!singerService.checkNumber(voice.getSinger())) {
             throw new IllegalArgumentException("Артист " + singer + " отсутствует в списке выбора");
@@ -51,9 +48,7 @@ public class VoteService implements IVotesService {
 
         }
 
-        if (genres == null) {
-            throw new IllegalArgumentException("Жанры не переданы");
-        }
+
 
         if (genres.size() < 3 || genres.size() > 5) {
             throw new IllegalArgumentException("Введите 3-5 не повторяющихся жанров");
