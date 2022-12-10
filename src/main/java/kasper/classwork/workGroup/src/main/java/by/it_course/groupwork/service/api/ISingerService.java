@@ -11,4 +11,5 @@ public interface ISingerService {
     boolean checkName(String name);
 
     List<SingerDTO> get();
+
 }

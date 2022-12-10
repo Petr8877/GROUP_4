@@ -3,6 +3,9 @@ package by.it_course.groupwork.web;
 
 import by.it_course.groupwork.dao.service.GenresServiceSingleton;
 import by.it_course.groupwork.dao.service.StatisticServiceSingleton;
+import by.it_course.groupwork.dto.GenreDTO;
+import by.it_course.groupwork.dto.SingerDTO;
+import by.it_course.groupwork.service.api.IStatisticsService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +19,10 @@ import java.util.Map;
 
 @WebServlet(name = "ResultVotingServlet", urlPatterns = "/result")
 public class ResultVotingServlet extends HttpServlet {
+    private final IStatisticsService statisticsService;
+    public ResultVotingServlet(){
+        this.statisticsService = StatisticServiceSingleton.getInstance();
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -23,27 +30,26 @@ public class ResultVotingServlet extends HttpServlet {
         resp.setContentType("text/html; charset=UTF-8");
 
         PrintWriter writer = resp.getWriter();
-        writer.write("<p>" + "Результаты голосования за лучших Исполнителей: " + "</p>");
-//
-//        Map<String, Integer> resultSingers = StatisticServiceSingleton.getInstance().getResultSingers();
-//        print(resultSingers, writer);
-//
-//
-//        writer.write("<p>" + "Результаты голосования за лучший жанр: " + "</p>");
-//
-//        Map<String, Integer> resultGenres = StatisticServiceSingleton.getInstance().getResultGenres();
-//        print(resultGenres, writer);
-//
-//        writer.write("<p>" + "Результаты голосования за User: " + "</p>");
-//        Map<String, LocalDateTime> resultUserInfo = StatisticServiceSingleton.getInstance().getUserInfo();
-//        print(resultUserInfo, writer);
+
+        Map<SingerDTO, Integer> singerDTOIntegerMap = statisticsService.getMapSingers();
+        writer.write("<p> Nomination: singers </p>");
+            for (Map.Entry<SingerDTO, Integer> param : singerDTOIntegerMap.entrySet()) {
+                writer.write("<p>" + param.getKey().getName() + " - " + param.getValue() + "</p>");
+            }
+
+
+        Map<GenreDTO, Integer> mapGenres = statisticsService.getMapGenres();
+        writer.write("<p> Nomination: genres </p>");
+        for (Map.Entry<GenreDTO, Integer> param : mapGenres.entrySet()) {
+            writer.write("<p>" + param.getKey().getName() + " - " + param.getValue() + "</p>");
+        }
+
+        Map<String, LocalDateTime> userInfo = statisticsService.getUserInfo();
+        writer.write("<p> Information about users </p>");
+        for (Map.Entry<String, LocalDateTime> param : userInfo.entrySet()) {
+            writer.write("<p>" + param.getKey() + " - " + param.getValue() + "</p>");
+        }
+
     }
 
-//    private <K, V> void print(Map<K, V> map, PrintWriter writer) {
-//        if (map != null) {
-//            for (Map.Entry<K, V> param : map.entrySet()) {
-//                writer.write("<p>" + param.getKey() + " - " + param.getValue() + "</p>");
-//            }
-//        }
-//    }
 }

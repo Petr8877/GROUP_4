@@ -22,6 +22,7 @@ public class SingerDao implements ISingerDao {
         return singers;
     }
 
+
     @Override
     public boolean isContain(int id) {
         for (SingerDTO singer : singers) {

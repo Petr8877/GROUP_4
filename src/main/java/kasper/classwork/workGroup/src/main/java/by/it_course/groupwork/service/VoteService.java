@@ -7,10 +7,7 @@ import by.it_course.groupwork.service.api.IGenreService;
 import by.it_course.groupwork.service.api.ISingerService;
 import by.it_course.groupwork.service.api.IVotesService;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class VoteService implements IVotesService {
     private final IVotingDao votingDao;
@@ -30,6 +27,11 @@ public class VoteService implements IVotesService {
     public void save(VoiceDTO voice) {
         check(voice);
         votingDao.save(new SavedVoiceDTO(voice));
+    }
+
+    @Override
+    public List<SavedVoiceDTO> get() {
+        return votingDao.getVoiceList();
     }
 
     private void check(VoiceDTO voice) {
