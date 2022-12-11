@@ -1,4 +1,5 @@
 package by.it_course.groupwork.web;
+
 import by.it_course.groupwork.dao.service.SingersServiceSingleton;
 import by.it_course.groupwork.dto.SingerDTO;
 import by.it_course.groupwork.service.api.ISingerService;
@@ -33,6 +34,6 @@ public class SingerServet extends HttpServlet {
         PrintWriter writer = resp.getWriter();
 
         singerDTOS
-                .forEach(singerDTO -> writer.write("<p>"+singerDTO.getName()+"</p>"));
-     }
+                .forEach(singerDTO -> writer.write("<p>" + singerDTO.getId() + ". " + singerDTO.getName() + "</p>"));
+    }
 }

@@ -8,7 +8,6 @@ public interface IGenreService {
 
     boolean check(int number);
 
-    boolean checkName(String name);
     List<GenreDTO> get();
 
 }

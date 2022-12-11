@@ -35,7 +35,6 @@ public class VoteService implements IVotesService {
 
     private void check(VoiceDTO voice) {
         int singer = voice.getSinger();
-
         if (!singerService.checkNumber(voice.getSinger())) {
             throw new IllegalArgumentException("Артист №" + singer + " отсутствует в списке выбора");
         }

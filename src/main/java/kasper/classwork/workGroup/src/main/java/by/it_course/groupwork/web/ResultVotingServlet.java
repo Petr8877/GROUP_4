@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 public class ResultVotingServlet extends HttpServlet {
     private final IStatisticsService statisticsService;
 
-    public ResultVotingServlet(){
+    public ResultVotingServlet() {
         this.statisticsService = StatisticServiceSingleton.getInstance();
     }
 
@@ -31,27 +31,5 @@ public class ResultVotingServlet extends HttpServlet {
         AllStatisticDTO allSort = statisticsService.getAllSort();
 
         writer.write("<p>" + allSort + "</p>");
-
-
-        /*Map<SingerDTO, Integer> singerDTOIntegerMap = statisticsService.getMapSingers();
-        writer.write("<p> Nomination: singers </p>");
-            for (Map.Entry<SingerDTO, Integer> param : singerDTOIntegerMap.entrySet()) {
-                writer.write("<p>" + param.getKey().getName() + " - " + param.getValue() + "</p>");
-            }
-
-
-        Map<GenreDTO, Integer> mapGenres = statisticsService.getMapGenres();
-        writer.write("<p> Nomination: genres </p>");
-        for (Map.Entry<GenreDTO, Integer> param : mapGenres.entrySet()) {
-            writer.write("<p>" + param.getKey().getName() + " - " + param.getValue() + "</p>");
-        }
-
-        Map<String, LocalDateTime> userInfo = statisticsService.getUserInfo();
-        writer.write("<p> Information about users </p>");
-        for (Map.Entry<String, LocalDateTime> param : userInfo.entrySet()) {
-            writer.write("<p>" + param.getKey() + " - " + param.getValue() + "</p>");*/
-
-
     }
-
 }

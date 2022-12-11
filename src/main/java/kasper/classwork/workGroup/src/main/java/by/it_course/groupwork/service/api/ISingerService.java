@@ -8,8 +8,6 @@ public interface ISingerService {
 
     boolean checkNumber(int number);
 
-    boolean checkName(String name);
-
     List<SingerDTO> get();
 
 }
