@@ -26,32 +26,73 @@ public class StatisticsService implements IStatisticsService {
         this.iGenreService = iGenreService;
     }
 
+    public AllStatisticDTO getAllSort() {
+        Map<SingerDTO, Integer> mapSinger = new HashMap<>();
+        Map<GenreDTO, Integer> mapGenre = new HashMap<>();
+        Map<String, LocalDateTime> mapUser = new HashMap<>();
+        List<SingerDTO> singerDTOS = iSingerService.get();
+        List<GenreDTO> genreDTOS = iGenreService.get();
+        List<SavedVoiceDTO> savedVoiceDTOS = iVotesService.get();
 
+        for (SingerDTO listSingerDTO : singerDTOS) {
+            mapSinger.put(listSingerDTO, 0);
+        }
+        for (GenreDTO genreDTO : genreDTOS) {
+            mapGenre.put(genreDTO, 0);
+        }
+        for (SavedVoiceDTO savedVoiceDTO : savedVoiceDTOS) {
+            int idSinger = savedVoiceDTO.getVoice().getSinger();
+            int[] idGenre = savedVoiceDTO.getVoice().getGenre();
 
+            mapUser.put(savedVoiceDTO.getVoice().getMessage(), savedVoiceDTO.getCreationTime());
 
-    @Override
-    public void calcVoice() {
-//        List<SavedVoiceDTO> savedVoiceDTOS = iVotesService.get();
-//        calcVoiceSingers(savedVoiceDTOS);
-//        SavedVoiceDTO savedVoiceDTO = savedVoiceDTOS.get(1);
-//        VoiceDTO voice = savedVoiceDTO.getVoice();
+            for (SingerDTO SingerDTO : singerDTOS) {
+                if (idSinger == SingerDTO.getId()) {
+                    mapSinger.put(SingerDTO, mapSinger.get(SingerDTO) + 1);
+                }
+            }
 
+            for (GenreDTO genreDTO : genreDTOS) {
+                for (int i : idGenre) {
+                    if (i == genreDTO.getId()) {
+                        mapGenre.put(genreDTO, mapGenre.get(genreDTO) + 1);
+                    }
+                }
+            }
+        }
 
+        return new AllStatisticDTO(
+                mapSinger.entrySet().stream()
+                        .sorted(Map.Entry.comparingByValue(Collections.reverseOrder(Integer::compare)))
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue
+                                , (v1, v2) -> v1, LinkedHashMap::new)),
+                mapGenre.entrySet().stream()
+                        .sorted(Map.Entry.comparingByValue(Collections.reverseOrder(Integer::compare)))
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue
+                                , (v1, v2) -> v1, LinkedHashMap::new)),
+                mapUser.entrySet().stream()
+                        .sorted(Map.Entry.comparingByValue(Collections.reverseOrder(LocalDateTime::compareTo)))
+                        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue
+                                , (v1, v2) -> v1, LinkedHashMap::new))
+        );
     }
-//тестовый прогон SingleStatisticDTO
-    private SingleStatisticDTO<SingerDTO, Integer> calcVoiceSingers(  ){
+
+    //тестовый прогон SingleStatisticDTO
+    //на выбор
+    @Override
+    public SingleStatisticDTO<SingerDTO, Integer> getMapSingers() {
 
         Map<SingerDTO, Integer> mapSingers = new HashMap<>();
 
         List<SavedVoiceDTO> savedVoiceDTOS = iVotesService.get();
         List<SingerDTO> singerDTOS = iSingerService.get();
-        for (SingerDTO singerDTO :  singerDTOS) {
+        for (SingerDTO singerDTO : singerDTOS) {
             mapSingers.put(singerDTO, 0);
         }
-        for (SavedVoiceDTO saveVoiceDTO:savedVoiceDTOS) {
+        for (SavedVoiceDTO saveVoiceDTO : savedVoiceDTOS) {
 
-            for (SingerDTO singerDTO :  singerDTOS) {
-                if (singerDTO.getId()== saveVoiceDTO.getVoice().getSinger())
+            for (SingerDTO singerDTO : singerDTOS) {
+                if (singerDTO.getId() == saveVoiceDTO.getVoice().getSinger())
                     mapSingers.put(singerDTO,
                             (mapSingers.get(singerDTO) == 0) ? 1 : mapSingers.get(singerDTO) + 1);
 
@@ -63,23 +104,20 @@ public class StatisticsService implements IStatisticsService {
                         , (v1, v2) -> v1, LinkedHashMap::new)));
     }
 
-
-    private Map<GenreDTO,Integer> calcVoiceGenres(  ){
+    @Override
+    public Map<GenreDTO, Integer> getMapGenres() {
         Map<GenreDTO, Integer> mapGenres = new HashMap<>();
         List<SavedVoiceDTO> savedVoiceDTOS = iVotesService.get();
         List<GenreDTO> genreDTOS = iGenreService.get();
-        for (GenreDTO genreDTO :  genreDTOS) {
+        for (GenreDTO genreDTO : genreDTOS) {
             mapGenres.put(genreDTO, 0);
         }
-        for (SavedVoiceDTO saveVoiceDTO:savedVoiceDTOS) {
-
+        for (SavedVoiceDTO saveVoiceDTO : savedVoiceDTOS) {
             for (GenreDTO genreDTO : genreDTOS) {
                 for (int genre : saveVoiceDTO.getVoice().getGenre()) {
-
                     if (genreDTO.getId() == genre)
                         mapGenres.put(genreDTO,
                                 (mapGenres.get(genreDTO) == 0) ? 1 : mapGenres.get(genreDTO) + 1);
-
                 }
             }
         }
@@ -89,43 +127,84 @@ public class StatisticsService implements IStatisticsService {
                         , (v1, v2) -> v1, LinkedHashMap::new));
     }
 
-    private Map<String, LocalDateTime> calcUserInfo(  ){
-        Map<String, LocalDateTime> mapUserInfo = new HashMap<>();
-        List<SavedVoiceDTO> savedVoiceDTOS = iVotesService.get();
+//    @Override
+//    public Map<SingerDTO, Integer> getMapSingers() {
+//        Map<SingerDTO, Integer> mapSingers = new HashMap<>();
+//
+//        List<SavedVoiceDTO> savedVoiceDTOS = iVotesService.get();
+//        List<SingerDTO> singerDTOS = iSingerService.get();
+//        for (SingerDTO singerDTO : singerDTOS) {
+//            mapSingers.put(singerDTO, 0);
+//        }
+//        for (SavedVoiceDTO saveVoiceDTO : savedVoiceDTOS) {
+//
+//            for (SingerDTO singerDTO : singerDTOS) {
+//                if (singerDTO.getId() == saveVoiceDTO.getVoice().getSinger())
+//                    mapSingers.put(singerDTO,
+//                            (mapSingers.get(singerDTO) == 0) ? 1 : mapSingers.get(singerDTO) + 1);
+//
+//            }
+//        }
+//        return mapSingers.entrySet().stream()
+//                .sorted(Map.Entry.comparingByValue(Collections.reverseOrder(Integer::compare)))
+//                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue
+//                        , (v1, v2) -> v1, LinkedHashMap::new));
+//    }
 
-        for (SavedVoiceDTO savedVoiceDTO :  savedVoiceDTOS) {
-            mapUserInfo.put(savedVoiceDTO.getVoice().getMessage(), savedVoiceDTO.getCreationTime());
-        }
 
-        return mapUserInfo.entrySet().stream()
-                .sorted(Map.Entry.comparingByValue(Collections.reverseOrder(LocalDateTime::compareTo)))
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue
-                        , (v1, v2) -> v1, LinkedHashMap::new));
-    }
+//    private Map<GenreDTO, Integer> calcVoiceGenres() {
+//        Map<GenreDTO, Integer> mapGenres = new HashMap<>();
+//        List<SavedVoiceDTO> savedVoiceDTOS = iVotesService.get();
+//        List<GenreDTO> genreDTOS = iGenreService.get();
+//        for (GenreDTO genreDTO : genreDTOS) {
+//            mapGenres.put(genreDTO, 0);
+//        }
+//        for (SavedVoiceDTO saveVoiceDTO : savedVoiceDTOS) {
+//            for (GenreDTO genreDTO : genreDTOS) {
+//                for (int genre : saveVoiceDTO.getVoice().getGenre()) {
+//                    if (genreDTO.getId() == genre)
+//                        mapGenres.put(genreDTO,
+//                                (mapGenres.get(genreDTO) == 0) ? 1 : mapGenres.get(genreDTO) + 1);
+//                }
+//            }
+//        }
+//        return mapGenres.entrySet().stream()
+//                .sorted(Map.Entry.comparingByValue(Collections.reverseOrder(Integer::compare)))
+//                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue
+//                        , (v1, v2) -> v1, LinkedHashMap::new));
+//    }
+
+//    private Map<String, LocalDateTime> calcUserInfo() {
+//        Map<String, LocalDateTime> mapUserInfo = new HashMap<>();
+//        List<SavedVoiceDTO> savedVoiceDTOS = iVotesService.get();
+//
+//        for (SavedVoiceDTO savedVoiceDTO : savedVoiceDTOS) {
+//            mapUserInfo.put(savedVoiceDTO.getVoice().getMessage(), savedVoiceDTO.getCreationTime());
+//        }
+//
+//        return mapUserInfo.entrySet().stream()
+//                .sorted(Map.Entry.comparingByValue(Collections.reverseOrder(LocalDateTime::compareTo)))
+//                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue
+//                        , (v1, v2) -> v1, LinkedHashMap::new));
+//    }
 
 //тестовый прогон AllStatisticDTO,под замену кода внутри
-   public AllStatisticDTO getAllSort(){
-        Map<SingerDTO, Integer> mapSingers = new HashMap<>();
-        Map<GenreDTO, Integer> mapGenres = calcVoiceGenres();
-        Map<String, LocalDateTime> mapUserInfo = calcUserInfo();
-        return new AllStatisticDTO(mapSingers, mapGenres, mapUserInfo);
-    }
-//тестовый прогон
-    @Override
-    public SingleStatisticDTO<SingerDTO, Integer> getMapSingers() {
-        return calcVoiceSingers();
-    }
+//   public AllStatisticDTO getAllSort(){
+//        Map<SingerDTO, Integer> mapSingers = new HashMap<>();
+//        Map<GenreDTO, Integer> mapGenres = calcVoiceGenres();
+//        Map<String, LocalDateTime> mapUserInfo = calcUserInfo();
+//        return new AllStatisticDTO(mapSingers, mapGenres, mapUserInfo);
+//    }
 
-    @Override
-    public Map<GenreDTO, Integer> getMapGenres() {
-        return calcVoiceGenres();
-    }
 
-    @Override
-    public Map<String, LocalDateTime> getUserInfo() {
+    //тестовый прогон
 
-        return calcUserInfo();
-    }
+
+//    @Override
+//    public Map<String, LocalDateTime> getUserInfo() {
+//
+//        return calcUserInfo();
+//    }
 
 
 //    private Map<SingerDTO, Integer> resultSingers = new HashMap<>();

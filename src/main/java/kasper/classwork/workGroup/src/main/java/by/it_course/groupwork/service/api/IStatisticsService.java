@@ -10,11 +10,12 @@ import java.util.Map;
 
 public interface IStatisticsService {
 
-    void calcVoice( );
+    // void calcVoice( );
     //тестовый прогон
     SingleStatisticDTO<SingerDTO, Integer> getMapSingers();
-    Map<GenreDTO,Integer> getMapGenres();
-    Map<String, LocalDateTime> getUserInfo();
+
+    Map<GenreDTO, Integer> getMapGenres();
+    // Map<String, LocalDateTime> getUserInfo();
 
     AllStatisticDTO getAllSort();
 }

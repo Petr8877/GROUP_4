@@ -1,12 +1,10 @@
 package by.it_course.groupwork.web;
 
-import by.it_course.groupwork.dao.service.SingersServiceSingleton;
 import by.it_course.groupwork.dao.service.StatisticServiceSingleton;
 import by.it_course.groupwork.dao.service.VoteServiceSingleton;
 import by.it_course.groupwork.dto.SingerDTO;
 import by.it_course.groupwork.dto.SingleStatisticDTO;
 import by.it_course.groupwork.dto.VoiceDTO;
-import by.it_course.groupwork.service.VoteService;
 import by.it_course.groupwork.service.api.IStatisticsService;
 import by.it_course.groupwork.service.api.IVotesService;
 
@@ -19,7 +17,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Map;
-import java.util.stream.IntStream;
 
 @WebServlet(name = "UserAnswerServlet", urlPatterns = "/answer")
 public class UserAnswerServlet extends HttpServlet {

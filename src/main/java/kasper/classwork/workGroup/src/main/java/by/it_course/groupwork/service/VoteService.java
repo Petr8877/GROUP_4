@@ -22,7 +22,6 @@ public class VoteService implements IVotesService {
         this.genreService = genreService;
     }
 
-
     @Override
     public void save(VoiceDTO voice) {
         check(voice);
@@ -35,40 +34,29 @@ public class VoteService implements IVotesService {
     }
 
     private void check(VoiceDTO voice) {
-        Integer singer = voice.getSinger();
-
+        int singer = voice.getSinger();
 
         if (!singerService.checkNumber(voice.getSinger())) {
-            throw new IllegalArgumentException("Артист " + singer + " отсутствует в списке выбора");
+            throw new IllegalArgumentException("Артист №" + singer + " отсутствует в списке выбора");
         }
 
         HashSet<Integer> genres = new HashSet<>();
-        for (int val: voice.getGenre()) {
+        for (int val : voice.getGenre()) {
             genres.add(val);
-
         }
-
-
-
         if (genres.size() < 3 || genres.size() > 5) {
             throw new IllegalArgumentException("Введите 3-5 не повторяющихся жанров");
         }
 
         for (Integer genre : genres) {
-            if (genre == null) {
-                throw new IllegalArgumentException("Жанр не введен");
-            }
-
             if (!genreService.check(genre)) {
-                throw new IllegalArgumentException("Введенный жанр не содержится в списке");
+                throw new IllegalArgumentException("Введенный жанр №" + genre + " не содержится в списке");
             }
         }
 
         String aboutMe = voice.getMessage();
-
         if (aboutMe == null || aboutMe.isBlank()) {
             throw new IllegalArgumentException("Нужно ввести информацию о себе");
         }
-
     }
 }

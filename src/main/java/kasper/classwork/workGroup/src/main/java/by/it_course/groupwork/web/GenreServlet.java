@@ -2,7 +2,6 @@ package by.it_course.groupwork.web;
 
 import by.it_course.groupwork.dao.service.GenresServiceSingleton;
 import by.it_course.groupwork.dto.GenreDTO;
-import by.it_course.groupwork.service.GenreService;
 import by.it_course.groupwork.service.api.IGenreService;
 
 
