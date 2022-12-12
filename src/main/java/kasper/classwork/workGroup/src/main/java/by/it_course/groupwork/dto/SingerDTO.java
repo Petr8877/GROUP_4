@@ -42,6 +42,6 @@ public class SingerDTO {
 
     @Override
     public String toString() {
-        return "Singer: id = " + id + ",  name " + name;
+        return "id = " + id + ",  name = " + name;
     }
 }

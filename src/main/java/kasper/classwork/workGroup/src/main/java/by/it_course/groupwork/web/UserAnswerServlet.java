@@ -1,5 +1,7 @@
 package by.it_course.groupwork.web;
 
+
+import by.it_course.groupwork.dao.service.StatisticServiceSingleton;
 import by.it_course.groupwork.dao.service.VoteServiceSingleton;
 import by.it_course.groupwork.dto.VoiceDTO;
 import by.it_course.groupwork.service.api.IVotesService;
@@ -18,6 +20,10 @@ import java.util.Map;
 public class UserAnswerServlet extends HttpServlet {
     private final IVotesService service;
 
+    private final String SINGER_PARAM_NAME = "singer";
+    private final String GENRE_PARAM_NAME = "genre";
+    private final String ABOUT_USER_PARAM_NAME = "about_user";
+
     public UserAnswerServlet() {
         this.service = VoteServiceSingleton.getInstance();
     }
@@ -34,34 +40,35 @@ public class UserAnswerServlet extends HttpServlet {
 
         try {
             Map<String, String[]> parameterMap = req.getParameterMap();
-            String SINGER_PARAM_NAME = "singer";
-            int[] singers = Arrays
-                    .stream(parameterMap.get(SINGER_PARAM_NAME))
-                    .mapToInt(Integer::parseInt)
-                    .toArray();
 
-            int singer = (singers == null) ? null : singers[0];
+            String[] singers = parameterMap.get(SINGER_PARAM_NAME);
+
             if (singers == null || singers.length > 1) {
-                throw new IllegalArgumentException("Choose one singer");
+                throw new Exception("Choose one singer");
             }
 
-            String GENRE_PARAM_NAME = "genre";
-            int[] genres = Arrays
-                    .stream(parameterMap.get(GENRE_PARAM_NAME))
-                    .mapToInt(Integer::parseInt)
-                    .toArray();
+            int singer = Integer.parseInt(singers[0]);
+
+            String[] genres = parameterMap.get(GENRE_PARAM_NAME);
+
             if (genres == null) {
                 throw new IllegalArgumentException("Choose genres");
             }
 
-            String ABOUT_USER_PARAM_NAME = "about_user";
+            int[] intGenre = Arrays.
+                    stream(genres)
+                    .mapToInt(Integer::parseInt)
+                    .toArray();
+
             String[] aboutUsers = parameterMap.get(ABOUT_USER_PARAM_NAME);
 
             String aboutUser = (aboutUsers == null) ? null : aboutUsers[0];
-            VoiceDTO voiceDTO = new VoiceDTO(singer, genres, aboutUser);
+
+            VoiceDTO voiceDTO = new VoiceDTO(singer, intGenre, aboutUser);
 
             service.save(voiceDTO);
-            resp.sendRedirect("http://localhost:8080/main1/result");
+
+            resp.sendRedirect("http://localhost:8080/groupwork-1/result");
         } catch (Exception e) {
             writer.write(e.getMessage());
         }

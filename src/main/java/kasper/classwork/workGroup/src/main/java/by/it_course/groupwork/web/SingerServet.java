@@ -33,7 +33,6 @@ public class SingerServet extends HttpServlet {
 
         PrintWriter writer = resp.getWriter();
 
-        singerDTOS
-                .forEach(singerDTO -> writer.write("<p>" + singerDTO.getId() + ". " + singerDTO.getName() + "</p>"));
+        singerDTOS.forEach(singerDTO -> writer.write("<p>" + singerDTO + "</p>"));
     }
 }

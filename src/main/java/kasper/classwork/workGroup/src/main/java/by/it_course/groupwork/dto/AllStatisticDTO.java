@@ -1,6 +1,7 @@
 package by.it_course.groupwork.dto;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 public class AllStatisticDTO {
@@ -32,6 +33,8 @@ public class AllStatisticDTO {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
+
         builder.append("Результаты голосования за лучшего исполнителя: " + "\n");
 
         for (Map.Entry<SingerDTO, Integer> entry : mapSingers.entrySet()) {
@@ -47,7 +50,7 @@ public class AllStatisticDTO {
         builder.append("О пользователе: " + "\n");
 
         for (Map.Entry<String, LocalDateTime> entry : mapUserInfo.entrySet()) {
-            builder.append(entry.getKey()).append(" -> ").append(entry.getValue()).append("\n");
+            builder.append(entry.getKey()).append(" -> ").append(dtf.format(entry.getValue())).append("\n");
         }
 
         return builder.toString();

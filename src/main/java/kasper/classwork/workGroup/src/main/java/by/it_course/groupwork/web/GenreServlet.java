@@ -33,7 +33,7 @@ public class GenreServlet extends HttpServlet {
 
         PrintWriter writer = resp.getWriter();
 
-        genreDTOS.forEach(genreDTO -> writer.write("<p>" + genreDTO.getId() + ". " + genreDTO.getName() + "</p>"));
+        genreDTOS.forEach(genreDTO -> writer.write("<p>" + genreDTO + "</p>"));
     }
 
 }
