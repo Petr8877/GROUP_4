@@ -1,7 +1,7 @@
 <project>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>by.it_course</groupId>
+    <groupId>groupwork</groupId>
     <artifactId>groupwork</artifactId>
     <version>1</version>
     <packaging>war</packaging>
@@ -46,10 +46,10 @@
                 <configuration>
                     <webResources>
                         <resources>
-                            <directory>${basedir}/main/java/webapp/</directory>
+                            <directory>${basedir}/src/main/webapp/</directory>
                         </resources>
                     </webResources>
-                    <webXml>${basedir}/main/java/webapp/WEB-INF/web.xml</webXml>
+                    <webXml>${basedir}/src/main/webapp/WEB-INF/web.xml</webXml>
                 </configuration>
             </plugin>
 
