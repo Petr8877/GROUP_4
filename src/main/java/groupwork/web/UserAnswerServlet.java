@@ -67,7 +67,7 @@ public class UserAnswerServlet extends HttpServlet {
 
             service.save(voiceDTO);
 
-            resp.sendRedirect("http://localhost:8080/groupwork-1/result");
+            resp.sendRedirect("http://localhost:8080/groupwork/result");
         } catch (Exception e) {
             writer.write(e.getMessage());
         }
