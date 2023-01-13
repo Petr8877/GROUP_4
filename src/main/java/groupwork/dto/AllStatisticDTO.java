@@ -2,6 +2,8 @@ package groupwork.dto;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
+import java.util.Date;
 import java.util.Map;
 
 public class AllStatisticDTO {
@@ -50,7 +52,7 @@ public class AllStatisticDTO {
         builder.append("О пользователе: " + "\n");
 
         for (Map.Entry<String, LocalDateTime> entry : mapUserInfo.entrySet()) {
-            builder.append(entry.getKey()).append(" -> ").append(dtf.format(entry.getValue())).append("\n");
+            builder.append(entry.getKey()).append(" -> ").append(dtf.format((TemporalAccessor) entry.getValue())).append("\n");
         }
 
         return builder.toString();

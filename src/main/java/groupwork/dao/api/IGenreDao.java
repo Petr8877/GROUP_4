@@ -6,7 +6,13 @@ import java.util.List;
 
 public interface IGenreDao {
 
-    List<GenreDTO> getGenreList();
+    void add(String name);
+
+    void delete(String name);
+
+    void update(long id, String name);
+
+    List<GenreDTO> getList();
 
     boolean isContain(int id);
 }

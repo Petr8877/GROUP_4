@@ -1,10 +1,11 @@
 package groupwork.dao.fabrics;
 
-import groupwork.dao.SingerDao;
+import groupwork.dao.DB.SingerDaoDB;
 import groupwork.dao.api.ISingerDao;
 
 public class SingerDaoSingleton {
-    private volatile static SingerDao instance;
+//    private volatile static SingerDao instance;
+private volatile static SingerDaoDB instance;
 
     private SingerDaoSingleton() {
     }
@@ -13,7 +14,8 @@ public class SingerDaoSingleton {
         if (instance == null) {
             synchronized (SingerDaoSingleton.class) {
                 if (instance == null) {
-                    instance = new SingerDao();
+//                    instance = new SingerDao();
+                    instance = new SingerDaoDB();
                 }
             }
         }

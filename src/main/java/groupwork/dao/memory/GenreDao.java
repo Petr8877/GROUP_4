@@ -1,10 +1,11 @@
-package groupwork.dao;
+package groupwork.dao.memory;
 
 import groupwork.dao.api.IGenreDao;
 import groupwork.dto.GenreDTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class GenreDao implements IGenreDao {
 
@@ -24,7 +25,38 @@ public class GenreDao implements IGenreDao {
     }
 
     @Override
-    public List<GenreDTO> getGenreList() {
+    public void add(String name) {
+    int tmp = genres.size();
+    genres.add(new GenreDTO(name, tmp));
+    }
+
+    @Override
+    public void delete(String name) {
+        for (int i = 0; i < genres.size(); i++) {
+            if (Objects.equals(name, genres.get(i).getName())){
+                genres.remove(i);
+            }
+        }
+//        List<GenreDTO> tmplist = genres;
+//        for (GenreDTO genreDTO : tmplist) {
+//            if (genreDTO.getName() == name){
+//                genres.remove(genreDTO.getId());
+//            }
+//        }
+    }
+
+    @Override
+    public void update(long id, String name) {
+        for (int i = 0; i < genres.size(); i++) {
+            if (genres.get(i).getId() == id){
+                genres.remove(i);
+                genres.add(i, new GenreDTO(name, id));
+            }
+        }
+    }
+
+    @Override
+    public List<GenreDTO> getList() {
         return genres;
     }
 

@@ -26,6 +26,6 @@ public class GenreService implements IGenreService {
 
     @Override
     public List<GenreDTO> get() {
-        return dao.getGenreList();
+        return dao.getList();
     }
 }

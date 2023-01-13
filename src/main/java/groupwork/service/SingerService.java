@@ -25,6 +25,6 @@ public class SingerService implements ISingerService {
 
     @Override
     public List<SingerDTO> get() {
-        return dao.getSingerList();
+        return dao.getList();
     }
 }

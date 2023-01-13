@@ -4,9 +4,9 @@ import java.util.Objects;
 
 public class SingerDTO {
     private String name;
-    private int id;
+    private long id;
 
-    public SingerDTO(String name, int id) {
+    public SingerDTO(String name, long id) {
         this.name = name;
         this.id = id;
     }
@@ -19,7 +19,7 @@ public class SingerDTO {
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

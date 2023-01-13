@@ -6,7 +6,12 @@ import java.util.List;
 
 public interface ISingerDao {
 
-    List<SingerDTO> getSingerList();
+    void add(String name);
+
+    void delete(String name);
+
+    void update(long id, String name);
+    List<SingerDTO> getList();
 
 
     boolean isContain(int id);

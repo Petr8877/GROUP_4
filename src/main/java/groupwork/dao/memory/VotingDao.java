@@ -1,4 +1,4 @@
-package groupwork.dao;
+package groupwork.dao.memory;
 
 import groupwork.dao.api.IVotingDao;
 import groupwork.dto.SavedVoiceDTO;
