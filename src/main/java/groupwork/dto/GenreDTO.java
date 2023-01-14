@@ -11,6 +11,9 @@ public class GenreDTO {
         this.id = id;
     }
 
+    public GenreDTO() {
+    }
+
     public String getName() {
         return name;
     }
