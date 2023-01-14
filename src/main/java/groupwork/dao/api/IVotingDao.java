@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface IVotingDao {
 
-    List<SavedVoiceDTO> getVoiceList();
+    List<SavedVoiceDTO> getAll();
 
 
     void save(SavedVoiceDTO voice);

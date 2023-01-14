@@ -4,10 +4,7 @@ import groupwork.dto.SingerDTO;
 
 import java.util.List;
 
-public interface ISingerService {
+public interface ISingerService extends BaseService<Integer, SingerDTO> {
 
-    boolean checkNumber(int number);
-
-    List<SingerDTO> get();
 
 }

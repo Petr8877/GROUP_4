@@ -24,17 +24,37 @@ public class GenreDao implements IGenreDao {
     }
 
     @Override
-    public List<GenreDTO> getGenreList() {
+    public List<GenreDTO> getAll() {
         return genres;
     }
 
     @Override
-    public boolean isContain(int id) {
+    public boolean isContain(Integer id) {
         for (GenreDTO genre : genres) {
             if (genre.getId() == id) {
                 return true;
             }
         }
+        return false;
+    }
+
+    @Override
+    public boolean insert(GenreDTO genreDTO) {
+        boolean flag = false;
+        if (!isContain(genreDTO.getId())) {
+            genres.add(genreDTO);
+            flag = true;
+        }
+        return flag;
+    }
+
+    @Override
+    public GenreDTO update(GenreDTO genreDTO) {
+        return genreDTO;
+    }
+
+    @Override
+    public boolean delete(GenreDTO genreDTO) {
         return false;
     }
 }

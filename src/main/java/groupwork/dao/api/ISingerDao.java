@@ -4,10 +4,6 @@ import groupwork.dto.SingerDTO;
 
 import java.util.List;
 
-public interface ISingerDao {
+public interface ISingerDao extends BaseDao<Integer, SingerDTO >{
 
-    List<SingerDTO> getSingerList();
-
-
-    boolean isContain(int id);
 }

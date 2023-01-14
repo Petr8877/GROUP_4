@@ -11,7 +11,7 @@ public class VotingDao implements IVotingDao {
     private List<SavedVoiceDTO> voices = new ArrayList<>();
 
     @Override
-    public List<SavedVoiceDTO> getVoiceList() {
+    public List<SavedVoiceDTO> getAll() {
         return voices;
     }
 

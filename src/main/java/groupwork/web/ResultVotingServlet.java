@@ -28,7 +28,7 @@ public class ResultVotingServlet extends HttpServlet {
 
         PrintWriter writer = resp.getWriter();
 
-        AllStatisticDTO allSort = statisticsService.getAllSort();
+                          AllStatisticDTO allSort = statisticsService.getAllSort();
 
         writer.write("<p>" + allSort + "</p>");
     }

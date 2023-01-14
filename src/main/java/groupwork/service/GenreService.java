@@ -14,18 +14,32 @@ public class GenreService implements IGenreService {
     public GenreService(IGenreDao dao) {
         this.dao = dao;
     }
-
     @Override
-    public boolean check(int number) {
-        if (number == 0) {
+    public boolean isContain(Integer id) {
+        if (id == 0) {
             throw new IllegalArgumentException("Введите номер жанра");
         }
-        return this.dao.isContain(number);
-
+        return this.dao.isContain(id);
     }
-
     @Override
-    public List<GenreDTO> get() {
-        return dao.getGenreList();
+    public List<GenreDTO> getAll() {
+        return dao.getAll();
     }
+    @Override
+    public boolean insert(GenreDTO genreDTO) {
+        boolean insert = dao.insert(genreDTO);
+        return insert;
+    }
+    @Override
+    public GenreDTO update(GenreDTO genreDTO) {
+        GenreDTO update = dao.update(genreDTO);
+        return update;
+    }
+    @Override
+    public boolean delete(GenreDTO genreDTO) {
+        boolean delete = dao.delete(genreDTO);
+        return delete;
+    }
+
+
 }

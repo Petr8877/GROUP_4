@@ -4,10 +4,9 @@ import groupwork.dto.GenreDTO;
 
 import java.util.List;
 
-public interface IGenreService {
+public interface IGenreService extends BaseService <Integer, GenreDTO> {
 
-    boolean check(int number);
 
-    List<GenreDTO> get();
+
 
 }

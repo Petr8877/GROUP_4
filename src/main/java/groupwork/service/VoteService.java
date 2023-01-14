@@ -30,12 +30,12 @@ public class VoteService implements IVotesService {
 
     @Override
     public List<SavedVoiceDTO> get() {
-        return votingDao.getVoiceList();
+        return votingDao.getAll();
     }
 
     private void check(VoiceDTO voice) {
         int singer = voice.getSinger();
-        if (!singerService.checkNumber(voice.getSinger())) {
+        if (!singerService.isContain(voice.getSinger())) {
             throw new IllegalArgumentException("Артист №" + singer + " отсутствует в списке выбора");
         }
 
@@ -56,7 +56,7 @@ public class VoteService implements IVotesService {
         }
 
         for (Integer genre : setGenre) {
-            if (!genreService.check(genre)) {
+            if (!genreService.isContain(genre)) {
                 throw new IllegalArgumentException("Введенный жанр №" + genre + " не содержится в списке");
             }
         }

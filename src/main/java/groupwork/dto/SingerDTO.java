@@ -1,10 +1,15 @@
 package groupwork.dto;
 
+import groupwork.entity.Entity;
+
 import java.util.Objects;
 
-public class SingerDTO {
+public class SingerDTO extends Entity {
     private String name;
     private int id;
+
+    public SingerDTO() {
+    }
 
     public SingerDTO(String name, int id) {
         this.name = name;

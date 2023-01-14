@@ -1,10 +1,15 @@
 package groupwork.dto;
 
+import groupwork.entity.Entity;
+
 import java.util.Objects;
 
-public class GenreDTO {
+public class GenreDTO extends Entity {
     private String name;
     private int id;
+
+    public GenreDTO() {
+    }
 
     public GenreDTO(String name, int id) {
         this.name = name;

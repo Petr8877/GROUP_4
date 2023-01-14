@@ -4,9 +4,7 @@ import groupwork.dto.GenreDTO;
 
 import java.util.List;
 
-public interface IGenreDao {
+public interface IGenreDao extends BaseDao < Integer,GenreDTO>{
 
-    List<GenreDTO> getGenreList();
 
-    boolean isContain(int id);
 }

@@ -1,5 +1,6 @@
 package groupwork.dto;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
