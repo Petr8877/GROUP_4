@@ -2,10 +2,12 @@ package groupwork.dao;
 
 import groupwork.dao.api.ISingerDao;
 import groupwork.dto.SingerDTO;
-import groupwork.entity.Entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.OptionalInt;
+import java.util.stream.Stream;
 
 
 public class SingerDao implements ISingerDao {
@@ -13,7 +15,8 @@ public class SingerDao implements ISingerDao {
 
     {
         singers.add(new SingerDTO("Sting", 1));
-        singers.add(new SingerDTO("Scorpions", 2));
+
+        singers.add(new SingerDTO("Scorpions",  2));
         singers.add(new SingerDTO("Madonna", 3));
         singers.add(new SingerDTO("GreenDay", 4));
     }
@@ -25,24 +28,41 @@ public class SingerDao implements ISingerDao {
 
     @Override
     public boolean isContain(Integer id) {
-        boolean contains = singers.contains(id);
-        return contains;
+        Optional<SingerDTO> first = singers.stream()
+                .filter(s -> s.getId() == id)
+                .findFirst();
+        return first.isPresent();
     }
-
+// work
     @Override
     public boolean insert(SingerDTO singerDTO) {
-        singers.add(singerDTO);
-        return false;
+        int maxId = singers.stream()
+                .mapToInt(SingerDTO::getId)
+                .max()
+                .getAsInt();
+        singerDTO.setId(++maxId);
+        boolean add = singers.add(singerDTO);
+        return add;
     }
 
     @Override
     public SingerDTO update(SingerDTO singerDTO) {
-        return singerDTO;
+        SingerDTO singerDTO1 = singers.stream()
+                .filter(s -> s.getId() == singerDTO.getId())
+                .findFirst()
+                .get();
+        singerDTO1.setName(singerDTO.getName());
+        return singerDTO1;
     }
 
     @Override
     public boolean delete(SingerDTO singerDTO) {
-        return false;
+        SingerDTO singerDTO1 = singers.stream()
+                .filter(s -> s.getId() == singerDTO.getId())
+                .findFirst()
+                .get();
+        boolean remove = singers.remove(singerDTO1);
+        return remove;
     }
 
 }

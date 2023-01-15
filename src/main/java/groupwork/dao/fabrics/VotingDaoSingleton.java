@@ -15,7 +15,7 @@ public class VotingDaoSingleton {
         if (instance == null) {
             synchronized (VotingDaoSingleton.class) {
                 if (instance == null) {
-                    instance = new VotingDaoDB();
+                    instance = new VotingDao();
                 }
             }
         }

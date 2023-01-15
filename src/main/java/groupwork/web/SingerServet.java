@@ -1,5 +1,6 @@
 package groupwork.web;
 
+import groupwork.dto.GenreDTO;
 import groupwork.service.fabrics.SingersServiceSingleton;
 import groupwork.dto.SingerDTO;
 import groupwork.service.api.ISingerService;
@@ -21,7 +22,7 @@ public class SingerServet extends HttpServlet {
     private final String SINGER_ADD_PARAM_NAME = "singer_insert";
     private final String ID_UPDATE_SINGER_PARAM_NAME = "id_update_singer";
     private final String NAME_UPDATE_SINGER_PARAM_NAME = "name_update_singer";
-
+    private final String ID_DELETE_PARAM_NAME = "id_delete";
     public SingerServet() {
         this.service = SingersServiceSingleton.getInstance();
     }
@@ -69,5 +70,17 @@ public class SingerServet extends HttpServlet {
         } else {
             writer.write("something went wrong");
         }
+    }
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String id_singer = req.getParameter(ID_DELETE_PARAM_NAME);
+        int id = Integer.parseInt(id_singer);
+        SingerDTO singerDTO = new SingerDTO();
+        singerDTO.setId(id);
+        PrintWriter writer = resp.getWriter();
+        if (singerDTO != null) {
+            boolean delete = service.delete(singerDTO);
+            writer.write(String.valueOf(delete));
+        } else writer.write("object is not deleted");
     }
 }

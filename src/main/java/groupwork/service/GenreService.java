@@ -5,6 +5,7 @@ import groupwork.dto.GenreDTO;
 import groupwork.service.api.IGenreService;
 
 
+import java.sql.SQLException;
 import java.util.List;
 
 public class GenreService implements IGenreService {
@@ -32,7 +33,13 @@ public class GenreService implements IGenreService {
     }
     @Override
     public GenreDTO update(GenreDTO genreDTO) {
-        GenreDTO update = dao.update(genreDTO);
+        GenreDTO update;
+        try {
+            update = dao.update(genreDTO);
+        } catch (RuntimeException e){
+            throw new RuntimeException("Error DB with updating of element "+ e.getMessage());
+        }
+
         return update;
     }
     @Override

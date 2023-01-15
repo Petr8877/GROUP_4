@@ -14,7 +14,7 @@ public class SingerDaoSingleton {
         if (instance == null) {
             synchronized (SingerDaoSingleton.class) {
                 if (instance == null) {
-                    instance = new SingerDaoDB();
+                    instance = new SingerDao();
                 }
             }
         }

@@ -14,7 +14,7 @@ public class GenreDaoSingleton {
         if (instance == null) {
             synchronized (GenreDaoSingleton.class) {
                 if (instance == null) {
-                    instance = new GenreDaoDB();
+                    instance = new GenreDao();
                 }
             }
         }
