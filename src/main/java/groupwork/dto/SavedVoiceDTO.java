@@ -8,6 +8,9 @@ public class SavedVoiceDTO {
     private VoiceDTO voice;
     private LocalDateTime creationTime;
 
+    public SavedVoiceDTO() {
+    }
+
     public SavedVoiceDTO(VoiceDTO voice) {
         this.voice = voice;
         this.creationTime = LocalDateTime.now();

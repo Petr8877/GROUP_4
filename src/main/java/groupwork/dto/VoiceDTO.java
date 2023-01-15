@@ -8,9 +8,24 @@ public class VoiceDTO {
     private int[] genre;
     private String message;
 
+    public VoiceDTO() {
+    }
+
     public VoiceDTO(int singer, int[] genre, String message) {
         this.singer = singer;
         this.genre = genre;
+        this.message = message;
+    }
+
+    public void setSinger(int singer) {
+        this.singer = singer;
+    }
+
+    public void setGenre(int[] genre) {
+        this.genre = genre;
+    }
+
+    public void setMessage(String message) {
         this.message = message;
     }
 
