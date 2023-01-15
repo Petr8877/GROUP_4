@@ -9,14 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SingerDaoDB implements ISingerDao {
-    private static final String URL_DB = "jdbc:postgresql://localhost:5434/voting";
-    private static final String USER_DB = "postgres";
-    private static final String PASSWORD_DB = "kasper";
+    private final String INSERT = "INSERT INTO app.artists(name) VALUES (?);";
+    private final String DELETE = "DELETE FROM app.artists WHERE name = ?;";
+    private final String UPDATE = "UPDATE app.artists SET name=? WHERE id = ?;";
+    private final String GET_ALL = "SELECT id, name FROM app.artists;";
     private final DBPool dbPool;
 
     {
         try {
-            dbPool = new DBPool(URL_DB, USER_DB, PASSWORD_DB);
+            dbPool = new DBPool();
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -27,7 +28,7 @@ public class SingerDaoDB implements ISingerDao {
         try {
             Connection conn = dbPool.getConnection();
             long x = -1;
-            PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO app.artists(name) VALUES (?);");
+            PreparedStatement preparedStatement = conn.prepareStatement(INSERT);
             preparedStatement.setString(1, singer);
             preparedStatement.executeUpdate();
             dbPool.putConnection(conn);
@@ -40,7 +41,7 @@ public class SingerDaoDB implements ISingerDao {
     public void delete(String singer) {
         try {
             Connection conn = dbPool.getConnection();
-            PreparedStatement preparedStatement = conn.prepareStatement("DELETE FROM app.artists WHERE name = ?;");
+            PreparedStatement preparedStatement = conn.prepareStatement(DELETE);
             preparedStatement.setString(1, singer);
             preparedStatement.executeUpdate();
             dbPool.putConnection(conn);
@@ -53,7 +54,7 @@ public class SingerDaoDB implements ISingerDao {
     public void update(long id, String name) {
         try {
             Connection conn = dbPool.getConnection();
-            PreparedStatement preparedStatement = conn.prepareStatement("UPDATE app.artists SET name=? WHERE id = ?;");
+            PreparedStatement preparedStatement = conn.prepareStatement(UPDATE);
             preparedStatement.setString(1, name);
             preparedStatement.setLong(2, id);
             preparedStatement.executeUpdate();
@@ -68,7 +69,7 @@ public class SingerDaoDB implements ISingerDao {
         List<SingerDTO> singerDTOList = new ArrayList<>();
         try {
             Connection conn = dbPool.getConnection();
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT id, name FROM app.artists;");
+            PreparedStatement preparedStatement = conn.prepareStatement(GET_ALL);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 singerDTOList.add(new SingerDTO(resultSet.getString("name"), resultSet.getLong("id")));
@@ -84,7 +85,7 @@ public class SingerDaoDB implements ISingerDao {
     public boolean isContain(int id) {
         try {
             Connection conn = dbPool.getConnection();
-            PreparedStatement preparedStatement = conn.prepareStatement("SELECT id, name FROM app.artists;");
+            PreparedStatement preparedStatement = conn.prepareStatement(GET_ALL);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 if (resultSet.getLong("id") == id) {

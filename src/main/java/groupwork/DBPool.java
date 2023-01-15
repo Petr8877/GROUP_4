@@ -5,12 +5,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBPool {
-    private String url, user, password;
+    private static final String url = "jdbc:postgresql://localhost:5434/voting";
+    private static final String user = "postgres";
+    private static final String password = "kasper";
 
-    public DBPool(String url, String user, String password) throws ClassNotFoundException {
-        this.url = url;
-        this.user = user;
-        this.password = password;
+    public DBPool() throws ClassNotFoundException {
         LoadDriver.loading();
     }
 

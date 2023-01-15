@@ -1,6 +1,7 @@
 package groupwork.dto;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -8,21 +9,16 @@ import java.util.Objects;
 public class SavedVoiceDTO {
     private VoiceDTO voice;
     private LocalDateTime creationTime;
-    private Date date;
+    private Timestamp date;
 
     public SavedVoiceDTO(VoiceDTO voice) {
         this.voice = voice;
         this.creationTime = LocalDateTime.now();
-        this.date = Date.valueOf(LocalDate.now());
     }
 
-//    public SavedVoiceDTO(VoiceDTO voice, LocalDateTime creationTime) {
-//        this.voice = voice;
-//        this.creationTime = creationTime;
-//    }
-
-    public Date getDate() {
-        return date;
+    public SavedVoiceDTO(VoiceDTO voice, Timestamp creationTime) {
+        this.voice = voice;
+        this.date = creationTime;
     }
 
     public VoiceDTO getVoice() {
@@ -35,6 +31,10 @@ public class SavedVoiceDTO {
 
     public LocalDateTime getCreationTime() {
         return creationTime;
+    }
+
+    public Timestamp getDate() {
+        return date;
     }
 
     public void setCreationTime(LocalDateTime creationTime) {
