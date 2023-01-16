@@ -10,7 +10,7 @@ import java.util.List;
 
 public class SingerDaoDB implements ISingerDao {
     private final String INSERT = "INSERT INTO app.artists(name) VALUES (?);";
-    private final String DELETE = "DELETE FROM app.artists WHERE name = ?;";
+    private final String DELETE = "DELETE FROM app.artists WHERE id = ?;";
     private final String UPDATE = "UPDATE app.artists SET name=? WHERE id = ?;";
     private final String GET_ALL = "SELECT id, name FROM app.artists;";
     private final DBPool dbPool;
@@ -38,11 +38,11 @@ public class SingerDaoDB implements ISingerDao {
     }
 
     @Override
-    public void delete(String singer) {
+    public void delete(int id) {
         try {
             Connection conn = dbPool.getConnection();
             PreparedStatement preparedStatement = conn.prepareStatement(DELETE);
-            preparedStatement.setString(1, singer);
+            preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
             dbPool.putConnection(conn);
         } catch (SQLException e) {

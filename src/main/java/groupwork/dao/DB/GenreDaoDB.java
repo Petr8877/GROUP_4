@@ -11,7 +11,7 @@ import java.util.List;
 
 public class GenreDaoDB implements IGenreDao {
     private final String INSERT = "INSERT INTO app.genres(name) VALUES (?);";
-    private final String DELETE = "DELETE FROM app.genres WHERE name = ?;";
+    private final String DELETE = "DELETE FROM app.genres WHERE id = ?;";
     private final String UPDATE = "UPDATE app.genres SET name=? WHERE id = ?;";
     private final String GET_ALL = "SELECT id, name FROM app.genres;";
     private final DBPool dbPool;
@@ -38,11 +38,11 @@ public class GenreDaoDB implements IGenreDao {
     }
 
     @Override
-    public void delete(String genre) {
+    public void delete(int id) {
         try {
             Connection conn = dbPool.getConnection();
             PreparedStatement preparedStatement = conn.prepareStatement(DELETE);
-            preparedStatement.setString(1, genre);
+            preparedStatement.setLong(1, id);
             preparedStatement.executeUpdate();
             dbPool.putConnection(conn);
         } catch (SQLException e) {

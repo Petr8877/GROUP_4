@@ -3,66 +3,64 @@ package groupwork.dao.memory;
 import groupwork.dao.api.IGenreDao;
 import groupwork.dto.GenreDTO;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class GenreDao implements IGenreDao {
 
-    private List<GenreDTO> genres = new ArrayList<>();
+    private Map<Integer, GenreDTO> genres = new ConcurrentHashMap<>();
 
     {
-        genres.add(new GenreDTO("pop", 1));
-        genres.add(new GenreDTO("rock", 2));
-        genres.add(new GenreDTO("alternative", 3));
-        genres.add(new GenreDTO("folk", 4));
-        genres.add(new GenreDTO("bluez", 5));
-        genres.add(new GenreDTO("pop-rock", 6));
-        genres.add(new GenreDTO("jazz", 7));
-        genres.add(new GenreDTO("classic", 8));
-        genres.add(new GenreDTO("electro", 9));
-        genres.add(new GenreDTO("cantry", 10));
+        genres.put(1, new GenreDTO("pop", 1));
+        genres.put(2, new GenreDTO("rock", 2));
+        genres.put(3, new GenreDTO("alternative", 3));
+        genres.put(4, new GenreDTO("folk", 4));
+        genres.put(5, new GenreDTO("bluez", 5));
+        genres.put(6, new GenreDTO("pop-rock", 6));
+        genres.put(7, new GenreDTO("jazz", 7));
+        genres.put(8, new GenreDTO("classic", 8));
+        genres.put(9, new GenreDTO("electro", 9));
+        genres.put(10, new GenreDTO("cantry", 10));
     }
 
     @Override
     public void add(String name) {
-    int tmp = genres.size();
-    genres.add(new GenreDTO(name, tmp));
+        if (genres.isEmpty()) {
+            genres.put(1, new GenreDTO(name, 1));
+        } else {
+            Set<Integer> set = genres.keySet();
+            int key = Collections.max(set) + 1;
+            genres.put(key, new GenreDTO(name, key));
+        }
     }
 
     @Override
-    public void delete(String name) {
+    public void delete(int id) {
         for (int i = 0; i < genres.size(); i++) {
-            if (Objects.equals(name, genres.get(i).getName())){
+            if (genres.get(i).getId() == id) {
                 genres.remove(i);
             }
         }
-//        List<GenreDTO> tmplist = genres;
-//        for (GenreDTO genreDTO : tmplist) {
-//            if (genreDTO.getName() == name){
-//                genres.remove(genreDTO.getId());
-//            }
-//        }
     }
 
     @Override
     public void update(long id, String name) {
         for (int i = 0; i < genres.size(); i++) {
-            if (genres.get(i).getId() == id){
+            if (genres.get(i).getId() == id) {
                 genres.remove(i);
-                genres.add(i, new GenreDTO(name, id));
+                genres.put(i, new GenreDTO(name, id));
             }
         }
     }
 
     @Override
     public List<GenreDTO> getList() {
-        return genres;
+        return new ArrayList<>(genres.values());
     }
 
     @Override
     public boolean isContain(int id) {
-        for (GenreDTO genre : genres) {
+        for (GenreDTO genre : genres.values()) {
             if (genre.getId() == id) {
                 return true;
             }

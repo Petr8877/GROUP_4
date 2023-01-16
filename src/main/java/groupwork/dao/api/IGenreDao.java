@@ -8,7 +8,7 @@ public interface IGenreDao {
 
     void add(String name);
 
-    void delete(String name);
+    void delete(int id);
 
     void update(long id, String name);
 
