@@ -105,11 +105,9 @@ public class VotingDAO_DB implements IVotingDao {
             for (int genre : genres) {
                 preparedStatement.setInt(1, id);
                 preparedStatement.setInt(2, genre);
-                preparedStatement.executeUpdate();
+                preparedStatement.addBatch();
             }
-
-            resultSet.close();
-            preparedStatement.close();
+            preparedStatement.executeBatch();
 
         }catch (SQLException e){
             throw new RuntimeException("Ошибка соединения с базой данных");
