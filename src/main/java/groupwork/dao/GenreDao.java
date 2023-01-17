@@ -2,76 +2,79 @@ package groupwork.dao;
 
 import groupwork.dao.api.IGenreDao;
 import groupwork.dto.GenreDTO;
-import groupwork.dto.SingerDTO;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class GenreDao implements IGenreDao {
 
-    private List<GenreDTO> genres = new ArrayList<>();
+    private Map<Integer, GenreDTO> genres = new ConcurrentHashMap<>();
 
     {
-        genres.add(new GenreDTO("pop", 1));
-        genres.add(new GenreDTO("rock", 2));
-        genres.add(new GenreDTO("alternative", 3));
-        genres.add(new GenreDTO("folk", 4));
-        genres.add(new GenreDTO("bluez", 5));
-        genres.add(new GenreDTO("pop-rock", 6));
-        genres.add(new GenreDTO("jazz", 7));
-        genres.add(new GenreDTO("classic", 8));
-        genres.add(new GenreDTO("electro", 9));
-        genres.add(new GenreDTO("cantry", 10));
+        genres.put(1, new GenreDTO("pop", 1));
+        genres.put(2, new GenreDTO("rock", 2));
+        genres.put(3, new GenreDTO("alternative", 3));
+        genres.put(4, new GenreDTO("folk", 4));
+        genres.put(5, new GenreDTO("bluez", 5));
+        genres.put(6, new GenreDTO("pop-rock", 6));
+        genres.put(7, new GenreDTO("jazz", 7));
+        genres.put(8, new GenreDTO("classic", 8));
+        genres.put(9, new GenreDTO("electro", 9));
+        genres.put(10,new GenreDTO("cantry", 10));
     }
 
     @Override
     public List<GenreDTO> getGenreList() {
-        return genres;
+        return new ArrayList<>(genres.values());
     }
 
     @Override
     public boolean isContain(int id) {
-        for (GenreDTO genre : genres) {
-            if (genre.getId() == id) {
-                return true;
-            }
-        }
-        return false;
+        return genres.containsKey(id);
     }
 
     @Override
     public void delete(GenreDTO genreDTO) {
         int id = genreDTO.getId();
-        for (int i = 0; i < genres.size(); i++) {
-            GenreDTO genre = genres.get(i);
-            if (genre.getId() == id) {
-                genres.remove(genre);
-                break;
-            }
-        }
+        genres.remove(id);
     }
 
     @Override
     public void create(GenreDTO genreDTO) {
-        int maxID = genres.stream()
-                .map(GenreDTO::getId)
-                .max(Comparator.comparingInt(s -> s))
-                .get();
-        genreDTO.setId(maxID+1);
-        genres.add(genreDTO);
+        String name = genreDTO.getName();
+        if (checkDuplicate(name)) {
+            int id = getMaxID();
+            genreDTO.setId(id);
+            genres.put(id, genreDTO);
+        } else {
+            throw new IllegalArgumentException("Такой жанр уже существует");
+        }
     }
 
     @Override
     public void update(GenreDTO genreDTO) {
-        int id = genreDTO.getId();
         String name = genreDTO.getName();
-        for (GenreDTO genre : genres) {
-            if (genre.getId() == id) {
-                genre.setName(name);
-                break;
-            }
+        if (checkDuplicate(name)) {
+            genres.put(genreDTO.getId(), genreDTO);
+        } else {
+            throw new IllegalArgumentException("Такой жанр уже существует");
         }
 
+    }
+
+    private synchronized int getMaxID(){
+        int currID = genres.keySet().stream()
+                .max(Comparator.comparing(Integer::intValue))
+                .get();
+        return ++currID;
+    }
+
+    private synchronized boolean checkDuplicate(String name) {
+        return genres.values().stream()
+                .map(genreDTO -> genreDTO.getName())
+                .noneMatch(s -> s.equals(name));
     }
 }
