@@ -1,7 +1,6 @@
 package groupwork.web;
 
-
-import groupwork.service.fabrics.VoteServiceSingleton;
+import groupwork.helper.Provider;
 import groupwork.dto.VoiceDTO;
 import groupwork.service.api.IVotesService;
 
@@ -24,7 +23,7 @@ public class UserAnswerServlet extends HttpServlet {
     private final String ABOUT_USER_PARAM_NAME = "about_user";
 
     public UserAnswerServlet() {
-        this.service = VoteServiceSingleton.getInstance();
+        this.service = Provider.loadVoteService();
     }
 
     @Override
@@ -67,7 +66,11 @@ public class UserAnswerServlet extends HttpServlet {
 
             service.save(voiceDTO);
 
-            resp.sendRedirect("http://localhost:8080/groupwork/result");
+            writer.write("Ответ сохранен");
+
+            String contextPath = req.getContextPath();
+            resp.sendRedirect(contextPath + "/result");
+
         } catch (Exception e) {
             writer.write(e.getMessage());
         }

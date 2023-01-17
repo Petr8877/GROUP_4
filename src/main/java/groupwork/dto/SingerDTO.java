@@ -11,6 +11,13 @@ public class SingerDTO {
         this.id = id;
     }
 
+    public SingerDTO(String name) {
+        this.name = name;
+    }
+
+    public SingerDTO() {
+    }
+
     public String getName() {
         return name;
     }

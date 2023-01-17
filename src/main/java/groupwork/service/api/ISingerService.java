@@ -10,4 +10,10 @@ public interface ISingerService {
 
     List<SingerDTO> get();
 
+    void delete(SingerDTO singerDTO);
+
+    void create(SingerDTO singerDTO);
+
+    void update(SingerDTO singerDTO);
+
 }

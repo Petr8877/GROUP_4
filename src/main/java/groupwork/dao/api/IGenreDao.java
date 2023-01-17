@@ -9,4 +9,10 @@ public interface IGenreDao {
     List<GenreDTO> getGenreList();
 
     boolean isContain(int id);
+
+    void delete(GenreDTO genreDTO);
+
+    void create(GenreDTO genreDTO);
+
+    void update(GenreDTO genreDTO);
 }
