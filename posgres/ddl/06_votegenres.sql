@@ -1,14 +1,14 @@
-CREATE TABLE IF NOT EXISTS app.votegenres
+CREATE TABLE IF NOT EXISTS app.vote_genre
 (
-    id_user bigint NOT NULL,
-    id_genre bigint,
-    CONSTRAINT "voteGenres_id_user_fkey" FOREIGN KEY (id_user)
-        REFERENCES app.votes (id) MATCH SIMPLE
+    id_user integer NOT NULL,
+    id_genre integer NOT NULL,
+    CONSTRAINT vote_df_pkey PRIMARY KEY (id_user, id_genre),
+    CONSTRAINT vote_df_id_genre_fkey FOREIGN KEY (id_genre)
+        REFERENCES app.genres (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION,
-    CONSTRAINT votegenres_id_genre_fkey FOREIGN KEY (id_genre)
-        REFERENCES app.genres (id) MATCH SIMPLE
-        ON UPDATE CASCADE
-        ON DELETE CASCADE
-        NOT VALID
+    CONSTRAINT vote_df_id_user_fkey FOREIGN KEY (id_user)
+        REFERENCES app.votes (id) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
 )

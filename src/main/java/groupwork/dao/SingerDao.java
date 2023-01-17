@@ -18,24 +18,24 @@ public class SingerDao implements ISingerDao {
     }
 
     @Override
-    public List<SingerDTO> getSingerList() {
+    public synchronized List<SingerDTO> getSingerList() {
         return new ArrayList<>(singers.values());
     }
 
 
     @Override
-    public boolean isContain(int id) {
+    public synchronized boolean isContain(int id) {
         return singers.containsKey(id);
     }
 
     @Override
-    public void delete(SingerDTO singerDTO) {
+    public synchronized void delete(SingerDTO singerDTO) {
         int id = singerDTO.getId();
         singers.remove(id);
     }
 
     @Override
-    public void create(SingerDTO singerDTO) {
+    public synchronized void create(SingerDTO singerDTO) {
         String name = singerDTO.getName();
         if (checkDuplicate(name)) {
             int id = getMaxID();
@@ -47,7 +47,7 @@ public class SingerDao implements ISingerDao {
     }
 
     @Override
-    public void update(SingerDTO singerDTO) {
+    public synchronized void update(SingerDTO singerDTO) {
         String name = singerDTO.getName();
         if (checkDuplicate(name)) {
             singers.put(singerDTO.getId(), singerDTO);
