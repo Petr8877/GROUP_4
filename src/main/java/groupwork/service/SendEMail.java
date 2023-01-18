@@ -29,7 +29,7 @@ public class SendEMail {
         props.put("mail.smtp.port", "465");
     }
 
-    public void send(String subject, List<SavedVoiceDTO> info, String toEmail) {
+    public void send(String subject, SavedVoiceDTO info, String toEmail) {
         Session session = Session.getDefaultInstance(props, new Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);

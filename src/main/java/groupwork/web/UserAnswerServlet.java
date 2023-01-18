@@ -1,5 +1,6 @@
 package groupwork.web;
 
+import groupwork.dto.SavedVoiceDTO;
 import groupwork.helper.Provider;
 import groupwork.dto.VoiceDTO;
 import groupwork.service.SendEMail;
@@ -20,7 +21,7 @@ public class UserAnswerServlet extends HttpServlet {
     private final IVotesService service;
     private static final String USERNAME = "ivanivanov2023_18@mail.ru";
     private static final String PASSWORD = "CzgX7LYBBE0GfaQPrZL6";
-    private static final String EMAIL_TO = "";//укажите свою почту
+    private static final String EMAIL_TO = "kasperovichpetr@gmail.com";//укажите свою почту
     private final String SINGER_PARAM_NAME = "singer";
     private final String GENRE_PARAM_NAME = "genre";
     private final String ABOUT_USER_PARAM_NAME = "about_user";
@@ -67,9 +68,9 @@ public class UserAnswerServlet extends HttpServlet {
 
             VoiceDTO voiceDTO = new VoiceDTO(singer, intGenre, aboutUser);
 
-            service.save(voiceDTO);
+            SavedVoiceDTO voiceDTO1 = service.save(voiceDTO);
             SendEMail sslSender = new SendEMail(USERNAME, PASSWORD);
-            sslSender.send("Vote",  service.get(), EMAIL_TO);
+            sslSender.send("Vote",  voiceDTO1, EMAIL_TO);
 
             writer.write("Ответ сохранен");
 

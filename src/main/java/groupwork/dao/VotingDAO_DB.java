@@ -71,7 +71,7 @@ public class VotingDAO_DB implements IVotingDao {
     }
 
     @Override
-    public void save(SavedVoiceDTO voice) {
+    public SavedVoiceDTO save(SavedVoiceDTO voice) {
 
         VoiceDTO voiceDTO = voice.getVoice();
 
@@ -113,6 +113,6 @@ public class VotingDAO_DB implements IVotingDao {
             throw new RuntimeException("Ошибка соединения с базой данных");
         }
 
-
+        return voice;
     }
 }
