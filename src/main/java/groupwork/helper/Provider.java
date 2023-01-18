@@ -12,7 +12,7 @@ import java.sql.SQLException;
 
 public class Provider {
 
-    private static boolean isDB = true;
+    private static boolean isDB = false;
 
     static {
         if (isDB) {
