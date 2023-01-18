@@ -38,7 +38,9 @@ public class SingerDao implements ISingerDao {
     public synchronized void create(SingerDTO singerDTO) {
         String name = singerDTO.getName();
         if (checkDuplicate(name)) {
-            int id = getMaxID();
+            int id = singers.keySet().stream()
+                    .max(Comparator.comparing(Integer::intValue))
+                    .get() + 1;
             singerDTO.setId(id);
             singers.put(id, singerDTO);
         } else {
@@ -54,13 +56,6 @@ public class SingerDao implements ISingerDao {
         } else {
             throw new IllegalArgumentException("Такой жанр уже существует");
         }
-    }
-
-    private synchronized int getMaxID(){
-        int currID = singers.keySet().stream()
-                .max(Comparator.comparing(Integer::intValue))
-                .get();
-        return ++currID;
     }
 
     private synchronized boolean checkDuplicate(String name) {
