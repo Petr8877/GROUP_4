@@ -19,7 +19,7 @@ public class GenreDAO_DB implements IGenreDao {
     public List<GenreDTO> getGenreList() {
         List<GenreDTO>list = new ArrayList<>();
 
-        try(Connection connection = Provider.getConnection();
+        try(Connection connection = ConnectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET);
             ResultSet resultSet = preparedStatement.executeQuery()){
 
@@ -40,7 +40,7 @@ public class GenreDAO_DB implements IGenreDao {
     public boolean isContain(int id) {
         boolean result = false;
 
-        try(Connection connection = Provider.getConnection();
+        try(Connection connection = ConnectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_IS_CONTAIN)){
 
             preparedStatement.setInt(1, id);
@@ -60,7 +60,7 @@ public class GenreDAO_DB implements IGenreDao {
     public void delete(GenreDTO genreDTO) {
         int id = genreDTO.getId();
 
-        try (Connection connection = Provider.getConnection();
+        try (Connection connection = ConnectionPool.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
 
             preparedStatement.setInt(1, id);
@@ -75,7 +75,7 @@ public class GenreDAO_DB implements IGenreDao {
     public void create(GenreDTO genreDTO) {
         String genre = genreDTO.getName();
 
-        try(Connection connection = Provider.getConnection();
+        try(Connection connection = ConnectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE)){
 
             preparedStatement.setString(1, genre);
@@ -91,7 +91,7 @@ public class GenreDAO_DB implements IGenreDao {
         int id = genreDTO.getId();
         String genre = genreDTO.getName();
 
-        try(Connection connection = Provider.getConnection();
+        try(Connection connection = ConnectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)){
 
             preparedStatement.setString(1, genre);

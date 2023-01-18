@@ -27,7 +27,7 @@ public class VotingDAO_DB implements IVotingDao {
     public List<SavedVoiceDTO> getVoiceList() {
         List<SavedVoiceDTO> list = new ArrayList<>();
 
-        try(Connection connection = Provider.getConnection();
+        try(Connection connection = ConnectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET,
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_READ_ONLY);
@@ -81,7 +81,7 @@ public class VotingDAO_DB implements IVotingDao {
         LocalDateTime creationTime = voice.getCreationTime();
         int id = 0;
 
-        try(Connection connection = Provider.getConnection()){
+        try(Connection connection = ConnectionPool.getConnection()){
 
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT_VOICE);
 

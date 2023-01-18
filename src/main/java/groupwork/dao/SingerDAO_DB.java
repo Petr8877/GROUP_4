@@ -20,7 +20,7 @@ public class SingerDAO_DB implements ISingerDao {
     public List<SingerDTO> getSingerList() {
         List<SingerDTO>list = new ArrayList<>();
 
-        try(Connection connection = Provider.getConnection();
+        try(Connection connection = ConnectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET);
             ResultSet resultSet = preparedStatement.executeQuery()){
 
@@ -41,7 +41,7 @@ public class SingerDAO_DB implements ISingerDao {
     public boolean isContain(int id) {
         boolean result = false;
 
-        try(Connection connection = Provider.getConnection();
+        try(Connection connection = ConnectionPool.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_IS_CONTAIN)){
 
             statement.setInt(1, id);
@@ -63,7 +63,7 @@ public class SingerDAO_DB implements ISingerDao {
     public void delete(SingerDTO singerDTO) {
         int id = singerDTO.getId();
 
-        try (Connection connection = Provider.getConnection();
+        try (Connection connection = ConnectionPool.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
 
             preparedStatement.setInt(1, id);
@@ -78,7 +78,7 @@ public class SingerDAO_DB implements ISingerDao {
     public void create(SingerDTO singerDTO) {
         String singer = singerDTO.getName();
 
-        try(Connection connection = Provider.getConnection();
+        try(Connection connection = ConnectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE)){
 
             preparedStatement.setString(1, singer);
@@ -94,7 +94,7 @@ public class SingerDAO_DB implements ISingerDao {
         int id = singerDTO.getId();
         String singer = singerDTO.getName();
 
-        try(Connection connection = Provider.getConnection();
+        try(Connection connection = ConnectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)){
 
             preparedStatement.setString(1, singer);
