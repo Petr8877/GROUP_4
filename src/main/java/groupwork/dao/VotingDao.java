@@ -5,18 +5,20 @@ import groupwork.dto.SavedVoiceDTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 public class VotingDao implements IVotingDao {
 
-    private List<SavedVoiceDTO> voices = new ArrayList<>();
+    private Set<SavedVoiceDTO> voices = new ConcurrentSkipListSet<>();
 
     @Override
-    public List<SavedVoiceDTO> getVoiceList() {
-        return voices;
+    public synchronized List<SavedVoiceDTO> getVoiceList() {
+        return new ArrayList<>(voices);
     }
 
     @Override
-    public void save(SavedVoiceDTO voice) {
+    public synchronized void save(SavedVoiceDTO voice) {
         voices.add(voice);
     }
 }

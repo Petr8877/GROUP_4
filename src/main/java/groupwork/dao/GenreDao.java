@@ -23,30 +23,32 @@ public class GenreDao implements IGenreDao {
         genres.put(7, new GenreDTO("jazz", 7));
         genres.put(8, new GenreDTO("classic", 8));
         genres.put(9, new GenreDTO("electro", 9));
-        genres.put(10,new GenreDTO("cantry", 10));
+        genres.put(10, new GenreDTO("cantry", 10));
     }
 
     @Override
-    public List<GenreDTO> getGenreList() {
+    public synchronized List<GenreDTO> getGenreList() {
         return new ArrayList<>(genres.values());
     }
 
     @Override
-    public boolean isContain(int id) {
+    public synchronized boolean isContain(int id) {
         return genres.containsKey(id);
     }
 
     @Override
-    public void delete(GenreDTO genreDTO) {
+    public synchronized void delete(GenreDTO genreDTO) {
         int id = genreDTO.getId();
         genres.remove(id);
     }
 
     @Override
-    public void create(GenreDTO genreDTO) {
+    public synchronized void create(GenreDTO genreDTO) {
         String name = genreDTO.getName();
         if (checkDuplicate(name)) {
-            int id = getMaxID();
+            int id = genres.keySet().stream()
+                    .max(Comparator.comparing(Integer::intValue))
+                    .get() + 1;
             genreDTO.setId(id);
             genres.put(id, genreDTO);
         } else {
@@ -55,7 +57,7 @@ public class GenreDao implements IGenreDao {
     }
 
     @Override
-    public void update(GenreDTO genreDTO) {
+    public synchronized void update(GenreDTO genreDTO) {
         String name = genreDTO.getName();
         if (checkDuplicate(name)) {
             genres.put(genreDTO.getId(), genreDTO);
@@ -63,13 +65,6 @@ public class GenreDao implements IGenreDao {
             throw new IllegalArgumentException("Такой жанр уже существует");
         }
 
-    }
-
-    private synchronized int getMaxID(){
-        int currID = genres.keySet().stream()
-                .max(Comparator.comparing(Integer::intValue))
-                .get();
-        return ++currID;
     }
 
     private synchronized boolean checkDuplicate(String name) {
