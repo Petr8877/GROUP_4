@@ -71,7 +71,7 @@ public class UserAnswerServlet extends HttpServlet {
             VoiceDTO voiceDTO = new VoiceDTO(singer, intGenre, aboutUser);
 
             SavedVoiceDTO voiceDTO1 = service.save(voiceDTO);
-            sendEMailService.send("Vote",new SavedVoiceDTO(voiceDTO), EMAIL_TO);
+            sendEMailService.send("Vote",voiceDTO1, EMAIL_TO);
 
             writer.write("Ответ сохранен");
 
