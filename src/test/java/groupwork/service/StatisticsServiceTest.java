@@ -20,7 +20,8 @@ class StatisticsServiceTest {
         int singer = 2;
         int[] genre = {1, 2, 3};
         String message = "lololo";
-        votesService.save(new VoiceDTO(singer, genre, message));
+        String mail="ivanivanov2023_18@mail.ru";
+        votesService.save(new VoiceDTO(singer, genre, message,mail));
         boolean result =statisticsService.getAllSort().getMapSingers().containsValue(1);
         assertTrue(result);
     }
@@ -29,7 +30,8 @@ class StatisticsServiceTest {
         int singer = 2;
         int[] genre = {1, 2, 3};
         String message = "lololo";
-        votesService.save(new VoiceDTO(singer, genre, message));
+        String mail="ivanivanov2023_18@mail.ru";
+        votesService.save(new VoiceDTO(singer, genre, message,mail));
         boolean result =statisticsService.getAllSort().getMapGenres().containsValue(1);
         assertTrue(result);
     }
@@ -38,7 +40,8 @@ class StatisticsServiceTest {
         int singer = 2;
         int[] genre = {1, 2, 3};
         String message = "lololo";
-        votesService.save(new VoiceDTO(singer, genre, message));
+        String mail="ivanivanov2023_18@mail.ru";
+        votesService.save(new VoiceDTO(singer, genre, message,mail));
         boolean result =statisticsService.getAllSort().getMapGenres().isEmpty();
         assertFalse(result);
     }

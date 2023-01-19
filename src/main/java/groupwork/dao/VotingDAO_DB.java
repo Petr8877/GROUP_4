@@ -17,7 +17,7 @@ public class VotingDAO_DB implements IVotingDao {
             "INNER JOIN app.vote_artist ON app.votes.id = app.vote_artist.id_vote " +
             "INNER JOIN app.vote_genre ON app.votes.id = app.vote_genre.id_vote;";
 
-    private final String SQL_INSERT_VOICE = "INSERT INTO app.votes (dt_create, about) VALUES (?,?) RETURNING id;";
+    private final String SQL_INSERT_VOICE = "INSERT INTO app.votes (dt_create, about, mail) VALUES (?,?,?) RETURNING id;";
 
     private final String SQL_INSERT_SINGER = "INSERT INTO app.vote_artist (id_vote, id_artist) VALUES (?, ?);";
 
@@ -38,6 +38,7 @@ public class VotingDAO_DB implements IVotingDao {
                 int currId = resultSet.getInt("id");
                 LocalDateTime dtCreate = resultSet.getObject("dt_create", LocalDateTime.class);
                 String about = resultSet.getString("about");
+                String mail=resultSet.getString("mail");
                 int singer = resultSet.getInt("id_artist");
                 int genre = resultSet.getInt("id_genre");
                 genreList.add(genre);
@@ -56,7 +57,7 @@ public class VotingDAO_DB implements IVotingDao {
                         .toArray();
 
                 SavedVoiceDTO voice = new SavedVoiceDTO(
-                        new VoiceDTO(singer, genres, about),
+                        new VoiceDTO(singer, genres, about,mail),
                         dtCreate);
 
                 list.add(voice);
@@ -79,6 +80,7 @@ public class VotingDAO_DB implements IVotingDao {
         int[] genres = voiceDTO.getGenre();
         String message = voiceDTO.getMessage();
         LocalDateTime creationTime = voice.getCreationTime();
+        String mail=voiceDTO.getMail();
         int id = 0;
 
         try (Connection connection = ConnectionPool.getConnection()) {
@@ -87,6 +89,7 @@ public class VotingDAO_DB implements IVotingDao {
 
             preparedStatement.setObject(1, creationTime);
             preparedStatement.setString(2, message);
+            preparedStatement.setString(3,mail);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 

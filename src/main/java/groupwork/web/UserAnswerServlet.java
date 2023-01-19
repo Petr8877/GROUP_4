@@ -21,7 +21,7 @@ import java.util.Map;
 public class UserAnswerServlet extends HttpServlet {
     private final IVotesService service;
     private final SendEMailService sendEMailService;
-    private final String EMAIL_TO = "lexaapanas@mail.ru";//укажите свою почту
+    private final String EMAIL_TO = "mail";
     private final String SINGER_PARAM_NAME = "singer";
     private final String GENRE_PARAM_NAME = "genre";
     private final String ABOUT_USER_PARAM_NAME = "about_user";
@@ -63,15 +63,22 @@ public class UserAnswerServlet extends HttpServlet {
                     stream(genres)
                     .mapToInt(Integer::parseInt)
                     .toArray();
+            String[] mails = parameterMap.get(EMAIL_TO);
+
+            if (mails == null || mails.length > 1) {
+                throw new Exception("Choose one mail");
+            }
+
+            String mail = mails[0];
 
             String[] aboutUsers = parameterMap.get(ABOUT_USER_PARAM_NAME);
 
             String aboutUser = (aboutUsers == null) ? null : aboutUsers[0];
 
-            VoiceDTO voiceDTO = new VoiceDTO(singer, intGenre, aboutUser);
+            VoiceDTO voiceDTO = new VoiceDTO(singer, intGenre, aboutUser,mail);
 
             SavedVoiceDTO voiceDTO1 = service.save(voiceDTO);
-            sendEMailService.send("Vote",voiceDTO1, EMAIL_TO);
+            sendEMailService.send("Vote", voiceDTO1, EMAIL_TO);
 
             writer.write("Ответ сохранен");
 

@@ -13,7 +13,8 @@ class VotingDaoTest {
         int singer = 1;
         int[] genre = {1, 2, 3};
         String message = "lololo";
-        SavedVoiceDTO savedVoiceDTO = new SavedVoiceDTO(new VoiceDTO(singer, genre, message));
+        String mail="lololo.mail";
+        SavedVoiceDTO savedVoiceDTO = new SavedVoiceDTO(new VoiceDTO(singer, genre, message,mail));
         VotingDaoSingleton.getInstance().save(savedVoiceDTO);
         boolean result;
         result = !VotingDaoSingleton.getInstance().getVoiceList().isEmpty();

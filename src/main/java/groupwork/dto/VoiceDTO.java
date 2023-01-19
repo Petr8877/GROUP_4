@@ -7,11 +7,17 @@ public class VoiceDTO {
     private int singer;
     private int[] genre;
     private String message;
+    private String mail;
 
-    public VoiceDTO(int singer, int[] genre, String message) {
+    public VoiceDTO(int singer, int[] genre, String message, String mail) {
+        this.mail = mail;
         this.singer = singer;
         this.genre = genre;
         this.message = message;
+    }
+
+    public String getMail() {
+        return mail;
     }
 
     public int getSinger() {
@@ -33,12 +39,13 @@ public class VoiceDTO {
         VoiceDTO voiceDTO = (VoiceDTO) o;
         return Objects.equals(singer, voiceDTO.singer)
                 && Arrays.equals(genre, voiceDTO.genre)
-                && Objects.equals(message, voiceDTO.message);
+                && Objects.equals(message, voiceDTO.message)
+                && Objects.equals(mail, voiceDTO.mail);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(singer, message);
+        int result = Objects.hash(singer, message, mail);
         result = 31 * result + Arrays.hashCode(genre);
         return result;
     }
@@ -48,6 +55,7 @@ public class VoiceDTO {
         return "Accepted voice: " +
                 "singer = " + singer +
                 ", genre = " + Arrays.toString(genre) +
-                ", message = " + message;
+                ", message = " + message +
+                ",mail = " + mail;
     }
 }

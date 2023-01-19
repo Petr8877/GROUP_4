@@ -18,7 +18,8 @@ class VoteServiceTest {
         int singer = 1;
         int[] genre = {1, 2, 3};
         String message = "lololo";
-        votesService.save(new VoiceDTO(singer, genre, message));
+        String mail="ivanivanov2023_18@mail.ru";
+        votesService.save(new VoiceDTO(singer, genre, message,mail));
         boolean result = !votesService.get().isEmpty();
         assertTrue(result);
     }
@@ -28,10 +29,11 @@ class VoteServiceTest {
         int singer = 6;
         int[] genre = {1, 2, 3};
         String message = "lololo";
+        String mail="ivanivanov2023_18@mail.ru";
         int exception = 0;
         boolean result = false;
         try {
-            votesService.save(new VoiceDTO(singer, genre, message));
+            votesService.save(new VoiceDTO(singer, genre, message,mail));
         } catch (Exception e) {
             exception = 1;
         }
@@ -47,9 +49,10 @@ class VoteServiceTest {
         int[] genre = {1, 2, 3, 6, 8, 9};
         String message = "lololo";
         int exception = 0;
+        String mail="ivanivanov2023_18@mail.ru";
         boolean result = false;
         try {
-            votesService.save(new VoiceDTO(singer, genre, message));
+            votesService.save(new VoiceDTO(singer, genre, message,mail));
         } catch (Exception e) {
             exception = 1;
         }
@@ -64,10 +67,11 @@ class VoteServiceTest {
         int singer = 2;
         int[] genre = {1, 2};
         String message = "lololo";
+        String mail="ivanivanov2023_18@mail.ru";
         int exception = 0;
         boolean result = false;
         try {
-            votesService.save(new VoiceDTO(singer, genre, message));
+            votesService.save(new VoiceDTO(singer, genre, message,mail));
         } catch (Exception e) {
             exception = 1;
         }
@@ -82,10 +86,11 @@ class VoteServiceTest {
         int singer = 2;
         int[] genre = {1, 2, 2};
         String message = "lololo";
+        String mail="ivanivanov2023_18@mail.ru";
         int exception = 0;
         boolean result = false;
         try {
-            votesService.save(new VoiceDTO(singer, genre, message));
+            votesService.save(new VoiceDTO(singer, genre, message,mail));
         } catch (Exception e) {
             exception = 1;
         }
@@ -100,10 +105,11 @@ class VoteServiceTest {
         int singer = 2;
         int[] genre = {1, 2, 15};
         String message = "lololo";
+        String mail="ivanivanov2023_18@mail.ru";
         int exception = 0;
         boolean result = false;
         try {
-            votesService.save(new VoiceDTO(singer, genre, message));
+            votesService.save(new VoiceDTO(singer, genre, message,mail));
         } catch (Exception e) {
             exception = 1;
         }
@@ -118,10 +124,11 @@ class VoteServiceTest {
         int singer = 2;
         int[] genre = {1, 2, 3};
         String message = "";
+        String mail="ivanivanov2023_18@mail.ru";
         int exception = 0;
         boolean result = false;
         try {
-            votesService.save(new VoiceDTO(singer, genre, message));
+            votesService.save(new VoiceDTO(singer, genre, message,mail));
         } catch (Exception e) {
             exception = 1;
         }
