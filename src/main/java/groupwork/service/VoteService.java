@@ -23,9 +23,9 @@ public class VoteService implements IVotesService {
     }
 
     @Override
-    public void save(VoiceDTO voice) {
+    public SavedVoiceDTO save(VoiceDTO voice) {
         check(voice);
-        votingDao.save(new SavedVoiceDTO(voice));
+        return votingDao.save(new SavedVoiceDTO(voice));
     }
 
     @Override

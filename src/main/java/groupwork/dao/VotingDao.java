@@ -18,7 +18,8 @@ public class VotingDao implements IVotingDao {
     }
 
     @Override
-    public synchronized void save(SavedVoiceDTO voice) {
+    public synchronized SavedVoiceDTO save(SavedVoiceDTO voice) {
         voices.add(voice);
+        return voice;
     }
 }

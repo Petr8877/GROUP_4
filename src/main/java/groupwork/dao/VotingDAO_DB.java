@@ -27,13 +27,13 @@ public class VotingDAO_DB implements IVotingDao {
     public List<SavedVoiceDTO> getVoiceList() {
         List<SavedVoiceDTO> list = new ArrayList<>();
 
-        try(Connection connection = ConnectionPool.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET,
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_READ_ONLY);
-            ResultSet resultSet = preparedStatement.executeQuery()){
+        try (Connection connection = ConnectionPool.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET,
+                     ResultSet.TYPE_SCROLL_INSENSITIVE,
+                     ResultSet.CONCUR_READ_ONLY);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 List<Integer> genreList = new ArrayList<>();
                 int currId = resultSet.getInt("id");
                 LocalDateTime dtCreate = resultSet.getObject("dt_create", LocalDateTime.class);
@@ -42,8 +42,8 @@ public class VotingDAO_DB implements IVotingDao {
                 int genre = resultSet.getInt("id_genre");
                 genreList.add(genre);
 
-                while (resultSet.next()){
-                    if(resultSet.getInt("id") == currId) {
+                while (resultSet.next()) {
+                    if (resultSet.getInt("id") == currId) {
                         genreList.add(resultSet.getInt("id_genre"));
                     } else {
                         resultSet.previous();
@@ -51,18 +51,18 @@ public class VotingDAO_DB implements IVotingDao {
                     }
                 }
 
-                int[]genres = genreList.stream()
+                int[] genres = genreList.stream()
                         .mapToInt(Integer::intValue)
                         .toArray();
 
                 SavedVoiceDTO voice = new SavedVoiceDTO(
-                        new VoiceDTO(singer,genres, about),
+                        new VoiceDTO(singer, genres, about),
                         dtCreate);
 
                 list.add(voice);
             }
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException("Ошибка соединения с базой данных");
         }
 
@@ -71,7 +71,7 @@ public class VotingDAO_DB implements IVotingDao {
     }
 
     @Override
-    public void save(SavedVoiceDTO voice) {
+    public SavedVoiceDTO save(SavedVoiceDTO voice) {
 
         VoiceDTO voiceDTO = voice.getVoice();
 
@@ -81,7 +81,7 @@ public class VotingDAO_DB implements IVotingDao {
         LocalDateTime creationTime = voice.getCreationTime();
         int id = 0;
 
-        try(Connection connection = ConnectionPool.getConnection()){
+        try (Connection connection = ConnectionPool.getConnection()) {
 
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT_VOICE);
 
@@ -90,7 +90,7 @@ public class VotingDAO_DB implements IVotingDao {
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 id = resultSet.getInt("id");
             }
 
@@ -109,10 +109,10 @@ public class VotingDAO_DB implements IVotingDao {
             }
             preparedStatement.executeBatch();
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException("Ошибка соединения с базой данных");
         }
 
-
+        return voice;
     }
 }
