@@ -60,8 +60,7 @@ public class SingerDAO_DB implements ISingerDao {
     }
 
     @Override
-    public void delete(SingerDTO singerDTO) {
-        int id = singerDTO.getId();
+    public void delete(int id) {
 
         try (Connection connection = ConnectionPool.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
@@ -75,13 +74,12 @@ public class SingerDAO_DB implements ISingerDao {
     }
 
     @Override
-    public void create(SingerDTO singerDTO) {
-        String singer = singerDTO.getName();
+    public void create(String name) {
 
         try(Connection connection = ConnectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE)){
 
-            preparedStatement.setString(1, singer);
+            preparedStatement.setString(1, name);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e){
@@ -90,8 +88,7 @@ public class SingerDAO_DB implements ISingerDao {
     }
 
     @Override
-    public void update(SingerDTO singerDTO) {
-        int id = singerDTO.getId();
+    public void update(int id, SingerDTO singerDTO) {
         String singer = singerDTO.getName();
 
         try(Connection connection = ConnectionPool.getConnection();

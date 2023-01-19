@@ -56,10 +56,7 @@ public class GenreServlet extends HttpServlet {
 
             int genre = Integer.parseInt(genres[0]);
 
-            GenreDTO genreDTO = new GenreDTO();
-            genreDTO.setId(genre);
-
-            genreService.delete(genreDTO);
+            genreService.delete(genre);
 
             writer.write("<p>Genre deleted successfully</p>");
 
@@ -86,10 +83,7 @@ public class GenreServlet extends HttpServlet {
 
             String genreName = genres[0];
 
-            GenreDTO genreDTO = new GenreDTO();
-            genreDTO.setName(genreName);
-
-            genreService.create(genreDTO);
+            genreService.create(genreName);
             writer.write("<p>Genre created successfully</p>");
 
         } catch (RuntimeException e){
@@ -117,7 +111,7 @@ public class GenreServlet extends HttpServlet {
             int genreID = Integer.parseInt(genres[0]);
             String newGenre = newGenres[0];
 
-            genreService.update(new GenreDTO(newGenre, genreID));
+            genreService.update(genreID, new GenreDTO(newGenre, genreID));
             writer.write("<p>Genre updated successfully</p>");
 
         } catch (RuntimeException e){

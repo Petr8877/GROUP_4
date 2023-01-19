@@ -10,9 +10,9 @@ public interface ISingerDao {
 
     boolean isContain(int id);
 
-    void delete(SingerDTO singerDTO);
+    void delete(int id);
 
-    void create(SingerDTO singerDTO);
+    void create(String name);
 
-    void update(SingerDTO singerDTO);
+    void update(int id, SingerDTO singerDTO);
 }

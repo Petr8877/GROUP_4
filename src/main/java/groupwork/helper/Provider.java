@@ -6,23 +6,9 @@ import groupwork.service.api.IStatisticsService;
 import groupwork.service.api.IVotesService;
 import groupwork.service.fabrics.*;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
 public class Provider {
 
-    private static boolean isDB = false;
-
-    static {
-        if (isDB) {
-            try {
-                Class.forName("org.postgresql.Driver");
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+    private static boolean isDB = true;
 
     public static ISingerService loadSingerService(){
         if(isDB){
@@ -54,11 +40,5 @@ public class Provider {
         } else {
             return StatisticServiceSingleton.getInstance();
         }
-    }
-
-    public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(
-                "jdbc:postgresql://localhost:5432/voting",
-                "postgres", "789qaz");
     }
 }

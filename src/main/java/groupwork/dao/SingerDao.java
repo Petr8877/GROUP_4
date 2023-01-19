@@ -29,32 +29,29 @@ public class SingerDao implements ISingerDao {
     }
 
     @Override
-    public synchronized void delete(SingerDTO singerDTO) {
-        int id = singerDTO.getId();
+    public synchronized void delete(int id) {
         singers.remove(id);
     }
 
     @Override
-    public synchronized void create(SingerDTO singerDTO) {
-        String name = singerDTO.getName();
+    public synchronized void create(String name) {
         if (checkDuplicate(name)) {
             int id = singers.keySet().stream()
                     .max(Comparator.comparing(Integer::intValue))
                     .get() + 1;
-            singerDTO.setId(id);
-            singers.put(id, singerDTO);
+            singers.put(id, new SingerDTO(name, id));
         } else {
-            throw new IllegalArgumentException("Такой жанр уже существует");
+            throw new IllegalArgumentException("Такой исполнитель уже существует");
         }
     }
 
     @Override
-    public synchronized void update(SingerDTO singerDTO) {
+    public synchronized void update(int id, SingerDTO singerDTO) {
         String name = singerDTO.getName();
         if (checkDuplicate(name)) {
-            singers.put(singerDTO.getId(), singerDTO);
+            singers.put(id, singerDTO);
         } else {
-            throw new IllegalArgumentException("Такой жанр уже существует");
+            throw new IllegalArgumentException("Такой исполнитель уже существует");
         }
     }
 

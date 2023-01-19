@@ -44,7 +44,7 @@ public class SingerServlet extends HttpServlet {
             int singerID = Integer.parseInt(singers[0]);
             String newSinger = newSingers[0];
 
-            singerService.update(new SingerDTO(newSinger, singerID));
+            singerService.update(singerID, new SingerDTO(newSinger, singerID));
             writer.write("<p>Singer updated successfully</p>");
 
         } catch (RuntimeException e){
@@ -70,7 +70,7 @@ public class SingerServlet extends HttpServlet {
 
             String singerName = singers[0];
 
-            singerService.create(new SingerDTO(singerName));
+            singerService.create(singerName);
             writer.write("<p>Singer created successfully</p>");
 
         } catch (RuntimeException e){
@@ -96,10 +96,7 @@ public class SingerServlet extends HttpServlet {
 
             int singer = Integer.parseInt(singers[0]);
 
-            SingerDTO singerDTO = new SingerDTO();
-            singerDTO.setId(singer);
-
-            singerService.delete(singerDTO);
+            singerService.delete(singer);
 
             writer.write("<p>Singer deleted successfully</p>");
 

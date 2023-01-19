@@ -2,7 +2,6 @@ package groupwork.dao;
 
 import groupwork.dao.api.IGenreDao;
 import groupwork.dto.GenreDTO;
-import groupwork.helper.Provider;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -57,8 +56,7 @@ public class GenreDAO_DB implements IGenreDao {
     }
 
     @Override
-    public void delete(GenreDTO genreDTO) {
-        int id = genreDTO.getId();
+    public void delete(int id) {
 
         try (Connection connection = ConnectionPool.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
@@ -72,13 +70,12 @@ public class GenreDAO_DB implements IGenreDao {
     }
 
     @Override
-    public void create(GenreDTO genreDTO) {
-        String genre = genreDTO.getName();
+    public void create(String name) {
 
         try(Connection connection = ConnectionPool.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE)){
 
-            preparedStatement.setString(1, genre);
+            preparedStatement.setString(1, name);
             preparedStatement.executeUpdate();
 
         }catch (SQLException e){
@@ -87,8 +84,7 @@ public class GenreDAO_DB implements IGenreDao {
     }
 
     @Override
-    public void update(GenreDTO genreDTO) {
-        int id = genreDTO.getId();
+    public void update(int id, GenreDTO genreDTO) {
         String genre = genreDTO.getName();
 
         try(Connection connection = ConnectionPool.getConnection();

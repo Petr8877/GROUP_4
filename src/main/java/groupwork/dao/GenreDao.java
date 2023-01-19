@@ -37,30 +37,27 @@ public class GenreDao implements IGenreDao {
     }
 
     @Override
-    public synchronized void delete(GenreDTO genreDTO) {
-        int id = genreDTO.getId();
+    public synchronized void delete(int id) {
         genres.remove(id);
     }
 
     @Override
-    public synchronized void create(GenreDTO genreDTO) {
-        String name = genreDTO.getName();
+    public synchronized void create(String name) {
         if (checkDuplicate(name)) {
             int id = genres.keySet().stream()
                     .max(Comparator.comparing(Integer::intValue))
                     .get() + 1;
-            genreDTO.setId(id);
-            genres.put(id, genreDTO);
+            genres.put(id, new GenreDTO(name, id));
         } else {
             throw new IllegalArgumentException("Такой жанр уже существует");
         }
     }
 
     @Override
-    public synchronized void update(GenreDTO genreDTO) {
+    public synchronized void update(int id, GenreDTO genreDTO) {
         String name = genreDTO.getName();
         if (checkDuplicate(name)) {
-            genres.put(genreDTO.getId(), genreDTO);
+            genres.put(id, genreDTO);
         } else {
             throw new IllegalArgumentException("Такой жанр уже существует");
         }

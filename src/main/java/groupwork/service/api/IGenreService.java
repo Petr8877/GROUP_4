@@ -10,10 +10,10 @@ public interface IGenreService {
 
     List<GenreDTO> get();
 
-    void delete(GenreDTO genreDTO);
+    void delete(int id);
 
-    void create(GenreDTO genreDTO);
+    void create(String name);
 
-    void update(GenreDTO genreDTO);
+    void update(int id, GenreDTO genreDTO);
 
 }
