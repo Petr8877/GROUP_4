@@ -1,6 +1,6 @@
 package groupwork.dao;
 
-import groupwork.dao.fabrics.SingerDaoSingleton;
+import groupwork.dao.memory.fabrics.SingerDaoSingleton;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

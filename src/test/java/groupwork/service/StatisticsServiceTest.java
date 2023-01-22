@@ -1,8 +1,8 @@
 package groupwork.service;
 
-import groupwork.dao.GenreDao;
-import groupwork.dao.SingerDao;
-import groupwork.dao.VotingDao;
+import groupwork.dao.memory.GenreDao;
+import groupwork.dao.memory.SingerDao;
+import groupwork.dao.memory.VotingDao;
 import groupwork.dto.VoiceDTO;
 import groupwork.service.api.IVotesService;
 import org.junit.jupiter.api.Test;

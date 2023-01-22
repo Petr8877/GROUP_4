@@ -1,6 +1,6 @@
-package groupwork.dao.fabrics;
+package groupwork.dao.memory.fabrics;
 
-import groupwork.dao.VotingDao;
+import groupwork.dao.memory.VotingDao;
 import groupwork.dao.api.IVotingDao;
 
 

@@ -1,9 +1,9 @@
-package groupwork.dao;
+package groupwork.dao.db;
 
 import groupwork.dao.api.IVotingDao;
+import groupwork.dao.db.ds.api.IDataSourceWrapper;
 import groupwork.dto.SavedVoiceDTO;
 import groupwork.dto.VoiceDTO;
-import groupwork.helper.Provider;
 
 import java.sql.*;
 import java.time.LocalDateTime;
@@ -22,12 +22,17 @@ public class VotingDAO_DB implements IVotingDao {
     private final String SQL_INSERT_SINGER = "INSERT INTO app.vote_artist (id_vote, id_artist) VALUES (?, ?);";
 
     private final String SQL_INSERT_GENRE = "INSERT INTO app.vote_genre (id_vote, id_genre) VALUES (?, ?);";
+    private final IDataSourceWrapper dataSourceWrapper;
+
+    public VotingDAO_DB(IDataSourceWrapper dataSourceWrapper) {
+        this.dataSourceWrapper = dataSourceWrapper;
+    }
 
     @Override
     public List<SavedVoiceDTO> getVoiceList() {
         List<SavedVoiceDTO> list = new ArrayList<>();
 
-        try (Connection connection = ConnectionPool.getConnection();
+        try (Connection connection = dataSourceWrapper.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET,
                      ResultSet.TYPE_SCROLL_INSENSITIVE,
                      ResultSet.CONCUR_READ_ONLY);
@@ -38,7 +43,7 @@ public class VotingDAO_DB implements IVotingDao {
                 int currId = resultSet.getInt("id");
                 LocalDateTime dtCreate = resultSet.getObject("dt_create", LocalDateTime.class);
                 String about = resultSet.getString("about");
-                String mail=resultSet.getString("mail");
+                String mail = resultSet.getString("mail");
                 int singer = resultSet.getInt("id_artist");
                 int genre = resultSet.getInt("id_genre");
                 genreList.add(genre);
@@ -57,7 +62,7 @@ public class VotingDAO_DB implements IVotingDao {
                         .toArray();
 
                 SavedVoiceDTO voice = new SavedVoiceDTO(
-                        new VoiceDTO(singer, genres, about,mail),
+                        new VoiceDTO(singer, genres, about, mail),
                         dtCreate);
 
                 list.add(voice);
@@ -80,16 +85,16 @@ public class VotingDAO_DB implements IVotingDao {
         int[] genres = voiceDTO.getGenre();
         String message = voiceDTO.getMessage();
         LocalDateTime creationTime = voice.getCreationTime();
-        String mail=voiceDTO.getMail();
+        String mail = voiceDTO.getMail();
         int id = 0;
 
-        try (Connection connection = ConnectionPool.getConnection()) {
+        try (Connection connection = dataSourceWrapper.getConnection()) {
 
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_INSERT_VOICE);
 
             preparedStatement.setObject(1, creationTime);
             preparedStatement.setString(2, message);
-            preparedStatement.setString(3,mail);
+            preparedStatement.setString(3, mail);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 

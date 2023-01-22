@@ -15,7 +15,7 @@ import java.util.Properties;
 public class PropertiesLoaderListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-        File confDir = new File(System.getenv("catalina.base") + "/conf");
+        File confDir = new File(System.getenv("catalina_base") + "/conf");
         File prop = new File(confDir + "/application.properties");
         try {
             Properties properties = new Properties();

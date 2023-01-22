@@ -1,6 +1,6 @@
 package groupwork.dao;
 
-import groupwork.dao.fabrics.VotingDaoSingleton;
+import groupwork.dao.memory.fabrics.VotingDaoSingleton;
 import groupwork.dto.SavedVoiceDTO;
 import groupwork.dto.VoiceDTO;
 import org.junit.jupiter.api.Test;

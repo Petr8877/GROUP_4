@@ -1,8 +1,8 @@
-package groupwork.web;
+package groupwork.web.controllers;
 
-import groupwork.helper.Provider;
 import groupwork.dto.GenreDTO;
 import groupwork.service.api.IGenreService;
+import groupwork.service.fabrics.GenresServiceSingleton;
 
 
 import javax.servlet.ServletException;
@@ -22,7 +22,7 @@ public class GenreServlet extends HttpServlet {
     private final IGenreService genreService;
 
     public GenreServlet() {
-        this.genreService = Provider.loadGenreService();
+        this.genreService = GenresServiceSingleton.getInstance();
     }
 
     @Override
@@ -49,7 +49,7 @@ public class GenreServlet extends HttpServlet {
         Map<String, String[]> parameterMap = req.getParameterMap();
         String[] genres = parameterMap.get(GENRE_PARAM_NAME);
 
-        try{
+        try {
             if (genres == null || genres.length > 1) {
                 throw new IllegalArgumentException("Entered one genre");
             }
@@ -60,7 +60,7 @@ public class GenreServlet extends HttpServlet {
 
             writer.write("<p>Genre deleted successfully</p>");
 
-        }  catch (RuntimeException e){
+        } catch (RuntimeException e) {
             writer.write("<p>" + e.getMessage() + "</p>");
         }
 
@@ -86,7 +86,7 @@ public class GenreServlet extends HttpServlet {
             genreService.create(genreName);
             writer.write("<p>Genre created successfully</p>");
 
-        } catch (RuntimeException e){
+        } catch (RuntimeException e) {
             writer.write("<p>" + e.getMessage() + "</p>");
 
         }
@@ -114,12 +114,11 @@ public class GenreServlet extends HttpServlet {
             genreService.update(genreID, new GenreDTO(newGenre, genreID));
             writer.write("<p>Genre updated successfully</p>");
 
-        } catch (RuntimeException e){
+        } catch (RuntimeException e) {
             writer.write("<p>" + e.getMessage() + "</p>");
 
         }
     }
-
 
 
 }

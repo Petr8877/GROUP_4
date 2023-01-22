@@ -1,7 +1,10 @@
-package groupwork.dao.fabrics;
+package groupwork.dao.db.fabrics;
 
-import groupwork.dao.SingerDAO_DB;
+import groupwork.dao.db.SingerDAO_DB;
 import groupwork.dao.api.ISingerDao;
+import groupwork.dao.db.ds.fabrics.DataSourceSingleton;
+
+import java.beans.PropertyVetoException;
 
 public class SingerDaoDBSingleton {
     private volatile static SingerDAO_DB instance;
@@ -9,11 +12,11 @@ public class SingerDaoDBSingleton {
     private SingerDaoDBSingleton() {
     }
 
-    public static ISingerDao getInstance() {
+    public static ISingerDao getInstance() throws PropertyVetoException {
         if (instance == null) {
             synchronized (SingerDaoDBSingleton.class) {
                 if (instance == null) {
-                    instance = new SingerDAO_DB();
+                    instance = new SingerDAO_DB(DataSourceSingleton.getInstance());
                 }
             }
         }

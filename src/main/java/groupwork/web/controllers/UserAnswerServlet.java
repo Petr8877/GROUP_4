@@ -1,11 +1,11 @@
-package groupwork.web;
+package groupwork.web.controllers;
 
 import groupwork.dto.SavedVoiceDTO;
-import groupwork.helper.Provider;
 import groupwork.dto.VoiceDTO;
 import groupwork.service.SendEMailService;
 import groupwork.service.api.IVotesService;
 import groupwork.service.fabrics.SendEMailSingleton;
+import groupwork.service.fabrics.VoteServiceSingleton;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,7 +28,7 @@ public class UserAnswerServlet extends HttpServlet {
 
 
     public UserAnswerServlet() {
-        this.service = Provider.loadVoteService();
+        this.service = VoteServiceSingleton.getInstance();
         this.sendEMailService = SendEMailSingleton.getInstance();
     }
 
@@ -78,7 +78,7 @@ public class UserAnswerServlet extends HttpServlet {
             VoiceDTO voiceDTO = new VoiceDTO(singer, intGenre, aboutUser,mail);
 
             SavedVoiceDTO voiceDTO1 = service.save(voiceDTO);
-            sendEMailService.send("Vote", voiceDTO1, EMAIL_TO);
+            sendEMailService.send("Vote", voiceDTO1, mail);
 
             writer.write("Ответ сохранен");
 

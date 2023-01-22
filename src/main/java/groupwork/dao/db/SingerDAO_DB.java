@@ -1,8 +1,8 @@
-package groupwork.dao;
+package groupwork.dao.db;
 
 import groupwork.dao.api.ISingerDao;
+import groupwork.dao.db.ds.api.IDataSourceWrapper;
 import groupwork.dto.SingerDTO;
-import groupwork.helper.Provider;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -15,12 +15,16 @@ public class SingerDAO_DB implements ISingerDao {
     private final String SQL_CREATE = "INSERT INTO app.artists (name) VALUES (?);";
     private final String SQL_UPDATE = "UPDATE app.artists SET name = ? WHERE id = ?;";
 
+    private final IDataSourceWrapper dataSourceWrapper;
 
+    public SingerDAO_DB(IDataSourceWrapper dataSourceWrapper) {
+        this.dataSourceWrapper = dataSourceWrapper;
+    }
     @Override
     public List<SingerDTO> getSingerList() {
         List<SingerDTO>list = new ArrayList<>();
 
-        try(Connection connection = ConnectionPool.getConnection();
+        try(Connection connection = dataSourceWrapper.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET);
             ResultSet resultSet = preparedStatement.executeQuery()){
 
@@ -41,7 +45,7 @@ public class SingerDAO_DB implements ISingerDao {
     public boolean isContain(int id) {
         boolean result = false;
 
-        try(Connection connection = ConnectionPool.getConnection();
+        try(Connection connection = dataSourceWrapper.getConnection();
             PreparedStatement statement = connection.prepareStatement(SQL_IS_CONTAIN)){
 
             statement.setInt(1, id);
@@ -62,7 +66,7 @@ public class SingerDAO_DB implements ISingerDao {
     @Override
     public void delete(int id) {
 
-        try (Connection connection = ConnectionPool.getConnection();
+        try (Connection connection = dataSourceWrapper.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
 
             preparedStatement.setInt(1, id);
@@ -76,7 +80,7 @@ public class SingerDAO_DB implements ISingerDao {
     @Override
     public void create(String name) {
 
-        try(Connection connection = ConnectionPool.getConnection();
+        try(Connection connection = dataSourceWrapper.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE)){
 
             preparedStatement.setString(1, name);
@@ -91,7 +95,7 @@ public class SingerDAO_DB implements ISingerDao {
     public void update(int id, SingerDTO singerDTO) {
         String singer = singerDTO.getName();
 
-        try(Connection connection = ConnectionPool.getConnection();
+        try(Connection connection = dataSourceWrapper.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)){
 
             preparedStatement.setString(1, singer);

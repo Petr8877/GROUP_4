@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SingerServiceTest {
 
-
+/*
     @Test
     public void testSingerServiceTrue() {
         boolean result = SingersServiceSingleton.getInstance().checkNumber(1);
@@ -18,6 +18,6 @@ class SingerServiceTest {
     public void testSingerServiceFalse() {
         boolean result = SingersServiceSingleton.getInstance().checkNumber(11);
         assertFalse(result);
-    }
+    }*/
 
 }

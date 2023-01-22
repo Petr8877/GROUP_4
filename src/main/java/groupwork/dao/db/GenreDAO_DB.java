@@ -1,6 +1,8 @@
-package groupwork.dao;
+package groupwork.dao.db;
+
 
 import groupwork.dao.api.IGenreDao;
+import groupwork.dao.db.ds.api.IDataSourceWrapper;
 import groupwork.dto.GenreDTO;
 
 import java.sql.*;
@@ -14,11 +16,17 @@ public class GenreDAO_DB implements IGenreDao {
     private final String SQL_DELETE = "DELETE FROM app.genres WHERE id = ?;";
     private final String SQL_CREATE = "INSERT INTO app.genres (name) VALUES (?);";
     private final String SQL_UPDATE = "UPDATE app.genres SET name = ? WHERE id = ?;";
+    private final IDataSourceWrapper dataSourceWrapper;
+
+    public GenreDAO_DB(IDataSourceWrapper dataSourceWrapper) {
+        this.dataSourceWrapper = dataSourceWrapper;
+    }
+
     @Override
     public List<GenreDTO> getGenreList() {
         List<GenreDTO>list = new ArrayList<>();
 
-        try(Connection connection = ConnectionPool.getConnection();
+        try(Connection connection =dataSourceWrapper.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET);
             ResultSet resultSet = preparedStatement.executeQuery()){
 
@@ -39,7 +47,7 @@ public class GenreDAO_DB implements IGenreDao {
     public boolean isContain(int id) {
         boolean result = false;
 
-        try(Connection connection = ConnectionPool.getConnection();
+        try(Connection connection = dataSourceWrapper.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_IS_CONTAIN)){
 
             preparedStatement.setInt(1, id);
@@ -58,7 +66,7 @@ public class GenreDAO_DB implements IGenreDao {
     @Override
     public void delete(int id) {
 
-        try (Connection connection = ConnectionPool.getConnection();
+        try (Connection connection = dataSourceWrapper.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
 
             preparedStatement.setInt(1, id);
@@ -72,7 +80,7 @@ public class GenreDAO_DB implements IGenreDao {
     @Override
     public void create(String name) {
 
-        try(Connection connection = ConnectionPool.getConnection();
+        try(Connection connection = dataSourceWrapper.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE)){
 
             preparedStatement.setString(1, name);
@@ -87,7 +95,7 @@ public class GenreDAO_DB implements IGenreDao {
     public void update(int id, GenreDTO genreDTO) {
         String genre = genreDTO.getName();
 
-        try(Connection connection = ConnectionPool.getConnection();
+        try(Connection connection = dataSourceWrapper.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)){
 
             preparedStatement.setString(1, genre);

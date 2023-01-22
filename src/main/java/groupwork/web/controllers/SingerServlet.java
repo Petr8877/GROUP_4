@@ -1,8 +1,8 @@
-package groupwork.web;
+package groupwork.web.controllers;
 
-import groupwork.helper.Provider;
 import groupwork.dto.SingerDTO;
 import groupwork.service.api.ISingerService;
+import groupwork.service.fabrics.SingersServiceSingleton;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,7 +22,7 @@ public class SingerServlet extends HttpServlet {
     private final ISingerService singerService;
 
     public SingerServlet() {
-        this.singerService = Provider.loadSingerService();
+        this.singerService = SingersServiceSingleton.getInstance();
     }
 
     @Override
@@ -47,8 +47,8 @@ public class SingerServlet extends HttpServlet {
             singerService.update(singerID, new SingerDTO(newSinger, singerID));
             writer.write("<p>Singer updated successfully</p>");
 
-        } catch (RuntimeException e){
-        writer.write("<p>" + e.getMessage() + "</p>");
+        } catch (RuntimeException e) {
+            writer.write("<p>" + e.getMessage() + "</p>");
 
         }
     }
@@ -73,7 +73,7 @@ public class SingerServlet extends HttpServlet {
             singerService.create(singerName);
             writer.write("<p>Singer created successfully</p>");
 
-        } catch (RuntimeException e){
+        } catch (RuntimeException e) {
             writer.write("<p>" + e.getMessage() + "</p>");
 
         }
@@ -89,7 +89,7 @@ public class SingerServlet extends HttpServlet {
         Map<String, String[]> parameterMap = req.getParameterMap();
         String[] singers = parameterMap.get(SINGER_PARAM_NAME);
 
-        try{
+        try {
             if (singers == null || singers.length > 1) {
                 throw new IllegalArgumentException("Entered one singer");
             }
@@ -100,7 +100,7 @@ public class SingerServlet extends HttpServlet {
 
             writer.write("<p>Singer deleted successfully</p>");
 
-        }  catch (RuntimeException e){
+        } catch (RuntimeException e) {
             writer.write("<p>" + e.getMessage() + "</p>");
         }
 
