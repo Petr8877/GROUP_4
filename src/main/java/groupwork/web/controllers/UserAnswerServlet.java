@@ -77,8 +77,6 @@ public class UserAnswerServlet extends HttpServlet {
             VoiceDTO voiceDTO = new VoiceDTO(singer, intGenre, aboutUser,mail);
 
             service.save(voiceDTO);
-
-
             writer.write("Ответ сохранен");
 
             String contextPath = req.getContextPath();
