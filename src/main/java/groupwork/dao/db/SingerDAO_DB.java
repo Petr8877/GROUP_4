@@ -37,7 +37,7 @@ public class SingerDAO_DB implements ISingerDao {
             }
 
         } catch (SQLException e){
-            throw new RuntimeException("Ошибка соединения с базой данных");
+            throw new RuntimeException("Database connection error", e);
         }
 
         return list;
@@ -60,7 +60,7 @@ public class SingerDAO_DB implements ISingerDao {
             resultSet.close();
 
         }catch (SQLException e){
-            throw new RuntimeException("Ошибка соединения с базой данных");
+            throw new RuntimeException("Database connection error", e);
         }
         return result;
     }
@@ -75,7 +75,7 @@ public class SingerDAO_DB implements ISingerDao {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e){
-            throw new RuntimeException("Ошибка соединения с базой данных");
+            throw new RuntimeException("Database connection error", e);
         }
     }
 
@@ -89,7 +89,7 @@ public class SingerDAO_DB implements ISingerDao {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e){
-            throw new RuntimeException("Ошибка соединения с базой данных");
+            throw new RuntimeException("Database connection error", e);
         }
     }
 
@@ -105,7 +105,7 @@ public class SingerDAO_DB implements ISingerDao {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e){
-            throw new RuntimeException("Ошибка соединения с базой данных");
+            throw new RuntimeException("Database connection error", e);
         }
     }
     @Override
@@ -120,7 +120,7 @@ public class SingerDAO_DB implements ISingerDao {
                 name = resultSet.getString("name");
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Database connection error", e);
         }
         return name;
     }

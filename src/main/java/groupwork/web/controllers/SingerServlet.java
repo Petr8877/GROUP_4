@@ -48,8 +48,11 @@ public class SingerServlet extends HttpServlet {
             writer.write("<p>Singer updated successfully</p>");
 
         } catch (RuntimeException e) {
-            writer.write("<p>" + e.getMessage() + "</p>");
-
+            if (e.getCause() != null) {
+                writer.write("<p>" + e.getMessage() + ": " + e.getCause() + "</p>");
+            } else {
+                writer.write("<p>" + e.getMessage() + "</p>");
+            }
         }
     }
 
@@ -74,8 +77,11 @@ public class SingerServlet extends HttpServlet {
             writer.write("<p>Singer created successfully</p>");
 
         } catch (RuntimeException e) {
-            writer.write("<p>" + e.getMessage() + "</p>");
-
+            if (e.getCause() != null) {
+                writer.write("<p>" + e.getMessage() + ": " + e.getCause() + "</p>");
+            } else {
+                writer.write("<p>" + e.getMessage() + "</p>");
+            }
         }
     }
 
@@ -101,7 +107,11 @@ public class SingerServlet extends HttpServlet {
             writer.write("<p>Singer deleted successfully</p>");
 
         } catch (RuntimeException e) {
-            writer.write("<p>" + e.getMessage() + "</p>");
+            if (e.getCause() != null) {
+                writer.write("<p>" + e.getMessage() + ": " + e.getCause() + "</p>");
+            } else {
+                writer.write("<p>" + e.getMessage() + "</p>");
+            }
         }
 
     }

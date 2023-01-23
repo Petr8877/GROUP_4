@@ -59,7 +59,7 @@ public class GenreDAO_DB implements IGenreDao {
             }
 
         }catch (SQLException e){
-            throw new RuntimeException("Ошибка соединения с базой данных");
+            throw new RuntimeException("Database connection error", e);
         }
         return result;
     }
@@ -74,7 +74,7 @@ public class GenreDAO_DB implements IGenreDao {
             preparedStatement.executeUpdate();
 
         }catch (SQLException e){
-            throw new RuntimeException("Ошибка соединения с базой данных");
+            throw new RuntimeException("Database connection error", e);
         }
     }
 
@@ -88,7 +88,7 @@ public class GenreDAO_DB implements IGenreDao {
             preparedStatement.executeUpdate();
 
         }catch (SQLException e){
-            throw new RuntimeException("Ошибка соединения с базой данных");
+            throw new RuntimeException("Database connection error", e);
         }
     }
 
@@ -104,7 +104,7 @@ public class GenreDAO_DB implements IGenreDao {
             preparedStatement.executeUpdate();
 
         }catch (SQLException e){
-            throw new RuntimeException("Ошибка соединения с базой данных");
+            throw new RuntimeException("Database connection error", e);
         }
 
     }
@@ -121,7 +121,7 @@ public class GenreDAO_DB implements IGenreDao {
                 name = resultSet.getString("name");
             }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Database connection error", e);
         }
         return name;
     }

@@ -70,7 +70,7 @@ public class VotingDAO_DB implements IVotingDao {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Ошибка соединения с базой данных");
+            throw new RuntimeException("Database connection error", e);
         }
 
         return list;
@@ -119,7 +119,7 @@ public class VotingDAO_DB implements IVotingDao {
             preparedStatement.executeBatch();
 
         } catch (SQLException e) {
-            throw new RuntimeException("Ошибка соединения с базой данных");
+            throw new RuntimeException("Database connection error", e);
         }
 
     }

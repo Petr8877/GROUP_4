@@ -35,7 +35,7 @@ public class PropertiesLoaderListener implements ServletContextListener {
         } catch (FileNotFoundException e) {
             throw new IllegalStateException("File with properties not found, create mail.properties in conf");
         } catch (IOException e) {
-            throw new RuntimeException("Exception in reading application.properties ", e);
+            throw new RuntimeException("Exception in reading mail.properties ", e);
         }
     }
 

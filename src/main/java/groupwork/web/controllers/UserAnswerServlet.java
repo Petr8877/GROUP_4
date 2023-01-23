@@ -47,7 +47,7 @@ public class UserAnswerServlet extends HttpServlet {
             String[] singers = parameterMap.get(SINGER_PARAM_NAME);
 
             if (singers == null || singers.length > 1) {
-                throw new Exception("Choose one singer");
+                throw new IllegalArgumentException("Choose one singer");
             }
 
             int singer = Integer.parseInt(singers[0]);
@@ -65,7 +65,7 @@ public class UserAnswerServlet extends HttpServlet {
             String[] mails = parameterMap.get(EMAIL_TO);
 
             if (mails == null || mails.length > 1) {
-                throw new Exception("Choose one mail");
+                throw new IllegalArgumentException("Choose one mail");
             }
 
             String mail = mails[0];
@@ -77,13 +77,16 @@ public class UserAnswerServlet extends HttpServlet {
             VoiceDTO voiceDTO = new VoiceDTO(singer, intGenre, aboutUser,mail);
 
             service.save(voiceDTO);
-            writer.write("Ответ сохранен");
 
             String contextPath = req.getContextPath();
             resp.sendRedirect(contextPath + "/result");
 
-        } catch (Exception e) {
-            writer.write(e.getMessage());
+        } catch (RuntimeException e) {
+            if (e.getCause() != null) {
+                writer.write("<p>" + e.getMessage() + ": " + e.getCause() + "</p>");
+            } else {
+                writer.write("<p>" + e.getMessage() + "</p>");
+            }
         }
     }
 }
