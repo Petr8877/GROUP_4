@@ -59,4 +59,9 @@ public class SingerService implements ISingerService {
             throw new IllegalArgumentException("Нет исполнителя для обновления с таким id");
         }
     }
+
+    @Override
+    public String get(Integer id) {
+        return dao.get(id);
+    }
 }

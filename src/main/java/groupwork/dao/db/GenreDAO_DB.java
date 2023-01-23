@@ -12,6 +12,7 @@ import java.util.List;
 public class GenreDAO_DB implements IGenreDao {
 
     private final String SQL_GET = "SELECT id, name FROM app.genres;";
+    private final String SQL_GET_NAME = "SELECT name FROM app.genres WHERE id = ?";
     private final String SQL_IS_CONTAIN = "SELECT id FROM app.genres WHERE id = ?";
     private final String SQL_DELETE = "DELETE FROM app.genres WHERE id = ?;";
     private final String SQL_CREATE = "INSERT INTO app.genres (name) VALUES (?);";
@@ -106,5 +107,22 @@ public class GenreDAO_DB implements IGenreDao {
             throw new RuntimeException("Ошибка соединения с базой данных");
         }
 
+    }
+
+    @Override
+    public String get(Integer id) {
+        String name = null;
+        try (Connection connection = dataSourceWrapper.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_GET_NAME)
+        ) {
+            statement.setInt(1,id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                name = resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return name;
     }
 }

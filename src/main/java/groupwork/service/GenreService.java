@@ -72,4 +72,9 @@ public class GenreService implements IGenreService {
 
 
     }
+
+    @Override
+    public String get(Integer id) {
+        return dao.get(id);
+    }
 }

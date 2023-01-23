@@ -2,6 +2,7 @@ package groupwork.web.listeners;
 
 import groupwork.dao.db.ds.api.IDataSourceWrapper;
 import groupwork.dao.db.ds.fabrics.DataSourceSingleton;
+import groupwork.service.fabrics.MailServiceSingleton;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -25,6 +26,16 @@ public class PropertiesLoaderListener implements ServletContextListener {
             throw new IllegalStateException("Файл с настройкпми не найден");
         } catch (IOException e) {
             throw new RuntimeException("Ошибка чтения файла");
+        }
+        File propMail = new File(confDir + "/mail.properties");
+        try {
+            Properties properties = new Properties();
+            properties.load(new FileReader(propMail));
+            MailServiceSingleton.setProperties(properties);
+        } catch (FileNotFoundException e) {
+            throw new IllegalStateException("File with properties not found, create application.properties in conf");
+        } catch (IOException e) {
+            throw new RuntimeException("Exception in reading application.properties ", e);
         }
     }
 

@@ -55,6 +55,11 @@ public class SingerDao implements ISingerDao {
         }
     }
 
+    @Override
+    public String get(Integer id) {
+        return singers.get(id).getName();
+    }
+
     private synchronized boolean checkDuplicate(String name) {
         return singers.values().stream()
                 .map(singerDTO -> singerDTO.getName())

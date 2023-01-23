@@ -12,7 +12,10 @@ public class VoteServiceSingleton {
         if (instance == null) {
             synchronized (VoteServiceSingleton.class) {
                 if (instance == null) {
-                    instance = new VoteService(ChoiceDaoProvider.getInstance().voteDao(), SingersServiceSingleton.getInstance(), GenresServiceSingleton.getInstance());
+                    instance = new VoteService(ChoiceDaoProvider.getInstance().voteDao(),
+                            SingersServiceSingleton.getInstance(),
+                            GenresServiceSingleton.getInstance(),
+                            MailServiceSingleton.getInstance());
                 }
             }
         }

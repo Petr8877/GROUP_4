@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IVotesService {
 
-    SavedVoiceDTO save(VoiceDTO voice);
+    void save(VoiceDTO voice);
 
     List<SavedVoiceDTO> get();
 

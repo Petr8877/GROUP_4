@@ -64,6 +64,11 @@ public class GenreDao implements IGenreDao {
 
     }
 
+    @Override
+    public String get(Integer id) {
+        return genres.get(id).getName();
+    }
+
     private synchronized boolean checkDuplicate(String name) {
         return genres.values().stream()
                 .map(genreDTO -> genreDTO.getName())

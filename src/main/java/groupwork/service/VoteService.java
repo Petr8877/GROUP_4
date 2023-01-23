@@ -4,11 +4,11 @@ import groupwork.dao.api.IVotingDao;
 import groupwork.dto.SavedVoiceDTO;
 import groupwork.dto.VoiceDTO;
 import groupwork.service.api.IGenreService;
+import groupwork.service.api.IMailService;
 import groupwork.service.api.ISingerService;
 import groupwork.service.api.IVotesService;
 
 import java.util.*;
-import java.util.regex.Pattern;
 
 public class VoteService implements IVotesService {
     private final IVotingDao votingDao;
@@ -16,17 +16,22 @@ public class VoteService implements IVotesService {
     private final ISingerService singerService;
 
     private final IGenreService genreService;
+    private final IMailService mailService;
 
-    public VoteService(IVotingDao voiceDao, ISingerService singerService, IGenreService genreService) {
+    public VoteService(IVotingDao voiceDao, ISingerService singerService, IGenreService genreService,
+                       MailService mailService) {
         this.votingDao = voiceDao;
         this.singerService = singerService;
         this.genreService = genreService;
+        this.mailService = mailService;
+
     }
 
     @Override
-    public SavedVoiceDTO save(VoiceDTO voice) {
-        check(voice);
-        return votingDao.save(new SavedVoiceDTO(voice));
+    public void save(VoiceDTO voice) {
+        SavedVoiceDTO savedVoiceDTO = new SavedVoiceDTO(voice);
+        votingDao.save(savedVoiceDTO);
+        mailService.send(savedVoiceDTO);
     }
 
     @Override
@@ -67,10 +72,10 @@ public class VoteService implements IVotesService {
             throw new IllegalArgumentException("Нужно ввести информацию о себе");
         }
 
-        String email = voice.getMail();
-        Pattern pattern = Pattern.compile("^[a-zA-Z0-9!#$%&'*+/=?^_`{|},~\\-]+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\\-]+)*@+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?+\\.+[a-zA-Z]*$");
-        if (!pattern.matcher(email).matches()){
-            throw new IllegalArgumentException("E-MAIL IS NOT CORRECT");
-        }
+//        String email = voice.getMail();
+//        Pattern pattern = Pattern.compile("^[a-zA-Z0-9!#$%&'*+/=?^_`{|},~\\-]+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\\-]+)*@+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?+\\.+[a-zA-Z]*$");
+//        if (!pattern.matcher(email).matches()){
+//            throw new IllegalArgumentException("E-MAIL IS NOT CORRECT");
+//        }
     }
 }

@@ -9,5 +9,5 @@ public interface IVotingDao {
     List<SavedVoiceDTO> getVoiceList();
 
 
-    SavedVoiceDTO save(SavedVoiceDTO voice);
+    void save(SavedVoiceDTO voice);
 }

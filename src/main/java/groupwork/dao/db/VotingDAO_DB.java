@@ -12,16 +12,16 @@ import java.util.List;
 
 public class VotingDAO_DB implements IVotingDao {
 
-    private final String SQL_GET = "SELECT app.votes.id, dt_create, about, id_artist, id_genre " +
+    private final String SQL_GET = "SELECT app.votes.id, dt_create, about, id_artist, id_genre, mail " +
             "FROM app.votes " +
-            "INNER JOIN app.vote_artist ON app.votes.id = app.vote_artist.id_vote " +
-            "INNER JOIN app.vote_genre ON app.votes.id = app.vote_genre.id_vote;";
+            "INNER JOIN app.vote_artists ON app.votes.id = app.vote_artists.id_user " +
+            "INNER JOIN app.vote_genre ON app.votes.id = app.vote_genre.id_user;";
 
     private final String SQL_INSERT_VOICE = "INSERT INTO app.votes (dt_create, about, mail) VALUES (?,?,?) RETURNING id;";
 
-    private final String SQL_INSERT_SINGER = "INSERT INTO app.vote_artist (id_vote, id_artist) VALUES (?, ?);";
+    private final String SQL_INSERT_SINGER = "INSERT INTO app.vote_artists (id_user, id_artist) VALUES (?, ?);";
 
-    private final String SQL_INSERT_GENRE = "INSERT INTO app.vote_genre (id_vote, id_genre) VALUES (?, ?);";
+    private final String SQL_INSERT_GENRE = "INSERT INTO app.vote_genre (id_user, id_genre) VALUES (?, ?);";
     private final IDataSourceWrapper dataSourceWrapper;
 
     public VotingDAO_DB(IDataSourceWrapper dataSourceWrapper) {
@@ -36,7 +36,8 @@ public class VotingDAO_DB implements IVotingDao {
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET,
                      ResultSet.TYPE_SCROLL_INSENSITIVE,
                      ResultSet.CONCUR_READ_ONLY);
-             ResultSet resultSet = preparedStatement.executeQuery()) {
+             ) {
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 List<Integer> genreList = new ArrayList<>();
@@ -77,7 +78,7 @@ public class VotingDAO_DB implements IVotingDao {
     }
 
     @Override
-    public SavedVoiceDTO save(SavedVoiceDTO voice) {
+    public void save(SavedVoiceDTO voice) {
 
         VoiceDTO voiceDTO = voice.getVoice();
 
@@ -121,6 +122,5 @@ public class VotingDAO_DB implements IVotingDao {
             throw new RuntimeException("Ошибка соединения с базой данных");
         }
 
-        return voice;
     }
 }

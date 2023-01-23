@@ -10,6 +10,7 @@ import java.util.List;
 
 public class SingerDAO_DB implements ISingerDao {
     private final String SQL_GET = "SELECT id, name FROM app.artists;";
+    private final String SQL_GET_NAME = "SELECT name FROM app.artists WHERE id = ?;";
     private final String SQL_IS_CONTAIN = "SELECT id FROM app.artists WHERE id = ?;";
     private final String SQL_DELETE = "DELETE FROM app.artists WHERE id = ?;";
     private final String SQL_CREATE = "INSERT INTO app.artists (name) VALUES (?);";
@@ -26,7 +27,8 @@ public class SingerDAO_DB implements ISingerDao {
 
         try(Connection connection = dataSourceWrapper.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET);
-            ResultSet resultSet = preparedStatement.executeQuery()){
+            ){
+            ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()){
                 int id = resultSet.getInt("id");
@@ -105,6 +107,21 @@ public class SingerDAO_DB implements ISingerDao {
         } catch (SQLException e){
             throw new RuntimeException("Ошибка соединения с базой данных");
         }
-
+    }
+    @Override
+    public String get(Integer id) {
+        String name = null;
+        try (Connection connection = dataSourceWrapper.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_GET_NAME)
+        ) {
+            statement.setInt(1,id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                name = resultSet.getString("name");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return name;
     }
 }

@@ -15,4 +15,5 @@ public interface IGenreDao {
     void create(String name);
 
     void update(int id, GenreDTO genreDTO);
+    String get(Integer id);
 }
