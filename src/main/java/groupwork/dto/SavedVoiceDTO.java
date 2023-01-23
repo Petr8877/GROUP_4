@@ -6,15 +6,21 @@ import java.util.Objects;
 public class SavedVoiceDTO implements Comparable<SavedVoiceDTO>{
     private VoiceDTO voice;
     private LocalDateTime creationTime;
+    private long key;
 
     public SavedVoiceDTO(VoiceDTO voice) {
         this.voice = voice;
         this.creationTime = LocalDateTime.now();
+        this.key = (long) (Math.random()*10000);
     }
 
     public SavedVoiceDTO(VoiceDTO voice, LocalDateTime creationTime) {
         this.voice = voice;
         this.creationTime = creationTime;
+    }
+
+    public long getKey() {
+        return key;
     }
 
     public VoiceDTO getVoice() {

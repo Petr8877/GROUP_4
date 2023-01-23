@@ -29,11 +29,16 @@ public class VoteService implements IVotesService {
     }
 
     @Override
-    public void save(VoiceDTO voice) {
+    public SavedVoiceDTO save(VoiceDTO voice) {
         check(voice);
         SavedVoiceDTO savedVoiceDTO = new SavedVoiceDTO(voice);
-        votingDao.save(savedVoiceDTO);
-        mailService.send(savedVoiceDTO);
+        int id = votingDao.save(savedVoiceDTO);
+        mailService.send(savedVoiceDTO, id);
+        return savedVoiceDTO;
+    }
+    @Override
+    public void save2(SavedVoiceDTO voice) {
+        votingDao.save(voice);
     }
 
     @Override
@@ -79,5 +84,13 @@ public class VoteService implements IVotesService {
        if (!pattern.matcher(email).matches()){
            throw new IllegalArgumentException("E-MAIL IS NOT CORRECT");
        }
+    }
+
+    public void reb (long id){
+        this.votingDao.reb(id);
+    }
+
+    public Map<Long, Long> red(){
+        return this.votingDao.red();
     }
 }

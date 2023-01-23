@@ -4,5 +4,5 @@ import groupwork.dto.SavedVoiceDTO;
 
 
 public interface IMailService {
-    void send(SavedVoiceDTO savedVoiceDTO);
+    void send(SavedVoiceDTO savedVoiceDTO, int id);
 }

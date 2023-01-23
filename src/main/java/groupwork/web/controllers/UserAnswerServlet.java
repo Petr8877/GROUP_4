@@ -1,11 +1,13 @@
 package groupwork.web.controllers;
 
+import groupwork.dto.SavedVoiceDTO;
 import groupwork.dto.VoiceDTO;
 import groupwork.service.MailService;
 import groupwork.service.api.IVotesService;
 import groupwork.service.fabrics.MailServiceSingleton;
 import groupwork.service.fabrics.VoteServiceSingleton;
 
+import javax.mail.Session;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -76,11 +78,15 @@ public class UserAnswerServlet extends HttpServlet {
 
             VoiceDTO voiceDTO = new VoiceDTO(singer, intGenre, aboutUser,mail);
 
-            service.save(voiceDTO);
-            writer.write("Ответ сохранен");
+            SavedVoiceDTO x = service.save(voiceDTO);
+            writer.write("Вам направлено письмо. Для подтверждения перейдите по ссылке в письме");
+
+            req.setAttribute("voice", x);
 
             String contextPath = req.getContextPath();
-            resp.sendRedirect(contextPath + "/result");
+            //req.getRequestDispatcher("/check").forward(req,resp);
+
+//            resp.sendRedirect(contextPath + "/result");
 
         } catch (Exception e) {
             writer.write(e.getMessage());

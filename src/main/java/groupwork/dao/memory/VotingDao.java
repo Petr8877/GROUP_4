@@ -5,6 +5,7 @@ import groupwork.dto.SavedVoiceDTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 
@@ -18,7 +19,18 @@ public class VotingDao implements IVotingDao {
     }
 
     @Override
-    public synchronized void save(SavedVoiceDTO voice) {
+    public Map<Long, Long> red() {
+        return null;
+    }
+
+    @Override
+    public void reb(long id) {
+
+    }
+
+    @Override
+    public synchronized int save(SavedVoiceDTO voice) {
         voices.add(voice);
+        return 0;
     }
 }

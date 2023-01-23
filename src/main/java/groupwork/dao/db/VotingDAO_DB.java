@@ -8,7 +8,9 @@ import groupwork.dto.VoiceDTO;
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class VotingDAO_DB implements IVotingDao {
 
@@ -17,7 +19,7 @@ public class VotingDAO_DB implements IVotingDao {
             "INNER JOIN app.vote_artists ON app.votes.id = app.vote_artists.id_user " +
             "INNER JOIN app.vote_genre ON app.votes.id = app.vote_genre.id_user;";
 
-    private final String SQL_INSERT_VOICE = "INSERT INTO app.votes (dt_create, about, mail) VALUES (?,?,?) RETURNING id;";
+    private final String SQL_INSERT_VOICE = "INSERT INTO app.votes (dt_create, about, mail, key) VALUES (?,?,?,?) RETURNING id;";
 
     private final String SQL_INSERT_SINGER = "INSERT INTO app.vote_artists (id_user, id_artist) VALUES (?, ?);";
 
@@ -35,7 +37,7 @@ public class VotingDAO_DB implements IVotingDao {
         try (Connection connection = dataSourceWrapper.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET,
                      ResultSet.TYPE_SCROLL_INSENSITIVE,
-                     ResultSet.CONCUR_READ_ONLY);
+                     ResultSet.CONCUR_READ_ONLY)
              ) {
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -78,7 +80,7 @@ public class VotingDAO_DB implements IVotingDao {
     }
 
     @Override
-    public void save(SavedVoiceDTO voice) {
+    public int save(SavedVoiceDTO voice) {
 
         VoiceDTO voiceDTO = voice.getVoice();
 
@@ -87,6 +89,7 @@ public class VotingDAO_DB implements IVotingDao {
         String message = voiceDTO.getMessage();
         LocalDateTime creationTime = voice.getCreationTime();
         String mail = voiceDTO.getMail();
+        long key = voice.getKey();
         int id = 0;
 
         try (Connection connection = dataSourceWrapper.getConnection()) {
@@ -96,6 +99,7 @@ public class VotingDAO_DB implements IVotingDao {
             preparedStatement.setObject(1, creationTime);
             preparedStatement.setString(2, message);
             preparedStatement.setString(3, mail);
+            preparedStatement.setLong(4, key);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -121,6 +125,31 @@ public class VotingDAO_DB implements IVotingDao {
         } catch (SQLException e) {
             throw new RuntimeException("Ошибка соединения с базой данных");
         }
+return id;
+    }
 
+    public Map<Long, Long> red(){
+        Map<Long, Long> map = new HashMap<>();
+        try(Connection connection = dataSourceWrapper.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT id, key FROM app.votes");
+            ResultSet resultSet = preparedStatement.executeQuery();
+    while (resultSet.next()){
+        map.put(resultSet.getLong("id"), resultSet.getLong("key"));
+    }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return map;
+    }
+
+    public void reb (long id){
+        try(Connection connection = dataSourceWrapper.getConnection()) {
+            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE app.votes SET authoriz = ? WHERE id = ?;");
+            preparedStatement.setBoolean(1, true);
+            preparedStatement.setLong(2, id);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -26,7 +26,7 @@ public class MailService  implements IMailService {
     }
 
     @Override
-    public void send (SavedVoiceDTO savedVoiceDTO) {
+    public void send (SavedVoiceDTO savedVoiceDTO, int id) {
 
         try {
             Session session = new SessionCreator(properties).createSession();
@@ -37,7 +37,7 @@ public class MailService  implements IMailService {
             message.setRecipients(
                     Message.RecipientType.TO, InternetAddress.parse(email));
             message.setSubject("You have successfully voted");
-            String msg =  createMailText(savedVoiceDTO);
+            String msg =  createMailText(savedVoiceDTO, id);
             message.setText(msg);
             Transport.send(message);
         } catch (Exception e) {
@@ -45,7 +45,7 @@ public class MailService  implements IMailService {
         }
 
     }
-    private String createMailText(SavedVoiceDTO savedVoiceDTO){
+    private String createMailText(SavedVoiceDTO savedVoiceDTO, int id){
         StringBuilder builder = new StringBuilder();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
 
@@ -58,16 +58,22 @@ public class MailService  implements IMailService {
 
         String singer = singerService.get(singerID);
 
-        builder.append("Ваш голос: исполнитель - ").append(singer)
-                .append(", жанры - ");
+        builder.append("Ваш голос:").append("\n").append("Исполнитель - ").append(singer).append("\n").append("\n")
+                .append("Жанры - ");
 
         for (int genre : genreID) {
-            builder.append(genreService.get(genre)).append(", ");
+            builder.append(genreService.get(genre)).append(", ").append("\n");
         }
 
-        builder.append("информация о себе - ").append(message)
-                .append(", дата и время голосования - ").append(dtf.format(creationTime));
+        builder.append("\n").append("Информация о себе - ").append(message).append("\n").append("\n")
+                .append("Дата и время голосования - ").append(dtf.format(creationTime)).append("\n");
 
+        builder.append("\n").append("\n");
+
+        int random = (int) (Math.random()*100);
+
+        builder.append("Для подтверждения перейдите по следуещей ссылке:").append("\n").append("http://localhost:8080/groupwork/check?id="
+                + id + "&key="+savedVoiceDTO.getKey());
         return builder.toString();
     }
 }
