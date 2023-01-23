@@ -33,7 +33,7 @@ public class PropertiesLoaderListener implements ServletContextListener {
             properties.load(new FileReader(propMail));
             MailServiceSingleton.setProperties(properties);
         } catch (FileNotFoundException e) {
-            throw new IllegalStateException("File with properties not found, create application.properties in conf");
+            throw new IllegalStateException("File with properties not found, create mail.properties in conf");
         } catch (IOException e) {
             throw new RuntimeException("Exception in reading application.properties ", e);
         }

@@ -4,3 +4,4 @@ out/
 *.iml
 target/
 application.properties
+mail.properties

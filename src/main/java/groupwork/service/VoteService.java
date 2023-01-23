@@ -9,6 +9,7 @@ import groupwork.service.api.ISingerService;
 import groupwork.service.api.IVotesService;
 
 import java.util.*;
+import java.util.regex.Pattern;
 
 public class VoteService implements IVotesService {
     private final IVotingDao votingDao;
@@ -29,6 +30,7 @@ public class VoteService implements IVotesService {
 
     @Override
     public void save(VoiceDTO voice) {
+        check(voice);
         SavedVoiceDTO savedVoiceDTO = new SavedVoiceDTO(voice);
         votingDao.save(savedVoiceDTO);
         mailService.send(savedVoiceDTO);
@@ -72,10 +74,10 @@ public class VoteService implements IVotesService {
             throw new IllegalArgumentException("Нужно ввести информацию о себе");
         }
 
-//        String email = voice.getMail();
-//        Pattern pattern = Pattern.compile("^[a-zA-Z0-9!#$%&'*+/=?^_`{|},~\\-]+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\\-]+)*@+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?+\\.+[a-zA-Z]*$");
-//        if (!pattern.matcher(email).matches()){
-//            throw new IllegalArgumentException("E-MAIL IS NOT CORRECT");
-//        }
+       String email = voice.getMail();
+       Pattern pattern = Pattern.compile("^[a-zA-Z0-9!#$%&'*+/=?^_`{|},~\\-]+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\\-]+)*@+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?+\\.+[a-zA-Z]*$");
+       if (!pattern.matcher(email).matches()){
+           throw new IllegalArgumentException("E-MAIL IS NOT CORRECT");
+       }
     }
 }

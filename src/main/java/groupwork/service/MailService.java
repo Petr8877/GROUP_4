@@ -2,6 +2,7 @@ package groupwork.service;
 
 
 import groupwork.dto.SavedVoiceDTO;
+import groupwork.dto.VoiceDTO;
 import groupwork.service.api.IGenreService;
 import groupwork.service.api.IMailService;
 import groupwork.service.api.ISingerService;
@@ -9,6 +10,8 @@ import groupwork.service.api.ISingerService;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 
 public class MailService  implements IMailService {
@@ -21,16 +24,7 @@ public class MailService  implements IMailService {
         this.singerService = singerService;
         this.genreService = genreService;
     }
-//    public MailService() {
-//        this.username = USERNAME;
-//        this.password = PASSWORD;
-//        props = new Properties();
-//        props.put("mail.smtp.host", "smtp.mail.ru");
-//        props.put("mail.smtp.socketFactory.port", "465");
-//        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-//        props.put("mail.smtp.auth", "true");
-//        props.put("mail.smtp.port", "465");
-//    }
+
     @Override
     public void send (SavedVoiceDTO savedVoiceDTO) {
 
@@ -42,7 +36,7 @@ public class MailService  implements IMailService {
             String email = savedVoiceDTO.getVoice().getMail();
             message.setRecipients(
                     Message.RecipientType.TO, InternetAddress.parse(email));
-            message.setSubject("you have successfully voted");
+            message.setSubject("You have successfully voted");
             String msg =  createMailText(savedVoiceDTO);
             message.setText(msg);
             Transport.send(message);
@@ -52,48 +46,28 @@ public class MailService  implements IMailService {
 
     }
     private String createMailText(SavedVoiceDTO savedVoiceDTO){
+        StringBuilder builder = new StringBuilder();
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
 
-        StringBuilder stringBuilder = new StringBuilder();
-        String time = savedVoiceDTO.getCreationTime().toString();
-        stringBuilder.append("Your voice added at ").append(time);
+        VoiceDTO voice = savedVoiceDTO.getVoice();
 
-        int singer = savedVoiceDTO.getVoice().getSinger();
-        String name = singerService.get(singer);
-        stringBuilder.append("\nArtist:\n").append(name);
-        stringBuilder.append("\nGenres:\n");
-        for (int v : savedVoiceDTO.getVoice().getGenre()) {
-            String name1 = genreService.get(v);
-            stringBuilder.append(name1).append("\n");
+        int singerID = voice.getSinger();
+        int[] genreID = voice.getGenre();
+        String message = voice.getMessage();
+        LocalDateTime creationTime = savedVoiceDTO.getCreationTime();
+
+        String singer = singerService.get(singerID);
+
+        builder.append("Ваш голос: исполнитель - ").append(singer)
+                .append(", жанры - ");
+
+        for (int genre : genreID) {
+            builder.append(genreService.get(genre)).append(", ");
         }
-        stringBuilder.append("Message:\n").append(savedVoiceDTO.getVoice().getMessage());
 
+        builder.append("информация о себе - ").append(message)
+                .append(", дата и время голосования - ").append(dtf.format(creationTime));
 
-        return stringBuilder.toString();
+        return builder.toString();
     }
 }
-
-//    public void send(String subject, SavedVoiceDTO info, String toEmail) {
-//        Session session = Session.getDefaultInstance(props, new Authenticator() {
-//            protected PasswordAuthentication getPasswordAuthentication() {
-//                return new PasswordAuthentication(username, password);
-//            }
-//        });
-//
-//        try {
-//            Message message = new MimeMessage(session);
-//            //от кого
-//            message.setFrom(new InternetAddress(username));
-//            //кому
-//            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
-//            //тема сообщения
-//            message.setSubject(subject);
-//            //текст
-//            message.setText(info.toString());
-//
-//            //отправляем сообщение
-//            Transport.send(message);
-//        } catch (MessagingException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-//}
