@@ -9,6 +9,9 @@ import groupwork.service.api.ISingerService;
 import groupwork.service.api.IVotesService;
 
 import java.util.*;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
 
 public class VoteService implements IVotesService {
@@ -28,12 +31,14 @@ public class VoteService implements IVotesService {
 
     }
 
+
     @Override
     public SavedVoiceDTO save(VoiceDTO voice) {
+        ExecutorService executorService = Executors.newFixedThreadPool(5);
         check(voice);
         SavedVoiceDTO savedVoiceDTO = new SavedVoiceDTO(voice);
         int id = votingDao.save(savedVoiceDTO);
-        mailService.send(savedVoiceDTO, id);
+        executorService.submit(new Thread(() -> mailService.send(savedVoiceDTO, id)));
         return savedVoiceDTO;
     }
 

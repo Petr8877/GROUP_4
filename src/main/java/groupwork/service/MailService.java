@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 
+
 public class MailService implements IMailService {
     private Properties properties;
     private ISingerService singerService;
@@ -27,23 +28,29 @@ public class MailService implements IMailService {
 
     @Override
     public void send(SavedVoiceDTO savedVoiceDTO, int id) {
-
-        try {
-            Session session = new SessionCreator(properties).createSession();
-            session.setDebug(true);
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(properties.getProperty("mail.user.name")));
-            String email = savedVoiceDTO.getVoice().getMail();
-            message.setRecipients(
-                    Message.RecipientType.TO, InternetAddress.parse(email));
-            message.setSubject("You have successfully voted");
-            String msg = createMailText(savedVoiceDTO, id);
-            message.setText(msg);
-            Transport.send(message);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        boolean send = false;
+        while (!send) {
+            try {
+                Session session = new SessionCreator(properties).createSession();
+                session.setDebug(true);
+                Message message = new MimeMessage(session);
+                message.setFrom(new InternetAddress(properties.getProperty("mail.user.name")));
+                String email = savedVoiceDTO.getVoice().getMail();
+                message.setRecipients(
+                        Message.RecipientType.TO, InternetAddress.parse(email));
+                message.setSubject("You have successfully voted");
+                String msg = createMailText(savedVoiceDTO, id);
+                message.setText(msg);
+                Transport.send(message);
+                send = true;
+            } catch (Exception e) {
+                try {
+                    Thread.sleep(300000);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
         }
-
     }
 
     private String createMailText(SavedVoiceDTO savedVoiceDTO, int id) {
