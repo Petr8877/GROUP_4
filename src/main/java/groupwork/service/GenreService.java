@@ -47,9 +47,7 @@ public class GenreService implements IGenreService {
         if(name == null || name.isBlank()) {
             throw new IllegalArgumentException("Не введен жанр");
         }
-
         dao.create(name);
-
     }
 
     @Override
@@ -69,8 +67,6 @@ public class GenreService implements IGenreService {
         } else {
             throw new IllegalArgumentException("Нет жанра для обновления с таким id");
         }
-
-
     }
 
     @Override
