@@ -30,9 +30,9 @@ public class SingerService implements ISingerService {
 
     @Override
     public void delete(int id) {
-        if(dao.isContain(id)){
+        if (dao.isContain(id)) {
             dao.delete(id);
-        }else {
+        } else {
             throw new IllegalArgumentException("Нет исполнителя для удаления с таким id");
         }
     }
@@ -53,7 +53,7 @@ public class SingerService implements ISingerService {
             throw new IllegalArgumentException("Не введено новое имя исполнителя");
         }
 
-        if(dao.isContain(id)){
+        if (dao.isContain(id)) {
             dao.update(id, singerDTO);
         } else {
             throw new IllegalArgumentException("Нет исполнителя для обновления с таким id");

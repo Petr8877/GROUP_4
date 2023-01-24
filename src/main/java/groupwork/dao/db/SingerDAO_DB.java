@@ -21,22 +21,23 @@ public class SingerDAO_DB implements ISingerDao {
     public SingerDAO_DB(IDataSourceWrapper dataSourceWrapper) {
         this.dataSourceWrapper = dataSourceWrapper;
     }
+
     @Override
     public List<SingerDTO> getSingerList() {
-        List<SingerDTO>list = new ArrayList<>();
+        List<SingerDTO> list = new ArrayList<>();
 
-        try(Connection connection = dataSourceWrapper.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET);
-            ){
+        try (Connection connection = dataSourceWrapper.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET);
+        ) {
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 list.add(new SingerDTO(name, id));
             }
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException("Ошибка соединения с базой данных");
         }
 
@@ -47,19 +48,19 @@ public class SingerDAO_DB implements ISingerDao {
     public boolean isContain(int id) {
         boolean result = false;
 
-        try(Connection connection = dataSourceWrapper.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_IS_CONTAIN)){
+        try (Connection connection = dataSourceWrapper.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_IS_CONTAIN)) {
 
             statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 result = true;
             }
 
             resultSet.close();
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException("Ошибка соединения с базой данных");
         }
         return result;
@@ -74,7 +75,7 @@ public class SingerDAO_DB implements ISingerDao {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException("Ошибка соединения с базой данных");
         }
     }
@@ -82,13 +83,13 @@ public class SingerDAO_DB implements ISingerDao {
     @Override
     public void create(String name) {
 
-        try(Connection connection = dataSourceWrapper.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE)){
+        try (Connection connection = dataSourceWrapper.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE)) {
 
             preparedStatement.setString(1, name);
             preparedStatement.executeUpdate();
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException("Ошибка соединения с базой данных");
         }
     }
@@ -97,26 +98,27 @@ public class SingerDAO_DB implements ISingerDao {
     public void update(int id, SingerDTO singerDTO) {
         String singer = singerDTO.getName();
 
-        try(Connection connection = dataSourceWrapper.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)){
+        try (Connection connection = dataSourceWrapper.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
 
             preparedStatement.setString(1, singer);
             preparedStatement.setInt(2, id);
             preparedStatement.executeUpdate();
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException("Ошибка соединения с базой данных");
         }
     }
+
     @Override
     public String get(Integer id) {
         String name = null;
         try (Connection connection = dataSourceWrapper.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_GET_NAME)
         ) {
-            statement.setInt(1,id);
+            statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 name = resultSet.getString("name");
             }
         } catch (SQLException e) {

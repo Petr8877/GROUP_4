@@ -36,10 +36,6 @@ public class VoteService implements IVotesService {
         mailService.send(savedVoiceDTO, id);
         return savedVoiceDTO;
     }
-    @Override
-    public void save2(SavedVoiceDTO voice) {
-        votingDao.save(voice);
-    }
 
     @Override
     public List<SavedVoiceDTO> get() {
@@ -79,18 +75,20 @@ public class VoteService implements IVotesService {
             throw new IllegalArgumentException("Нужно ввести информацию о себе");
         }
 
-       String email = voice.getMail();
-       Pattern pattern = Pattern.compile("^[a-zA-Z0-9!#$%&'*+/=?^_`{|},~\\-]+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\\-]+)*@+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?+\\.+[a-zA-Z]*$");
-       if (!pattern.matcher(email).matches()){
-           throw new IllegalArgumentException("E-MAIL IS NOT CORRECT");
-       }
+        String email = voice.getMail();
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9!#$%&'*+/=?^_`{|},~\\-]+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\\-]+)*@+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?+\\.+[a-zA-Z]*$");
+        if (!pattern.matcher(email).matches()) {
+            throw new IllegalArgumentException("E-MAIL IS NOT CORRECT");
+        }
     }
 
-    public void reb (long id){
-        this.votingDao.reb(id);
+    @Override
+    public void auth(long id) {
+        this.votingDao.auth(id);
     }
 
-    public Map<Long, Long> red(){
-        return this.votingDao.red();
+    @Override
+    public Map<Long, Long> getIdAndKey() {
+        return this.votingDao.getIdAndKey();
     }
 }

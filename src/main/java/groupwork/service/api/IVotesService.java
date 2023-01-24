@@ -10,10 +10,10 @@ public interface IVotesService {
 
     SavedVoiceDTO save(VoiceDTO voice);
 
-    void save2(SavedVoiceDTO voice);
+    void auth(long id);
 
-    void reb (long id);
-    Map<Long, Long> red();
+    Map<Long, Long> getIdAndKey();
+
     List<SavedVoiceDTO> get();
 
 }

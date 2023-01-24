@@ -19,18 +19,18 @@ public class VotingDao implements IVotingDao {
     }
 
     @Override
-    public Map<Long, Long> red() {
+    public Map<Long, Long> getIdAndKey() {
         return null;
-    }
+    } // todo ВОПРОС
 
     @Override
-    public void reb(long id) {
+    public void auth(long id) {
 
-    }
+    } // todo ВОПРОС
 
     @Override
     public synchronized int save(SavedVoiceDTO voice) {
         voices.add(voice);
-        return 0;
+        return 0; // todo ВОПРОС
     }
 }

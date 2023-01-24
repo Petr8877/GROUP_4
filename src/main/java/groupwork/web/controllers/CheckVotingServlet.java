@@ -33,7 +33,7 @@ public class CheckVotingServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html; charset=UTF-8");
 
-        Map<Long, Long> map = service.red();
+        Map<Long, Long> map = service.getIdAndKey();
 
         Map<String, String[]> parameterMap = req.getParameterMap();
 
@@ -42,16 +42,16 @@ public class CheckVotingServlet extends HttpServlet {
         long id = 0;
         long key = 0;
         if (!(idRaw == null || idRaw.length > 1)) {
-             id = Integer.parseInt(idRaw[0]);
+            id = Integer.parseInt(idRaw[0]);
         }
 
         String[] keyRaw = parameterMap.get(KEY_PARAM_NAME);
         if (!(keyRaw == null || keyRaw.length > 1)) {
-             key = Integer.parseInt(keyRaw[0]);
+            key = Integer.parseInt(keyRaw[0]);
         }
 
-        if (map.containsKey(id) && map.get(id).equals(key)){
-            service.reb(id);
+        if (map.containsKey(id) && map.get(id).equals(key)) {
+            service.auth(id);
         }
         PrintWriter writer = resp.getWriter();
 

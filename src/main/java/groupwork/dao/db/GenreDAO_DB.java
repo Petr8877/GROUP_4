@@ -25,19 +25,19 @@ public class GenreDAO_DB implements IGenreDao {
 
     @Override
     public List<GenreDTO> getGenreList() {
-        List<GenreDTO>list = new ArrayList<>();
+        List<GenreDTO> list = new ArrayList<>();
 
-        try(Connection connection =dataSourceWrapper.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET);
-            ResultSet resultSet = preparedStatement.executeQuery()){
+        try (Connection connection = dataSourceWrapper.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET);
+             ResultSet resultSet = preparedStatement.executeQuery()) {
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 int id = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 list.add(new GenreDTO(name, id));
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException("Ошибка соединения с базой данных");
         }
 
@@ -48,17 +48,17 @@ public class GenreDAO_DB implements IGenreDao {
     public boolean isContain(int id) {
         boolean result = false;
 
-        try(Connection connection = dataSourceWrapper.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_IS_CONTAIN)){
+        try (Connection connection = dataSourceWrapper.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_IS_CONTAIN)) {
 
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
 
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 result = true;
             }
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException("Ошибка соединения с базой данных");
         }
         return result;
@@ -73,7 +73,7 @@ public class GenreDAO_DB implements IGenreDao {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException("Ошибка соединения с базой данных");
         }
     }
@@ -81,13 +81,13 @@ public class GenreDAO_DB implements IGenreDao {
     @Override
     public void create(String name) {
 
-        try(Connection connection = dataSourceWrapper.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE)){
+        try (Connection connection = dataSourceWrapper.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE)) {
 
             preparedStatement.setString(1, name);
             preparedStatement.executeUpdate();
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException("Ошибка соединения с базой данных");
         }
     }
@@ -96,14 +96,14 @@ public class GenreDAO_DB implements IGenreDao {
     public void update(int id, GenreDTO genreDTO) {
         String genre = genreDTO.getName();
 
-        try(Connection connection = dataSourceWrapper.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)){
+        try (Connection connection = dataSourceWrapper.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
 
             preparedStatement.setString(1, genre);
             preparedStatement.setInt(2, id);
             preparedStatement.executeUpdate();
 
-        }catch (SQLException e){
+        } catch (SQLException e) {
             throw new RuntimeException("Ошибка соединения с базой данных");
         }
 
@@ -115,9 +115,9 @@ public class GenreDAO_DB implements IGenreDao {
         try (Connection connection = dataSourceWrapper.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_GET_NAME)
         ) {
-            statement.setInt(1,id);
+            statement.setInt(1, id);
             ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 name = resultSet.getString("name");
             }
         } catch (SQLException e) {

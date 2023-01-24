@@ -6,15 +6,17 @@ import groupwork.dao.api.IVotingDao;
 
 import groupwork.dao.provider.api.IDaoProvider;
 
+import static groupwork.dao.provider.TypesOfMemory.*;
+
 public class ChoiceDaoProvider implements IDaoProvider {
     private static volatile ChoiceDaoProvider instance;
-    private static boolean isDB = true;
+    private static TypesOfMemory isDB = DATA_BASE;
     private IDaoProvider iDaoProvider;
 
     private ChoiceDaoProvider() {
-        if (isDB) {
+        if (isDB == DATA_BASE) {
             iDaoProvider = new DaoDBProvider();
-        } else {
+        } else if (isDB == PC_MEMORY){
             iDaoProvider = new DaoMemoryProvider();
         }
     }

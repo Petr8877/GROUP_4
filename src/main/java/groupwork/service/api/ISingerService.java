@@ -15,6 +15,7 @@ public interface ISingerService {
     void create(String name);
 
     void update(int id, SingerDTO singerDTO);
+
     String get(Integer id);
 
 }

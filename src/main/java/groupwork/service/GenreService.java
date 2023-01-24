@@ -35,7 +35,7 @@ public class GenreService implements IGenreService {
             throw new IllegalArgumentException("Введите номер жанра");
         }
 
-        if(dao.isContain(id)){
+        if (dao.isContain(id)) {
             dao.delete(id);
         } else {
             throw new IllegalArgumentException("Нет жанра для удаления с таким id");
@@ -44,7 +44,7 @@ public class GenreService implements IGenreService {
 
     @Override
     public void create(String name) {
-        if(name == null || name.isBlank()) {
+        if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Не введен жанр");
         }
 
@@ -56,7 +56,7 @@ public class GenreService implements IGenreService {
     public void update(int id, GenreDTO genreDTO) {
         String genre = genreDTO.getName();
 
-        if(genre == null || genre.isBlank()) {
+        if (genre == null || genre.isBlank()) {
             throw new IllegalArgumentException("Не введен жанр");
         }
 
@@ -64,7 +64,7 @@ public class GenreService implements IGenreService {
             throw new IllegalArgumentException("Введите id жанра");
         }
 
-        if(dao.isContain(id)){
+        if (dao.isContain(id)) {
             dao.update(id, genreDTO);
         } else {
             throw new IllegalArgumentException("Нет жанра для обновления с таким id");

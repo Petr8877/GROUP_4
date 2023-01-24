@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 
-public class MailService  implements IMailService {
+public class MailService implements IMailService {
     private Properties properties;
     private ISingerService singerService;
     private IGenreService genreService;
@@ -26,7 +26,7 @@ public class MailService  implements IMailService {
     }
 
     @Override
-    public void send (SavedVoiceDTO savedVoiceDTO, int id) {
+    public void send(SavedVoiceDTO savedVoiceDTO, int id) {
 
         try {
             Session session = new SessionCreator(properties).createSession();
@@ -37,7 +37,7 @@ public class MailService  implements IMailService {
             message.setRecipients(
                     Message.RecipientType.TO, InternetAddress.parse(email));
             message.setSubject("You have successfully voted");
-            String msg =  createMailText(savedVoiceDTO, id);
+            String msg = createMailText(savedVoiceDTO, id);
             message.setText(msg);
             Transport.send(message);
         } catch (Exception e) {
@@ -45,7 +45,8 @@ public class MailService  implements IMailService {
         }
 
     }
-    private String createMailText(SavedVoiceDTO savedVoiceDTO, int id){
+
+    private String createMailText(SavedVoiceDTO savedVoiceDTO, int id) {
         StringBuilder builder = new StringBuilder();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
 
@@ -70,10 +71,8 @@ public class MailService  implements IMailService {
 
         builder.append("\n").append("\n");
 
-        int random = (int) (Math.random()*100);
 
-        builder.append("Для подтверждения перейдите по следуещей ссылке:").append("\n").append("http://localhost:8080/groupwork/check?id="
-                + id + "&key="+savedVoiceDTO.getKey());
+        builder.append("Для подтверждения перейдите по следуещей ссылке:").append("\n").append("http://localhost:8080/groupwork/check?id=").append(id).append("&key=").append(savedVoiceDTO.getKey());
         return builder.toString();
     }
 }

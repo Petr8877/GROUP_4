@@ -38,7 +38,7 @@ public class VotingDAO_DB implements IVotingDao {
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET,
                      ResultSet.TYPE_SCROLL_INSENSITIVE,
                      ResultSet.CONCUR_READ_ONLY)
-             ) {
+        ) {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
@@ -125,25 +125,27 @@ public class VotingDAO_DB implements IVotingDao {
         } catch (SQLException e) {
             throw new RuntimeException("Ошибка соединения с базой данных");
         }
-return id;
+        return id;
     }
 
-    public Map<Long, Long> red(){
+    @Override
+    public Map<Long, Long> getIdAndKey() {
         Map<Long, Long> map = new HashMap<>();
-        try(Connection connection = dataSourceWrapper.getConnection()) {
+        try (Connection connection = dataSourceWrapper.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT id, key FROM app.votes");
             ResultSet resultSet = preparedStatement.executeQuery();
-    while (resultSet.next()){
-        map.put(resultSet.getLong("id"), resultSet.getLong("key"));
-    }
+            while (resultSet.next()) {
+                map.put(resultSet.getLong("id"), resultSet.getLong("key"));
+            }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return map;
     }
 
-    public void reb (long id){
-        try(Connection connection = dataSourceWrapper.getConnection()) {
+    @Override
+    public void auth(long id) {
+        try (Connection connection = dataSourceWrapper.getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement("UPDATE app.votes SET authoriz = ? WHERE id = ?;");
             preparedStatement.setBoolean(1, true);
             preparedStatement.setLong(2, id);

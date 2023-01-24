@@ -76,17 +76,10 @@ public class UserAnswerServlet extends HttpServlet {
 
             String aboutUser = (aboutUsers == null) ? null : aboutUsers[0];
 
-            VoiceDTO voiceDTO = new VoiceDTO(singer, intGenre, aboutUser,mail);
+            VoiceDTO voiceDTO = new VoiceDTO(singer, intGenre, aboutUser, mail);
 
-            SavedVoiceDTO x = service.save(voiceDTO);
+            service.save(voiceDTO);
             writer.write("Вам направлено письмо. Для подтверждения перейдите по ссылке в письме");
-
-            req.setAttribute("voice", x);
-
-            String contextPath = req.getContextPath();
-            //req.getRequestDispatcher("/check").forward(req,resp);
-
-//            resp.sendRedirect(contextPath + "/result");
 
         } catch (Exception e) {
             writer.write(e.getMessage());

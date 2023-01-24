@@ -15,5 +15,6 @@ public interface ISingerDao {
     void create(String name);
 
     void update(int id, SingerDTO singerDTO);
+
     String get(Integer id);
 }

@@ -3,7 +3,7 @@ package groupwork.dto;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class SavedVoiceDTO implements Comparable<SavedVoiceDTO>{
+public class SavedVoiceDTO implements Comparable<SavedVoiceDTO> {
     private VoiceDTO voice;
     private LocalDateTime creationTime;
     private long key;
@@ -11,7 +11,7 @@ public class SavedVoiceDTO implements Comparable<SavedVoiceDTO>{
     public SavedVoiceDTO(VoiceDTO voice) {
         this.voice = voice;
         this.creationTime = LocalDateTime.now();
-        this.key = (long) (Math.random()*10000);
+        this.key = (long) (Math.random() * 10000);
     }
 
     public SavedVoiceDTO(VoiceDTO voice, LocalDateTime creationTime) {

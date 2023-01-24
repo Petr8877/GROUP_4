@@ -12,6 +12,7 @@ public class MailServiceSingleton {
 
     private MailServiceSingleton() {
     }
+
     public static void setProperties(Properties properties) {
         synchronized (DataSourceSingleton.class) {
             if (instance != null) {
@@ -20,6 +21,7 @@ public class MailServiceSingleton {
             MailServiceSingleton.properties = properties;
         }
     }
+
     public static MailService getInstance() {
         if (instance == null) {
             synchronized (MailServiceSingleton.class) {

@@ -9,9 +9,8 @@ public interface IVotingDao {
 
     List<SavedVoiceDTO> getVoiceList();
 
-    Map<Long, Long> red();
-    void reb (long id);
-
+    Map<Long, Long> getIdAndKey();
+    void auth (long id);
 
     int save(SavedVoiceDTO voice);
 }
