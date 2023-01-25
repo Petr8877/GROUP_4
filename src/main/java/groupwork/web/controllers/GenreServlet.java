@@ -1,6 +1,8 @@
 package groupwork.web.controllers;
 
+import groupwork.dao.db.GenreDAO_DB;
 import groupwork.dto.GenreDTO;
+import groupwork.entity.GenreEntity;
 import groupwork.service.api.IGenreService;
 import groupwork.service.fabrics.GenresServiceSingleton;
 
@@ -28,15 +30,14 @@ public class GenreServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req,
                          HttpServletResponse resp) throws ServletException, IOException {
-
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html; charset=UTF-8");
 
-        List<GenreDTO> genreDTOS = genreService.get();
+        List<GenreEntity> genreEntities = genreService.get();
 
         PrintWriter writer = resp.getWriter();
 
-        genreDTOS.forEach(genreDTO -> writer.write("<p>" + genreDTO + "</p>"));
+        genreEntities.forEach( genreEntity-> writer.write("<p>" + genreEntity.getId()+" "+genreEntity.getName() + "</p>"));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package groupwork.service.api;
 
 import groupwork.dto.GenreDTO;
+import groupwork.entity.GenreEntity;
 
 import java.util.List;
 
@@ -8,7 +9,7 @@ public interface IGenreService {
 
     boolean check(int number);
 
-    List<GenreDTO> get();
+    List<GenreEntity> get();
 
     void delete(int id);
 

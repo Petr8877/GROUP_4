@@ -2,127 +2,89 @@ package groupwork.dao.db;
 
 
 import groupwork.dao.api.IGenreDao;
-import groupwork.dao.db.ds.api.IDataSourceWrapper;
-import groupwork.dto.GenreDTO;
+import groupwork.dao.orm.manager.Manager;
+import groupwork.entity.GenreEntity;
 
-import java.sql.*;
-import java.util.ArrayList;
+
+import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class GenreDAO_DB implements IGenreDao {
+    private Manager manager;
 
-    private final String SQL_GET = "SELECT id, name FROM app.genres;";
-    private final String SQL_GET_NAME = "SELECT name FROM app.genres WHERE id = ?";
-    private final String SQL_IS_CONTAIN = "SELECT id FROM app.genres WHERE id = ?";
-    private final String SQL_DELETE = "DELETE FROM app.genres WHERE id = ?;";
-    private final String SQL_CREATE = "INSERT INTO app.genres (name) VALUES (?);";
-    private final String SQL_UPDATE = "UPDATE app.genres SET name = ? WHERE id = ?;";
-    private final IDataSourceWrapper dataSourceWrapper;
-
-    public GenreDAO_DB(IDataSourceWrapper dataSourceWrapper) {
-        this.dataSourceWrapper = dataSourceWrapper;
+    public GenreDAO_DB(Manager manager) {
+        this.manager = manager;
     }
 
     @Override
-    public List<GenreDTO> getGenreList() {
-        List<GenreDTO>list = new ArrayList<>();
+    public List<GenreEntity> getGenreList() {
+        EntityManager entityManager = manager.getEntityManager();
+        entityManager.getTransaction().begin();
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<GenreEntity> query = cb.createQuery(GenreEntity.class);
+        Root<GenreEntity> c = query.from(GenreEntity.class);
+        query.select(c);
+        return entityManager.createQuery(query).getResultList();
 
-        try(Connection connection =dataSourceWrapper.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET);
-            ResultSet resultSet = preparedStatement.executeQuery()){
-
-            while (resultSet.next()){
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                list.add(new GenreDTO(name, id));
-            }
-
-        }catch (SQLException e){
-            throw new RuntimeException("Ошибка соединения с базой данных");
-        }
-
-        return list;
     }
 
     @Override
     public boolean isContain(int id) {
         boolean result = false;
+        EntityManager entityManager = manager.getEntityManager();
+        entityManager.getTransaction().begin();
+        GenreEntity genreEntity = entityManager.find(GenreEntity.class, id);
+        entityManager.getTransaction().commit();
+        entityManager.close();
 
-        try(Connection connection = dataSourceWrapper.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_IS_CONTAIN)){
-
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()){
-                result = true;
-            }
-
-        }catch (SQLException e){
-            throw new RuntimeException("Database connection error", e);
+        if (genreEntity != null) {
+            result = true;
         }
         return result;
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(GenreEntity genreEntity) {
+        int id = genreEntity.getId();
 
-        try (Connection connection = dataSourceWrapper.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
-
-            preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
-
-        }catch (SQLException e){
-            throw new RuntimeException("Database connection error", e);
-        }
+        EntityManager entityManager = manager.getEntityManager();
+        entityManager.getTransaction().begin();
+        genreEntity = entityManager.find(GenreEntity.class, id);
+        entityManager.remove(genreEntity);
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
     @Override
-    public void create(String name) {
-
-        try(Connection connection = dataSourceWrapper.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_CREATE)){
-
-            preparedStatement.setString(1, name);
-            preparedStatement.executeUpdate();
-
-        }catch (SQLException e){
-            throw new RuntimeException("Database connection error", e);
-        }
+    public void create(GenreEntity genreEntity) {
+        EntityManager entityManager = manager.getEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.persist(genreEntity);
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
     @Override
-    public void update(int id, GenreDTO genreDTO) {
-        String genre = genreDTO.getName();
-
-        try(Connection connection = dataSourceWrapper.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)){
-
-            preparedStatement.setString(1, genre);
-            preparedStatement.setInt(2, id);
-            preparedStatement.executeUpdate();
-
-        }catch (SQLException e){
-            throw new RuntimeException("Database connection error", e);
-        }
-
+    public void update(GenreEntity genreEntity) {
+        EntityManager entityManager = manager.getEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.merge(genreEntity);
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
 
     @Override
-    public String get(Integer id) {
-        String name = null;
-        try (Connection connection = dataSourceWrapper.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_GET_NAME)
-        ) {
-            statement.setInt(1,id);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
-                name = resultSet.getString("name");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Database connection error", e);
-        }
-        return name;
+    public GenreEntity get(Integer id) {
+        EntityManager entityManager = manager.getEntityManager();
+        entityManager.getTransaction().begin();
+        GenreEntity genreEntity = entityManager.find(GenreEntity.class, id);
+        entityManager.getTransaction().commit();;
+        entityManager.close();
+
+        return genreEntity;
     }
 }
