@@ -5,7 +5,7 @@ import groupwork.dto.GenreDTO;
 import java.util.List;
 
 public interface IGenreDao {
-
+//исправить на entity
     List<GenreDTO> getGenreList();
 
     boolean isContain(int id);

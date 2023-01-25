@@ -2,6 +2,7 @@ package groupwork.service;
 
 import groupwork.dao.api.ISingerDao;
 import groupwork.dto.SingerDTO;
+import groupwork.entity.SingerEntity;
 import groupwork.service.api.ISingerService;
 
 import java.util.List;
@@ -25,22 +26,23 @@ public class SingerService implements ISingerService {
 
     @Override
     public List<SingerDTO> get() {
-        return dao.getSingerList();
+        return null;
+        //return dao.getSingerList();
     }
 
     @Override
     public void delete(int id) {
-        if(dao.isContain(id)){
+        /*if(dao.isContain(id)){
             dao.delete(id);
         }else {
             throw new IllegalArgumentException("Нет исполнителя для удаления с таким id");
-        }
+        }*/
     }
 
     @Override
     public void create(String name) {
         if (name != null && !name.isBlank()) {
-            dao.create(name);
+            dao.create(new SingerEntity(name));
         } else {
             throw new IllegalArgumentException("Не введен исполнитель");
         }
@@ -48,7 +50,7 @@ public class SingerService implements ISingerService {
 
     @Override
     public void update(int id, SingerDTO singerDTO) {
-        String singer = singerDTO.getName();
+        /*String singer = singerDTO.getName();
         if (singer == null || singer.isBlank()) {
             throw new IllegalArgumentException("Не введено новое имя исполнителя");
         }
@@ -57,11 +59,12 @@ public class SingerService implements ISingerService {
             dao.update(id, singerDTO);
         } else {
             throw new IllegalArgumentException("Нет исполнителя для обновления с таким id");
-        }
+        }*/
     }
 
     @Override
     public String get(Integer id) {
-        return dao.get(id);
+        //return dao.get(id);
+        return null;
     }
 }

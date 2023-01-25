@@ -5,7 +5,7 @@ import groupwork.dto.SavedVoiceDTO;
 import java.util.List;
 
 public interface IVotingDao {
-
+    //исправить на entity
     List<SavedVoiceDTO> getVoiceList();
 
 

@@ -14,8 +14,6 @@ public class ChoiceDaoProvider implements IDaoProvider {
     private ChoiceDaoProvider() {
         if (isDB) {
             iDaoProvider = new DaoDBProvider();
-        } else {
-            iDaoProvider = new DaoMemoryProvider();
         }
     }
 

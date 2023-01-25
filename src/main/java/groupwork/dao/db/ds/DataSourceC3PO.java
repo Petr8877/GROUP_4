@@ -8,7 +8,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Properties;
 
-
+//убрать
 public class DataSourceC3PO implements IDataSourceWrapper {
     private static final String DRIVER_CLASS_PROPERTY_NAME = "db.class";
     private static final String URL_PROPERTY_NAME = "db.url";

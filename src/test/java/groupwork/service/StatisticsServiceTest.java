@@ -1,8 +1,5 @@
 package groupwork.service;
 
-import groupwork.dao.memory.GenreDao;
-import groupwork.dao.memory.SingerDao;
-import groupwork.dao.memory.VotingDao;
 import groupwork.dto.VoiceDTO;
 import groupwork.service.api.IVotesService;
 import groupwork.service.fabrics.MailServiceSingleton;

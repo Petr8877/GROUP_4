@@ -5,7 +5,7 @@ import groupwork.dao.db.ds.api.IDataSourceWrapper;
 
 import java.beans.PropertyVetoException;
 import java.util.Properties;
-
+//убрать
 public class DataSourceSingleton {
     private static Properties properties;
     private volatile static IDataSourceWrapper instance;
