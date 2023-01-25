@@ -17,8 +17,8 @@ import java.util.Properties;
 public class PropertiesLoaderListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-
-        File confDir = new File("C:/IT/programs/apache-tomcat-8.5.85" + "/conf");
+//        File confDir = new File("C:/IT/programs/apache-tomcat-8.5.85" + "/conf");
+        File confDir = new File(System.getenv("catalina_base") + "/conf");
         File propMail = new File(confDir + "/mail.properties");
         try {
             Properties properties = new Properties();
