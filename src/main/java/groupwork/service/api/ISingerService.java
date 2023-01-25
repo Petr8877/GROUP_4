@@ -1,6 +1,7 @@
 package groupwork.service.api;
 
 import groupwork.dto.SingerDTO;
+import groupwork.entity.SingerEntity;
 
 import java.util.List;
 
@@ -8,7 +9,7 @@ public interface ISingerService {
 
     boolean checkNumber(int number);
 
-    List<SingerDTO> get();
+    List<SingerEntity> get();
 
     void delete(int id);
 

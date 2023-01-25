@@ -1,6 +1,7 @@
 package groupwork.web.controllers;
 
 import groupwork.dto.SingerDTO;
+import groupwork.entity.SingerEntity;
 import groupwork.service.api.ISingerService;
 import groupwork.service.fabrics.SingersServiceSingleton;
 
@@ -123,10 +124,11 @@ public class SingerServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html; charset=UTF-8");
 
-        List<SingerDTO> singerDTOS = singerService.get();
+        List<SingerEntity> singerDTOS = singerService.get();
 
         PrintWriter writer = resp.getWriter();
 
-        singerDTOS.forEach(singerDTO -> writer.write("<p>" + singerDTO + "</p>"));
+        singerDTOS.forEach(singerEntity -> writer.write("<p>" + "id: " + singerEntity.getId()
+                + ", name: " + singerEntity.getName() + "</p>"));
     }
 }

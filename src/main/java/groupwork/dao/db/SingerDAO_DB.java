@@ -10,13 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SingerDAO_DB implements ISingerDao {
-   /* private final String SQL_GET = "SELECT id, name FROM app.artists;";
-    private final String SQL_GET_NAME = "SELECT name FROM app.artists WHERE id = ?;";
-    private final String SQL_IS_CONTAIN = "SELECT id FROM app.artists WHERE id = ?;";
-    private final String SQL_DELETE = "DELETE FROM app.artists WHERE id = ?;";
-    private final String SQL_CREATE = "INSERT INTO app.artists (name) VALUES (?);";
-    private final String SQL_UPDATE = "UPDATE app.artists SET name = ? WHERE id = ?;";*/
-
     private final Manager manager;
 
     public SingerDAO_DB(Manager manager) {
@@ -24,28 +17,13 @@ public class SingerDAO_DB implements ISingerDao {
     }
     @Override
     public List<SingerEntity> getSingerList() {
-        List<SingerEntity>list = new ArrayList<>();
-
         EntityManager entityManager = manager.getEntityManager();
         entityManager.getTransaction().begin();
-
-
-        /*try(Connection connection = dataSourceWrapper.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET);
-            ){
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()){
-                int id = resultSet.getInt("id");
-                String name = resultSet.getString("name");
-                list.add(new SingerDTO(name, id));
-            }
-
-        } catch (SQLException e){
-            throw new RuntimeException("Database connection error", e);
-        }*/
-
-        return list;
+        List<SingerEntity> resultList = entityManager.createQuery("from SingerEntity", SingerEntity.class)
+                .getResultList();
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        return resultList;
     }
 
     @Override

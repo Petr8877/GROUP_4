@@ -25,9 +25,8 @@ public class SingerService implements ISingerService {
     }
 
     @Override
-    public List<SingerDTO> get() {//изменить
-        return null;
-        //return dao.getSingerList();
+    public List<SingerEntity> get() {
+        return dao.getSingerList();
     }
 
     @Override

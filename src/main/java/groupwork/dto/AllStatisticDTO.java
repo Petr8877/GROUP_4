@@ -1,16 +1,18 @@
 package groupwork.dto;
 
+import groupwork.entity.SingerEntity;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 public class AllStatisticDTO {
 
-    private final Map<SingerDTO, Integer> mapSingers;
+    private final Map<SingerEntity, Integer> mapSingers;
     private final Map<GenreDTO, Integer> mapGenres;
     private final Map<String, LocalDateTime> mapUserInfo;
 
-    public AllStatisticDTO(Map<SingerDTO, Integer> mapSingers,
+    public AllStatisticDTO(Map<SingerEntity, Integer> mapSingers,
                            Map<GenreDTO, Integer> mapGenres,
                            Map<String, LocalDateTime> mapUserInfo) {
         this.mapSingers = mapSingers;
@@ -18,7 +20,7 @@ public class AllStatisticDTO {
         this.mapUserInfo = mapUserInfo;
     }
 
-    public Map<SingerDTO, Integer> getMapSingers() {
+    public Map<SingerEntity, Integer> getMapSingers() {
         return mapSingers;
     }
 

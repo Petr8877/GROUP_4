@@ -2,7 +2,6 @@ package groupwork.dao.db.fabrics;
 
 import groupwork.dao.db.SingerDAO_DB;
 import groupwork.dao.api.ISingerDao;
-import groupwork.dao.db.ds.fabrics.DataSourceSingleton;
 import groupwork.dao.orm.factory.EntityManagerVoteSingleton;
 
 import java.beans.PropertyVetoException;

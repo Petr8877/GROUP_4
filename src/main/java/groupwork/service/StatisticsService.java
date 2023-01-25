@@ -1,6 +1,7 @@
 package groupwork.service;
 
 import groupwork.dto.*;
+import groupwork.entity.SingerEntity;
 import groupwork.service.api.IGenreService;
 import groupwork.service.api.ISingerService;
 import groupwork.service.api.IStatisticsService;
@@ -26,8 +27,8 @@ public class StatisticsService implements IStatisticsService {
         this.iGenreService = iGenreService;
     }
 
-    private void calcVoice(Map<SingerDTO, Integer> mapSinger, Map<GenreDTO, Integer> mapGenre, Map<String,
-            LocalDateTime> mapUser, List<SingerDTO> singerDTOS, List<GenreDTO> genreDTOS) {
+    private void calcVoice(Map<SingerEntity, Integer> mapSinger, Map<GenreDTO, Integer> mapGenre, Map<String,
+            LocalDateTime> mapUser, List<SingerEntity> singerDTOS, List<GenreDTO> genreDTOS) {
         List<SavedVoiceDTO> savedVoiceDTOS = iVotesService.get();
         for (SavedVoiceDTO savedVoiceDTO : savedVoiceDTOS) {
             int idSinger = savedVoiceDTO.getVoice().getSinger();
@@ -35,9 +36,9 @@ public class StatisticsService implements IStatisticsService {
 
             mapUser.put(savedVoiceDTO.getVoice().getMessage(), savedVoiceDTO.getCreationTime());
 
-            for (SingerDTO SingerDTO : singerDTOS) {
-                if (idSinger == SingerDTO.getId()) {
-                    mapSinger.put(SingerDTO, mapSinger.get(SingerDTO) + 1);
+            for (SingerEntity singer : singerDTOS) {
+                if (idSinger == singer.getId()) {
+                    mapSinger.put(singer, mapSinger.get(singer) + 1);
                 }
             }
 
@@ -51,7 +52,7 @@ public class StatisticsService implements IStatisticsService {
         }
     }
 
-    private AllStatisticDTO createResultObject(Map<SingerDTO, Integer> mapSinger, Map<GenreDTO, Integer> mapGenre, Map<String, LocalDateTime> mapUser) {
+    private AllStatisticDTO createResultObject(Map<SingerEntity, Integer> mapSinger, Map<GenreDTO, Integer> mapGenre, Map<String, LocalDateTime> mapUser) {
         return new AllStatisticDTO(
                 mapSinger.entrySet().stream()
                         .sorted(Map.Entry.comparingByValue(Collections.reverseOrder(Integer::compare)))
@@ -70,20 +71,20 @@ public class StatisticsService implements IStatisticsService {
 
     @Override
     public AllStatisticDTO getAllSort() {
-        Map<SingerDTO, Integer> mapSinger = new HashMap<>();
+        Map<SingerEntity, Integer> mapSinger = new HashMap<>();
         Map<GenreDTO, Integer> mapGenre = new HashMap<>();
         Map<String, LocalDateTime> mapUser = new HashMap<>();
-        List<SingerDTO> singerDTOS = iSingerService.get();
+        List<SingerEntity> singerEntities = iSingerService.get();
         List<GenreDTO> genreDTOS = iGenreService.get();
 
-        for (SingerDTO listSingerDTO : singerDTOS) {
-            mapSinger.put(listSingerDTO, 0);
+        for (SingerEntity singer : singerEntities) {
+            mapSinger.put(singer, 0);
         }
         for (GenreDTO genreDTO : genreDTOS) {
             mapGenre.put(genreDTO, 0);
         }
 
-        calcVoice(mapSinger, mapGenre, mapUser, singerDTOS, genreDTOS);
+        calcVoice(mapSinger, mapGenre, mapUser, singerEntities, genreDTOS);
 
         return createResultObject(mapSinger, mapGenre, mapUser);
     }

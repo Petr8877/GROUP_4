@@ -3,6 +3,7 @@ package groupwork.web.controllers;
 import groupwork.dto.GenreDTO;
 import groupwork.dto.SingerDTO;
 import groupwork.dto.AllStatisticDTO;
+import groupwork.entity.SingerEntity;
 import groupwork.service.api.IStatisticsService;
 import groupwork.service.fabrics.StatisticServiceSingleton;
 
@@ -36,7 +37,7 @@ public class ResultVotingServlet extends HttpServlet {
         AllStatisticDTO allSort = statisticsService.getAllSort();
 
         writer.write("<p>Результаты голосования за лучшего исполнителя:</p>");
-        for (Map.Entry<SingerDTO, Integer> entry : allSort.getMapSingers().entrySet()) {
+        for (Map.Entry<SingerEntity, Integer> entry : allSort.getMapSingers().entrySet()) {
             writer.write("<p>" + entry.getKey() + " -> " + entry.getValue() + "</p>");
         }
 
