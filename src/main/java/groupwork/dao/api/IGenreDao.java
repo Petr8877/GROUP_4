@@ -1,19 +1,20 @@
 package groupwork.dao.api;
 
 import groupwork.dto.GenreDTO;
+import groupwork.entity.GenreEntity;
 
 import java.util.List;
 
 public interface IGenreDao {
 //исправить на entity
-    List<GenreDTO> getGenreList();
+    List<GenreEntity> getGenreList();
 
     boolean isContain(int id);
 
-    void delete(int id);
+    void delete(GenreEntity genreEntity);
 
-    void create(String name);
+    void create(GenreEntity genreEntity);
 
-    void update(int id, GenreDTO genreDTO);
-    String get(Integer id);
+    void update( GenreEntity genreEntity);
+    GenreEntity get(Integer id);
 }
