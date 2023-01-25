@@ -14,6 +14,6 @@ public interface ISingerDao {
 
     void create(SingerEntity singerEntity);//String name
 
-    void update(int id, SingerEntity singerEntity);
+    void update(SingerEntity singerEntity);//id+new name
     SingerEntity get(int id);//int id
 }

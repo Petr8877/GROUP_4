@@ -30,7 +30,6 @@ public class SingerDAO_DB implements ISingerDao {
         entityManager.getTransaction().begin();
 
 
-
         /*try(Connection connection = dataSourceWrapper.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET);
             ){
@@ -53,78 +52,57 @@ public class SingerDAO_DB implements ISingerDao {
     public boolean isContain(int id) {
         boolean result = false;
 
-        /*try(Connection connection = dataSourceWrapper.getConnection();
-            PreparedStatement statement = connection.prepareStatement(SQL_IS_CONTAIN)){
+        EntityManager entityManager = manager.getEntityManager();
+        entityManager.getTransaction().begin();
+        SingerEntity singerEntity = entityManager.find(SingerEntity.class, id);
+        entityManager.getTransaction().commit();
+        entityManager.close();
 
-            statement.setInt(1, id);
-            ResultSet resultSet = statement.executeQuery();
+        if(singerEntity != null) {
+            result = true;
+        }
 
-            while (resultSet.next()){
-                result = true;
-            }
-
-            resultSet.close();
-
-        }catch (SQLException e){
-            throw new RuntimeException("Database connection error", e);
-        }*/
         return result;
     }
 
     @Override
     public void delete(SingerEntity singerEntity) {
-
-        /*try (Connection connection = dataSourceWrapper.getConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE)) {
-
-            preparedStatement.setInt(1, id);
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e){
-            throw new RuntimeException("Database connection error", e);
-        }*/
-    }
-
-    @Override
-    public void create(SingerEntity singerEntity) {
+        int id = singerEntity.getId();
 
         EntityManager entityManager = manager.getEntityManager();
         entityManager.getTransaction().begin();
-        entityManager.persist(singerEntity);
+        singerEntity = entityManager.find(SingerEntity.class, id);
+        entityManager.remove(singerEntity);
         entityManager.getTransaction().commit();
         entityManager.close();
 
     }
 
     @Override
-    public void update(int id, SingerEntity singerEntity) {
-        String singer = singerEntity.getName();
+    public void create(SingerEntity singerEntity) {
+        EntityManager entityManager = manager.getEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.persist(singerEntity);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+    }
 
-       /* try(Connection connection = dataSourceWrapper.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)){
-
-            preparedStatement.setString(1, singer);
-            preparedStatement.setInt(2, id);
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e){
-            throw new RuntimeException("Database connection error", e);
-        }*/
+    @Override
+    public void update(SingerEntity singerEntity) {
+        EntityManager entityManager = manager.getEntityManager();
+        entityManager.getTransaction().begin();
+        entityManager.merge(singerEntity);
+        entityManager.getTransaction().commit();
+        entityManager.close();
     }
     @Override
     public SingerEntity get(int id) {
-        String name = null;
-       /* try (Connection connection = dataSourceWrapper.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_GET_NAME)
-        ) {
-            statement.setInt(1,id);
-            ResultSet resultSet = statement.executeQuery();
-            while (resultSet.next()){
-                name = resultSet.getString("name");
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("Database connection error", e);
-        }*/
-        return null;
+        EntityManager entityManager = manager.getEntityManager();
+        entityManager.getTransaction().begin();
+        SingerEntity singerEntity = entityManager.find(SingerEntity.class, id);
+        entityManager.getTransaction().commit();;
+        entityManager.close();
+
+        return singerEntity;
     }
 }

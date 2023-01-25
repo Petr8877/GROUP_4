@@ -26,6 +26,10 @@ public class SingerEntity {
         this.name = name;
     }
 
+    public SingerEntity(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }
