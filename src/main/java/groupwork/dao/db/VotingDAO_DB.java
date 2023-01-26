@@ -24,6 +24,10 @@ public class VotingDAO_DB implements IVotingDao {
     private final String SQL_INSERT_SINGER = "INSERT INTO app.vote_artists (id_user, id_artist) VALUES (?, ?);";
 
     private final String SQL_INSERT_GENRE = "INSERT INTO app.vote_genre (id_user, id_genre) VALUES (?, ?);";
+
+    private final String SQL_GET_ID_AND_KEY = "SELECT id, key FROM app.votes";
+
+    private final String SQL_UPDATE_AUTHORIZATION = "UPDATE app.votes SET authoriz = ? WHERE id = ?;";
     private final IDataSourceWrapper dataSourceWrapper;
 
     public VotingDAO_DB(IDataSourceWrapper dataSourceWrapper) {
@@ -132,7 +136,7 @@ public class VotingDAO_DB implements IVotingDao {
     public Map<Long, Long> getIdAndKey() {
         Map<Long, Long> map = new HashMap<>();
         try (Connection connection = dataSourceWrapper.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT id, key FROM app.votes");
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET_ID_AND_KEY);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 map.put(resultSet.getLong("id"), resultSet.getLong("key"));
@@ -146,7 +150,7 @@ public class VotingDAO_DB implements IVotingDao {
     @Override
     public void auth(long id) {
         try (Connection connection = dataSourceWrapper.getConnection()) {
-            PreparedStatement preparedStatement = connection.prepareStatement("UPDATE app.votes SET authoriz = ? WHERE id = ?;");
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_AUTHORIZATION);
             preparedStatement.setBoolean(1, true);
             preparedStatement.setLong(2, id);
             preparedStatement.executeUpdate();
