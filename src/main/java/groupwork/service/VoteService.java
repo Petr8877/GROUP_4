@@ -21,6 +21,7 @@ public class VoteService implements IVotesService {
 
     private final IGenreService genreService;
     private final IMailService mailService;
+    private final ExecutorService executorService = Executors.newFixedThreadPool(5);
 
     public VoteService(IVotingDao voiceDao, ISingerService singerService, IGenreService genreService,
                        MailService mailService) {
@@ -34,11 +35,11 @@ public class VoteService implements IVotesService {
 
     @Override
     public SavedVoiceDTO save(VoiceDTO voice) {
-        ExecutorService executorService = Executors.newFixedThreadPool(5);
         check(voice);
         SavedVoiceDTO savedVoiceDTO = new SavedVoiceDTO(voice);
         int id = votingDao.save(savedVoiceDTO);
-        executorService.submit(new Thread(() -> mailService.send(savedVoiceDTO, id)));
+        Runnable runnable = () -> mailService.send(savedVoiceDTO, id);
+        executorService.execute(runnable);
         return savedVoiceDTO;
     }
 
