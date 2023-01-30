@@ -27,16 +27,16 @@ public class StatisticsService implements IStatisticsService {
         this.iGenreService = iGenreService;
     }
 
-    private void calcVoice(Map<SingerEntity, Integer> mapSinger, Map<GenreDTO, Integer> mapGenre, Map<String,
-            LocalDateTime> mapUser, List<SingerEntity> singerDTOS, List<GenreDTO> genreDTOS) {
-        List<SavedVoiceDTO> savedVoiceDTOS = iVotesService.get();
-        for (SavedVoiceDTO savedVoiceDTO : savedVoiceDTOS) {
-            int idSinger = savedVoiceDTO.getVoice().getSinger();
-            int[] idGenre = savedVoiceDTO.getVoice().getGenre();
+    private void calcVoice(Map<SingerDTO, Integer> mapSinger, Map<GenreDTO, Integer> mapGenre, Map<String,
+            LocalDateTime> mapUser, List<SingerDTO> singerDTOS, List<GenreDTO> genreDTOS) {
+        List<SavedVoiceEntity> savedVoiceEntities = iVotesService.get();
+        for (SavedVoiceEntity savedVoiceEntity : savedVoiceEntities) {
+            int idSinger = savedVoiceEntity.getVoice().getSinger();
+            int[] idGenre = savedVoiceEntity.getVoice().getGenre();
 
-            mapUser.put(savedVoiceDTO.getVoice().getMessage(), savedVoiceDTO.getCreationTime());
+            mapUser.put(savedVoiceEntity.getVoice().getMessage(), savedVoiceEntity.getCreationTime());
 
-            for (SingerEntity singer : singerDTOS) {
+            for (SingerDTO singer : singerDTOS) {
                 if (idSinger == singer.getId()) {
                     mapSinger.put(singer, mapSinger.get(singer) + 1);
                 }
@@ -52,7 +52,7 @@ public class StatisticsService implements IStatisticsService {
         }
     }
 
-    private AllStatisticDTO createResultObject(Map<SingerEntity, Integer> mapSinger, Map<GenreDTO, Integer> mapGenre, Map<String, LocalDateTime> mapUser) {
+    private AllStatisticDTO createResultObject(Map<SingerDTO, Integer> mapSinger, Map<GenreDTO, Integer> mapGenre, Map<String, LocalDateTime> mapUser) {
         return new AllStatisticDTO(
                 mapSinger.entrySet().stream()
                         .sorted(Map.Entry.comparingByValue(Collections.reverseOrder(Integer::compare)))
@@ -71,17 +71,17 @@ public class StatisticsService implements IStatisticsService {
 
     @Override
     public AllStatisticDTO getAllSort() {
-        Map<SingerEntity, Integer> mapSinger = new HashMap<>();
+        Map<SingerDTO, Integer> mapSinger = new HashMap<>();
         Map<GenreDTO, Integer> mapGenre = new HashMap<>();
         Map<String, LocalDateTime> mapUser = new HashMap<>();
-        List<SingerEntity> singerEntities = iSingerService.get();
-      /*  List<GenreDTO> genreDTOS = iGenreService.get();
+        List<SingerDTO> singerEntities = iSingerService.get();
+        //List<GenreDTO> genreDTOS = iGenreService.get();
 
 
-        for (SingerEntity singer : singerEntities) {
+        for (SingerDTO singer : singerEntities) {
             mapSinger.put(singer, 0);
         }
-        for (GenreDTO genreDTO : genreDTOS) {
+       /* for (GenreDTO genreDTO : genreDTOS) {
             mapGenre.put(genreDTO, 0);
         }
 

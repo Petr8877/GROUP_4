@@ -1,7 +1,7 @@
 package groupwork.service;
 
 import groupwork.dao.api.IVotingDao;
-import groupwork.dto.SavedVoiceDTO;
+import groupwork.dto.SavedVoiceEntity;
 import groupwork.dto.VoiceDTO;
 import groupwork.service.api.IGenreService;
 import groupwork.service.api.IMailService;
@@ -31,13 +31,13 @@ public class VoteService implements IVotesService {
     @Override
     public void save(VoiceDTO voice) {
         check(voice);
-        SavedVoiceDTO savedVoiceDTO = new SavedVoiceDTO(voice);
-        votingDao.save(savedVoiceDTO);
-        mailService.send(savedVoiceDTO);
+        SavedVoiceEntity savedVoiceEntity = new SavedVoiceEntity(voice);
+        votingDao.save(savedVoiceEntity);
+        mailService.send(savedVoiceEntity);
     }
 
     @Override
-    public List<SavedVoiceDTO> get() {
+    public List<SavedVoiceEntity> get() {
         return votingDao.getVoiceList();
     }
 

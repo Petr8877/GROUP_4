@@ -8,11 +8,11 @@ import java.util.Map;
 
 public class AllStatisticDTO {
 
-    private final Map<SingerEntity, Integer> mapSingers;
+    private final Map<SingerDTO, Integer> mapSingers;
     private final Map<GenreDTO, Integer> mapGenres;
     private final Map<String, LocalDateTime> mapUserInfo;
 
-    public AllStatisticDTO(Map<SingerEntity, Integer> mapSingers,
+    public AllStatisticDTO(Map<SingerDTO, Integer> mapSingers,
                            Map<GenreDTO, Integer> mapGenres,
                            Map<String, LocalDateTime> mapUserInfo) {
         this.mapSingers = mapSingers;
@@ -20,7 +20,7 @@ public class AllStatisticDTO {
         this.mapUserInfo = mapUserInfo;
     }
 
-    public Map<SingerEntity, Integer> getMapSingers() {
+    public Map<SingerDTO, Integer> getMapSingers() {
         return mapSingers;
     }
 

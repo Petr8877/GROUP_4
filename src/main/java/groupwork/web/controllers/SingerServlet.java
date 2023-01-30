@@ -1,7 +1,6 @@
 package groupwork.web.controllers;
 
 import groupwork.dto.SingerDTO;
-import groupwork.entity.SingerEntity;
 import groupwork.service.api.ISingerService;
 import groupwork.service.fabrics.SingersServiceSingleton;
 
@@ -74,7 +73,7 @@ public class SingerServlet extends HttpServlet {
 
             String singerName = singers[0];
 
-            singerService.create(singerName);
+            singerService.create(new SingerDTO(singerName));
             writer.write("<p>Singer created successfully</p>");
 
         } catch (RuntimeException e) {
@@ -102,8 +101,9 @@ public class SingerServlet extends HttpServlet {
             }
 
             int singer = Integer.parseInt(singers[0]);
-
-            singerService.delete(singer);
+            SingerDTO singerDTO = new SingerDTO();
+            singerDTO.setId(singer);
+            singerService.delete(singerDTO);
 
             writer.write("<p>Singer deleted successfully</p>");
 
@@ -124,11 +124,11 @@ public class SingerServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html; charset=UTF-8");
 
-        List<SingerEntity> singerDTOS = singerService.get();
+        List<SingerDTO> singerDTOS = singerService.get();
 
         PrintWriter writer = resp.getWriter();
 
-        singerDTOS.forEach(singerEntity -> writer.write("<p>" + "id: " + singerEntity.getId()
-                + ", name: " + singerEntity.getName() + "</p>"));
+        singerDTOS.forEach(singerDTO -> writer.write("<p>" + "id: " + singerDTO.getId()
+                + ", name: " + singerDTO.getName() + "</p>"));
     }
 }

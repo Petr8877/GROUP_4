@@ -9,13 +9,13 @@ public interface ISingerService {
 
     boolean checkNumber(int number);
 
-    List<SingerEntity> get();
+    List<SingerDTO> get();
 
-    void delete(int id);
+    void delete(SingerDTO singerDTO);
 
-    void create(String name);
+    void create(SingerDTO singerDTO);
 
     void update(int id, SingerDTO singerDTO);
-    String get(Integer id);
+    SingerDTO get(int id);
 
 }

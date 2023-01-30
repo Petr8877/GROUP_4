@@ -1,7 +1,7 @@
 package groupwork.service;
 
 
-import groupwork.dto.SavedVoiceDTO;
+import groupwork.dto.SavedVoiceEntity;
 import groupwork.dto.VoiceDTO;
 import groupwork.service.api.IGenreService;
 import groupwork.service.api.IMailService;
@@ -26,18 +26,18 @@ public class MailService  implements IMailService {
     }
 
     @Override
-    public void send (SavedVoiceDTO savedVoiceDTO) {
+    public void send (SavedVoiceEntity savedVoiceEntity) {
 
         try {
             Session session = new SessionCreator(properties).createSession();
             session.setDebug(true);
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(properties.getProperty("mail.user.name")));
-            String email = savedVoiceDTO.getVoice().getMail();
+            String email = savedVoiceEntity.getVoice().getMail();
             message.setRecipients(
                     Message.RecipientType.TO, InternetAddress.parse(email));
             message.setSubject("You have successfully voted");
-            String msg =  createMailText(savedVoiceDTO);
+            String msg =  createMailText(savedVoiceEntity);
             message.setText(msg);
             Transport.send(message);
         } catch (Exception e) {
@@ -45,18 +45,18 @@ public class MailService  implements IMailService {
         }
 
     }
-    private String createMailText(SavedVoiceDTO savedVoiceDTO){
+    private String createMailText(SavedVoiceEntity savedVoiceEntity){
         StringBuilder builder = new StringBuilder();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
 
-        VoiceDTO voice = savedVoiceDTO.getVoice();
+        VoiceDTO voice = savedVoiceEntity.getVoice();
 
         int singerID = voice.getSinger();
         int[] genreID = voice.getGenre();
         String message = voice.getMessage();
-        LocalDateTime creationTime = savedVoiceDTO.getCreationTime();
+        LocalDateTime creationTime = savedVoiceEntity.getCreationTime();
 
-        String singer = singerService.get(singerID);
+        String singer = singerService.get(singerID).getName();
 
         builder.append("Ваш голос: исполнитель - ").append(singer)
                 .append(", жанры - ");

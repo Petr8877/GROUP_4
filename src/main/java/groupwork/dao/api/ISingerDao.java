@@ -5,15 +5,14 @@ import groupwork.entity.SingerEntity;
 import java.util.List;
 
 public interface ISingerDao {
-    //исправить на entity
     List<SingerEntity> getSingerList();
 
     boolean isContain(int id);
 
-    void delete(SingerEntity singerEntity);//int id
+    void delete(SingerEntity singerEntity);
 
-    void create(SingerEntity singerEntity);//String name
+    void create(SingerEntity singerEntity);
 
-    void update(SingerEntity singerEntity);//id+new name
-    SingerEntity get(int id);//int id
+    void update(SingerEntity singerEntity);
+    SingerEntity get(int id);
 }

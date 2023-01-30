@@ -2,7 +2,7 @@ package groupwork.dao.db;
 
 import groupwork.dao.api.IVotingDao;
 import groupwork.dao.db.ds.api.IDataSourceWrapper;
-import groupwork.dto.SavedVoiceDTO;
+import groupwork.dto.SavedVoiceEntity;
 import groupwork.dto.VoiceDTO;
 
 import java.sql.*;
@@ -29,8 +29,8 @@ public class VotingDAO_DB implements IVotingDao {
     }
 
     @Override
-    public List<SavedVoiceDTO> getVoiceList() {
-        List<SavedVoiceDTO> list = new ArrayList<>();
+    public List<SavedVoiceEntity> getVoiceList() {
+        List<SavedVoiceEntity> list = new ArrayList<>();
 
         try (Connection connection = dataSourceWrapper.getConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SQL_GET,
@@ -62,7 +62,7 @@ public class VotingDAO_DB implements IVotingDao {
                         .mapToInt(Integer::intValue)
                         .toArray();
 
-                SavedVoiceDTO voice = new SavedVoiceDTO(
+                SavedVoiceEntity voice = new SavedVoiceEntity(
                         new VoiceDTO(singer, genres, about, mail),
                         dtCreate);
 
@@ -78,7 +78,7 @@ public class VotingDAO_DB implements IVotingDao {
     }
 
     @Override
-    public void save(SavedVoiceDTO voice) {
+    public void save(SavedVoiceEntity voice) {
 
         VoiceDTO voiceDTO = voice.getVoice();
 

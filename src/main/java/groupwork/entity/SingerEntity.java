@@ -1,8 +1,11 @@
 package groupwork.entity;
 
+import groupwork.dto.SavedVoiceEntity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "app.artists")
@@ -13,6 +16,9 @@ public class SingerEntity {
     private int id;
 
     private String name;
+
+    /*@OneToMany(mappedBy = "singer")
+    private List<SavedVoiceEntity> voice = new ArrayList<>();*/
 
     public SingerEntity() {
     }
