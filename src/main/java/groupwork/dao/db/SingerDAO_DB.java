@@ -1,16 +1,16 @@
 package groupwork.dao.db;
 
 import groupwork.dao.api.ISingerDao;
-import groupwork.dao.orm.manager.Manager;
+import groupwork.dao.orm.api.IManager;
 import groupwork.entity.SingerEntity;
 
 import javax.persistence.EntityManager;
 import java.util.List;
 
 public class SingerDAO_DB implements ISingerDao {
-    private final Manager manager;
+    private final IManager manager;
 
-    public SingerDAO_DB(Manager manager) {
+    public SingerDAO_DB(IManager manager) {
         this.manager = manager;
     }
     @Override

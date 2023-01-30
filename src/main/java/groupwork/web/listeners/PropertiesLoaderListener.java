@@ -1,5 +1,6 @@
 package groupwork.web.listeners;
 
+import groupwork.dao.orm.factory.EntityManagerVoteSingleton;
 import groupwork.service.fabrics.MailServiceSingleton;
 
 import javax.servlet.ServletContextEvent;
@@ -33,7 +34,7 @@ public class PropertiesLoaderListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-
+        EntityManagerVoteSingleton.getInstance().close();
         deregisterDrivers(getDrivers());
     }
 
