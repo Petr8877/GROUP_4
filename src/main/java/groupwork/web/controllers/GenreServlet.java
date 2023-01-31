@@ -1,8 +1,6 @@
 package groupwork.web.controllers;
 
-import groupwork.dao.db.GenreDAO_DB;
 import groupwork.dto.GenreDTO;
-import groupwork.entity.GenreEntity;
 import groupwork.service.api.IGenreService;
 import groupwork.service.fabrics.GenresServiceSingleton;
 
@@ -33,11 +31,11 @@ public class GenreServlet extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("text/html; charset=UTF-8");
 
-        List<GenreEntity> genreEntities = genreService.get();
+        List<GenreDTO> genreEntities = genreService.get();
 
         PrintWriter writer = resp.getWriter();
 
-        genreEntities.forEach( genreEntity-> writer.write("<p>" + genreEntity.getId()+" "+genreEntity.getName() + "</p>"));
+        genreEntities.forEach(genreEntity -> writer.write("<p>" + genreEntity.getId() + " " + genreEntity.getName() + "</p>"));
     }
 
     @Override
@@ -56,9 +54,9 @@ public class GenreServlet extends HttpServlet {
             }
 
             int genre = Integer.parseInt(genres[0]);
-
-            genreService.delete(genre);
-
+            GenreDTO genreDTO = new GenreDTO();
+            genreDTO.setId(genre);
+            genreService.delete(genreDTO);
             writer.write("<p>Genre deleted successfully</p>");
 
         } catch (RuntimeException e) {
@@ -88,7 +86,7 @@ public class GenreServlet extends HttpServlet {
 
             String genreName = genres[0];
 
-            genreService.create(genreName);
+            genreService.create(new GenreDTO(genreName));
             writer.write("<p>Genre created successfully</p>");
 
         } catch (RuntimeException e) {

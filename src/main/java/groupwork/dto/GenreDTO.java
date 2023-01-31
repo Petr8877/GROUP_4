@@ -11,6 +11,10 @@ public class GenreDTO {
         this.id = id;
     }
 
+    public GenreDTO(String name) {
+        this.name = name;
+    }
+
     public GenreDTO() {
     }
 

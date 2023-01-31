@@ -75,19 +75,18 @@ public class StatisticsService implements IStatisticsService {
         Map<GenreDTO, Integer> mapGenre = new HashMap<>();
         Map<String, LocalDateTime> mapUser = new HashMap<>();
         List<SingerDTO> singerEntities = iSingerService.get();
-        //List<GenreDTO> genreDTOS = iGenreService.get();
+        List<GenreDTO> genreDTOS = iGenreService.get();
 
 
         for (SingerDTO singer : singerEntities) {
             mapSinger.put(singer, 0);
         }
-       /* for (GenreDTO genreDTO : genreDTOS) {
+        for (GenreDTO genreDTO : genreDTOS) {
             mapGenre.put(genreDTO, 0);
         }
 
         calcVoice(mapSinger, mapGenre, mapUser, singerEntities, genreDTOS);
 
-        return createResultObject(mapSinger, mapGenre, mapUser);*/
-        return null;
+        return createResultObject(mapSinger, mapGenre, mapUser);
     }
 }

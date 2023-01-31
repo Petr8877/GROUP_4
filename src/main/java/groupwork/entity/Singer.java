@@ -10,7 +10,7 @@ import java.util.List;
 
 @javax.persistence.Entity
 //@Table(name = "singer")
-public class Singer extends Entity {
+public class Singer {
 
     @Id
     @GeneratedValue(generator = "increment")

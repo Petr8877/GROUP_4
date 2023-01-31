@@ -3,10 +3,10 @@ package groupwork.service;
 import groupwork.dao.api.IGenreDao;
 import groupwork.dto.GenreDTO;
 import groupwork.entity.GenreEntity;
-import groupwork.entity.SingerEntity;
 import groupwork.service.api.IGenreService;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GenreService implements IGenreService {
@@ -26,12 +26,21 @@ public class GenreService implements IGenreService {
     }
 
     @Override
-    public List<GenreEntity> get() {
-        return dao.getGenreList();
+    public List<GenreDTO> get() {
+        List<GenreEntity> genreList = dao.getGenreList();
+
+        List<GenreDTO> list = new ArrayList<>();
+
+        for (GenreEntity genreEntity : genreList) {
+            list.add(new GenreDTO(genreEntity.getName(), genreEntity.getId()));
+        }
+
+        return list;
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(GenreDTO genreDTO) {
+        int id = genreDTO.getId();
         if (id == 0) {
             throw new IllegalArgumentException("Введите номер жанра");
         }
@@ -43,7 +52,8 @@ public class GenreService implements IGenreService {
     }
 
     @Override
-    public void create(String name) {
+    public void create(GenreDTO genreDTO) {
+        String name = genreDTO.getName();
         if (name != null && !name.isBlank()) {
             dao.create(new GenreEntity(name));
         } else {
@@ -72,7 +82,8 @@ public class GenreService implements IGenreService {
     }
 
     @Override
-    public String get(Integer id) {
-        return null;
+    public GenreDTO get(int id) {
+        GenreEntity genreEntity = this.dao.get(id);
+        return new GenreDTO(genreEntity.getName(), genreEntity.getId());
     }
 }
