@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "votes")
+@Table(name = "app.votes")
 public class SavedVoice {
     @Id
     @GeneratedValue(generator = "increment")
@@ -18,7 +18,7 @@ public class SavedVoice {
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "vote_artists",
+            name = "app.vote_artists",
             joinColumns =
             @JoinColumn(name = "voice_id"),
             inverseJoinColumns =
@@ -28,7 +28,7 @@ public class SavedVoice {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "vote_genre",
+            name = "app.vote_genre",
             joinColumns =
             @JoinColumn(name = "voice_id"),
             inverseJoinColumns =

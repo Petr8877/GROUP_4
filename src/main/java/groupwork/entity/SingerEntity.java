@@ -4,10 +4,11 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-//@Table(name = "app.artists")
-@Table(name = "artists")
+@Table(name = "app.artists")
 public class SingerEntity {
     @Id
     @GeneratedValue(generator = "increment")
@@ -16,8 +17,8 @@ public class SingerEntity {
 
     private String name;
 
-    /*@OneToMany(mappedBy = "singer")
-    private List<SavedVoiceEntity> voice = new ArrayList<>();*/
+    @OneToMany(mappedBy = "singer")
+    private List<SavedVoice> voice = new ArrayList<>();
 
     public SingerEntity() {
     }
