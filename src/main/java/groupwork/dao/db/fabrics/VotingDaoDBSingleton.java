@@ -3,6 +3,7 @@ package groupwork.dao.db.fabrics;
 import groupwork.dao.db.VotingDAO_DB;
 import groupwork.dao.api.IVotingDao;
 import groupwork.dao.db.ds.fabrics.DataSourceSingleton;
+import groupwork.dao.orm.factory.EntityManagerVoteSingleton;
 
 import java.beans.PropertyVetoException;
 
@@ -17,7 +18,7 @@ public class VotingDaoDBSingleton {
         if (instance == null) {
             synchronized (VotingDaoDBSingleton.class) {
                 if (instance == null) {
-                    instance = new VotingDAO_DB(DataSourceSingleton.getInstance());
+                    instance = new VotingDAO_DB(EntityManagerVoteSingleton.getInstance());
                 }
             }
         }

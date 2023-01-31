@@ -1,6 +1,7 @@
 package groupwork.service.fabrics;
 
 
+//import groupwork.dao.fabrics.SingerDaoSingleton;
 import groupwork.dao.provider.ChoiceDaoProvider;
 import groupwork.service.SingerService;
 import groupwork.service.api.ISingerService;

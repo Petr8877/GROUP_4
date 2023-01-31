@@ -2,16 +2,16 @@ package groupwork.dto;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
-public class SavedVoiceEntity implements Comparable<SavedVoiceEntity>{
+public class SavedVoiceDTO implements Comparable<SavedVoiceDTO>{
     private VoiceDTO voice;
     private LocalDateTime creationTime;
 
-    public SavedVoiceEntity(VoiceDTO voice) {
+    public SavedVoiceDTO(VoiceDTO voice) {
         this.voice = voice;
         this.creationTime = LocalDateTime.now();
     }
 
-    public SavedVoiceEntity(VoiceDTO voice, LocalDateTime creationTime) {
+    public SavedVoiceDTO(VoiceDTO voice, LocalDateTime creationTime) {
         this.voice = voice;
         this.creationTime = creationTime;
     }
@@ -33,7 +33,7 @@ public class SavedVoiceEntity implements Comparable<SavedVoiceEntity>{
     }
 
     @Override
-    public int compareTo(SavedVoiceEntity o) {
+    public int compareTo(SavedVoiceDTO o) {
         return o.getCreationTime().compareTo(this.creationTime);
     }
 
@@ -41,7 +41,7 @@ public class SavedVoiceEntity implements Comparable<SavedVoiceEntity>{
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SavedVoiceEntity that = (SavedVoiceEntity) o;
+        SavedVoiceDTO that = (SavedVoiceDTO) o;
         return Objects.equals(voice, that.voice) && Objects.equals(creationTime, that.creationTime);
     }
 

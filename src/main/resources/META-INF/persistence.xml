@@ -4,13 +4,15 @@
              version="2.0">
     <persistence-unit name="groupwork">
         <class>groupwork.entity.SingerEntity</class>
+        <class>groupwork.entity.GenreEntity</class>
+        <class>groupwork.entity.SavedVoice</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/voting"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/group_voting"/>
             <property name="javax.persistence.jdbc.user" value="postgres"/>
-            <property name="javax.persistence.jdbc.password" value="qaz741"/>
+            <property name="javax.persistence.jdbc.password" value="pass"/>
             <property name="hibernate.show_sql" value="true"/>
-            <property name="hibernate.hbm2ddl.auto" value="none"/>
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
         </properties>
     </persistence-unit>
 </persistence>

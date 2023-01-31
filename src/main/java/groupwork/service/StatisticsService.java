@@ -1,7 +1,6 @@
 package groupwork.service;
 
 import groupwork.dto.*;
-import groupwork.entity.SingerEntity;
 import groupwork.service.api.IGenreService;
 import groupwork.service.api.ISingerService;
 import groupwork.service.api.IStatisticsService;
@@ -29,8 +28,8 @@ public class StatisticsService implements IStatisticsService {
 
     private void calcVoice(Map<SingerDTO, Integer> mapSinger, Map<GenreDTO, Integer> mapGenre, Map<String,
             LocalDateTime> mapUser, List<SingerDTO> singerDTOS, List<GenreDTO> genreDTOS) {
-        List<SavedVoiceEntity> savedVoiceEntities = iVotesService.get();
-        for (SavedVoiceEntity savedVoiceEntity : savedVoiceEntities) {
+        List<SavedVoiceDTO> savedVoiceEntities = iVotesService.get();
+        for (SavedVoiceDTO savedVoiceEntity : savedVoiceEntities) {
             int idSinger = savedVoiceEntity.getVoice().getSinger();
             int[] idGenre = savedVoiceEntity.getVoice().getGenre();
 

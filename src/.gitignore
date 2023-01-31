@@ -5,3 +5,5 @@ out/
 target/
 application.properties
 mail.properties
+application.properties
+mail.properties

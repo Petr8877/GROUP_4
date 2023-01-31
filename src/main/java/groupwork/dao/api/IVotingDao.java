@@ -1,13 +1,13 @@
 package groupwork.dao.api;
 
-import groupwork.dto.SavedVoiceEntity;
+import groupwork.entity.SavedVoice;
 
 import java.util.List;
 
 public interface IVotingDao {
     //исправить на entity
-    List<SavedVoiceEntity> getVoiceList();
+    List<SavedVoice> getVoiceList();
 
 
-    void save(SavedVoiceEntity voice);
+    void save(SavedVoice voice);
 }

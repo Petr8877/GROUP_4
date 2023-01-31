@@ -8,7 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "app.genres")
+//@Table(name = "app.genres")
+@Table(name = "genres")
 public class GenreEntity {
     @Id
     @GeneratedValue(generator = "increment")

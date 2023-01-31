@@ -1,5 +1,8 @@
 package groupwork.service;
 
+//import groupwork.dao.memory.GenreDao;
+//import groupwork.dao.memory.SingerDao;
+//import groupwork.dao.memory.VotingDao;
 import groupwork.dto.VoiceDTO;
 
 import groupwork.service.api.IVotesService;
@@ -9,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 class VoteServiceTest {
-    //private final IVotesService votesService = new VoteService(new VotingDao(), new SingerService(new SingerDao()), new GenreService(new GenreDao()), MailServiceSingleton.getInstance());
+//    private final IVotesService votesService = new VoteService(new VotingDao(), new SingerService(new SingerDao()), new GenreService(new GenreDao()), MailServiceSingleton.getInstance());
 
 //    @Test
 //    public void testVotingServiceSave() {

@@ -1,8 +1,10 @@
 package groupwork.web.listeners;
 
-import groupwork.dao.orm.factory.EntityManagerVoteSingleton;
+import groupwork.dao.db.ds.api.IDataSourceWrapper;
+import groupwork.dao.db.ds.fabrics.DataSourceSingleton;
 import groupwork.service.fabrics.MailServiceSingleton;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import java.io.File;
@@ -18,8 +20,17 @@ import java.util.Properties;
 public class PropertiesLoaderListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent servletContextEvent) {
-//        File confDir = new File("C:/IT/programs/apache-tomcat-8.5.85" + "/conf");
         File confDir = new File(System.getenv("catalina_base") + "/conf");
+        File prop = new File(confDir + "/application.properties");
+        try {
+            Properties properties = new Properties();
+            properties.load(new FileReader(prop));
+            DataSourceSingleton.setProperties(properties);
+        } catch (FileNotFoundException e) {
+            throw new IllegalStateException("File with properties not found, create application.properties in conf", e);
+        } catch (IOException e) {
+            throw new RuntimeException("Exception in reading application.properties ", e);
+        }
         File propMail = new File(confDir + "/mail.properties");
         try {
             Properties properties = new Properties();
@@ -34,19 +45,27 @@ public class PropertiesLoaderListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
-        EntityManagerVoteSingleton.getInstance().close();
+        ServletContext servletContext = servletContextEvent.getServletContext();
+        IDataSourceWrapper iDataSourceWrapper = (IDataSourceWrapper) servletContext.getAttribute("DateSource");
+        try {
+            iDataSourceWrapper.close();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        //deregister drivers
         deregisterDrivers(getDrivers());
     }
 
-    public Enumeration<Driver> getDrivers(){
+
+    Enumeration<Driver> getDrivers(){
         return DriverManager.getDrivers();
     }
-    public void deregisterDrivers(Enumeration<Driver> drivers){
+    void deregisterDrivers(Enumeration<Driver> drivers){
         while (drivers.hasMoreElements()){
             deregisterDriver(drivers.nextElement());
         }
     }
-    public void deregisterDriver(Driver driver){
+    void deregisterDriver(Driver driver){
         try {
             DriverManager.deregisterDriver(driver);
         } catch (SQLException e) {

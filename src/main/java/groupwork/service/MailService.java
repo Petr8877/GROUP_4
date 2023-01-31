@@ -1,7 +1,7 @@
 package groupwork.service;
 
 
-import groupwork.dto.SavedVoiceEntity;
+import groupwork.dto.SavedVoiceDTO;
 import groupwork.dto.VoiceDTO;
 import groupwork.service.api.IGenreService;
 import groupwork.service.api.IMailService;
@@ -26,7 +26,7 @@ public class MailService  implements IMailService {
     }
 
     @Override
-    public void send (SavedVoiceEntity savedVoiceEntity) {
+    public void send (SavedVoiceDTO savedVoiceEntity) {
 
         try {
             Session session = new SessionCreator(properties).createSession();
@@ -45,7 +45,7 @@ public class MailService  implements IMailService {
         }
 
     }
-    private String createMailText(SavedVoiceEntity savedVoiceEntity){
+    private String createMailText(SavedVoiceDTO savedVoiceEntity){
         StringBuilder builder = new StringBuilder();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
 

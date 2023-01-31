@@ -1,6 +1,7 @@
 package groupwork.service.fabrics;
 
 import groupwork.dao.provider.ChoiceDaoProvider;
+import groupwork.service.MailService;
 import groupwork.service.VoteService;
 import groupwork.service.api.IVotesService;
 

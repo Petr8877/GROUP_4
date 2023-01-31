@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-//@Table(name = "voice")
+@Table(name = "votes")
 public class SavedVoice {
     @Id
     @GeneratedValue(generator = "increment")
@@ -18,33 +18,23 @@ public class SavedVoice {
     private Long id;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(
-            name = "voice_singer",
+            name = "vote_artists",
             joinColumns =
             @JoinColumn(name = "voice_id"),
             inverseJoinColumns =
             @JoinColumn(nullable = false)
     )
-    private Singer singer;
+    private SingerEntity singer;
 
-    //    @ElementCollection(fetch = FetchType.EAGER)
-//    @CollectionTable(
-//            joinColumns = @JoinColumn(name = "voice_id")
-//    )
-//    @Column(name = "genre")
-//    private List<Genre> genres = new ArrayList<>();
-    //worked
-//    @ElementCollection(fetch = FetchType.EAGER)
-//    @CollectionTable(name = "voice_genre",
-//            joinColumns = @JoinColumn(name = "genre_id"))
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
-            name = "voice_genre",
+            name = "vote_genre",
             joinColumns =
             @JoinColumn(name = "voice_id"),
             inverseJoinColumns =
             @JoinColumn(nullable = false)
     )
-    private List<Genre> genres = new ArrayList<>();
+    private List<GenreEntity> genres = new ArrayList<>();
 
     private String message;
     private String email;
@@ -53,7 +43,7 @@ public class SavedVoice {
     public SavedVoice() {
     }
 
-    public SavedVoice(Singer singer, List<Genre> genres, String message, String email, LocalDateTime creationTime) {
+    public SavedVoice(SingerEntity singer, List<GenreEntity> genres, String message, String email, LocalDateTime creationTime) {
         this.singer = singer;
         this.genres = genres;
         this.message = message;
@@ -61,12 +51,11 @@ public class SavedVoice {
         this.creationTime = creationTime;
     }
 
-    public Singer getSinger() {
+    public SingerEntity getSinger() {
         return singer;
     }
 
-
-    public List<Genre> getGenres() {
+    public List<GenreEntity> getGenres() {
         return genres;
     }
 

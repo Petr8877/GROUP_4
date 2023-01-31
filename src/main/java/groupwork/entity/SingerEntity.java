@@ -1,15 +1,13 @@
 package groupwork.entity;
 
-import groupwork.dto.SavedVoiceEntity;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.persistence.Entity;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
-@Table(name = "app.artists")
+//@Table(name = "app.artists")
+@Table(name = "artists")
 public class SingerEntity {
     @Id
     @GeneratedValue(generator = "increment")

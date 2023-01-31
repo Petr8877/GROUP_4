@@ -2,14 +2,13 @@ package groupwork.service;
 
 import groupwork.dto.VoiceDTO;
 import groupwork.service.api.IVotesService;
-import groupwork.service.fabrics.MailServiceSingleton;
 import org.junit.jupiter.api.Test;
 
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class StatisticsServiceTest {
-//    private final IVotesService votesService = new VoteService(new VotingDao(), new SingerService(new SingerDao()), new GenreService(new GenreDao()), MailServiceSingleton.getInstance());
+//    private final IVotesService votesService = new VoteService(new VotingDao(), new SingerService(new SingerDao()), new GenreService(new GenreDao()));
 //
 //    private final StatisticsService statisticsService = new StatisticsService(votesService, new SingerService(new SingerDao()), new GenreService(new GenreDao()));
 //
