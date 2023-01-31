@@ -17,8 +17,6 @@ public class SingerEntity {
 
     private String name;
 
-    @OneToMany(mappedBy = "singer")
-    private List<SavedVoice> voice = new ArrayList<>();
 
     public SingerEntity() {
     }
