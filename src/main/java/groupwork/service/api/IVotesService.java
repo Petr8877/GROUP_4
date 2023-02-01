@@ -16,7 +16,4 @@ public interface IVotesService {
     void authorization(long id);
 
     List<SavedVoiceDTO> get();
-
-  //  List<SavedVoice> getEntity();
-
 }

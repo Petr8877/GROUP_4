@@ -39,8 +39,8 @@ public class GenreService implements IGenreService {
     }
 
     @Override
-    public void delete(GenreDTO genreDTO) {
-        long id = genreDTO.getId();
+    public void delete(long id) {
+//        long id = genreDTO.getId();
         if (id == 0) {
             throw new IllegalArgumentException("Введите номер жанра");
         }

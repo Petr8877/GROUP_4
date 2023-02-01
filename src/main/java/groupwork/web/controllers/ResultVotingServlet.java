@@ -47,8 +47,8 @@ public class ResultVotingServlet extends HttpServlet {
         }
 
         writer.write("<p>О пользователе:</p>");
-        for (Map.Entry<String, LocalDateTime> entry : allSort.getMapUserInfo().entrySet()) {
-            writer.write("<p>" + entry.getKey() + " -> " + dtf.format(entry.getValue()) + "</p>");
+        for (Map.Entry<LocalDateTime, String> entry : allSort.getMapUserInfo().entrySet()) {
+            writer.write("<p>" + entry.getValue() + " -> " + dtf.format(entry.getKey() ) + "</p>");
         }
 
     }

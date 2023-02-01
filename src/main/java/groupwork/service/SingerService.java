@@ -39,8 +39,8 @@ public class SingerService implements ISingerService {
     }
 
     @Override
-    public void delete(SingerDTO singerDTO) {
-        long id = singerDTO.getId();
+    public void delete(long id) {
+//        long id = singerDTO.getId();
         if(dao.isContain(id)){
             dao.delete(new SingerEntity(id));
         }else {

@@ -43,8 +43,7 @@ public class SingerServlet extends HttpServlet {
 
             long singerID = Long.parseLong(singers[0]);
             String newSinger = newSingers[0];
-
-            singerService.update(singerID, new SingerDTO(newSinger, singerID));
+            singerService.update(singerID, new SingerDTO(newSinger));
             writer.write("<p>Singer updated successfully</p>");
 
         } catch (RuntimeException e) {
@@ -100,10 +99,10 @@ public class SingerServlet extends HttpServlet {
                 throw new IllegalArgumentException("Entered one singer");
             }
 
-            int singer = Integer.parseInt(singers[0]);
-            SingerDTO singerDTO = new SingerDTO();
-            singerDTO.setId(singer);
-            singerService.delete(singerDTO);
+            long singer = Integer.parseInt(singers[0]);
+//            SingerDTO singerDTO = new SingerDTO();
+//            singerDTO.setId(singer);
+            singerService.delete(singer);
 
             writer.write("<p>Singer deleted successfully</p>");
 

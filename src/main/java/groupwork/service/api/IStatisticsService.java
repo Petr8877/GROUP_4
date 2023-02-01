@@ -5,4 +5,5 @@ import groupwork.dto.AllStatisticDTO;
 public interface IStatisticsService {
 
     AllStatisticDTO getAllSort();
+
 }

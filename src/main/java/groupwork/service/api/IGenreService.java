@@ -12,7 +12,8 @@ public interface IGenreService {
 
     List<GenreDTO> get();
 
-    void delete(GenreDTO genreDTO);
+    void delete(long id);
+//    void delete(GenreDTO genreDTO);
 
     void create(GenreDTO genreDTO);
 

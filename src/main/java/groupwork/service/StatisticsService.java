@@ -26,14 +26,17 @@ public class StatisticsService implements IStatisticsService {
         this.iGenreService = iGenreService;
     }
 
-    private void calcVoice(Map<SingerDTO, Integer> mapSinger, Map<GenreDTO, Integer> mapGenre, Map<String,
-            LocalDateTime> mapUser, List<SingerDTO> singerDTOS, List<GenreDTO> genreDTOS) {
+    private void calcVoice(Map<SingerDTO, Integer> mapSinger,
+                           Map<GenreDTO, Integer> mapGenre,
+                           Map<LocalDateTime,String> mapUser,
+                           List<SingerDTO> singerDTOS,
+                           List<GenreDTO> genreDTOS) {
         List<SavedVoiceDTO> savedVoiceDTOS = iVotesService.get();
         for (SavedVoiceDTO savedVoiceDTO : savedVoiceDTOS) {
             long idSinger = savedVoiceDTO.getSinger();
             long[] idGenre = savedVoiceDTO.getGenre();
 
-            mapUser.put(savedVoiceDTO.getMessage(), savedVoiceDTO.getCreationTime());
+            mapUser.put(savedVoiceDTO.getCreationTime(),savedVoiceDTO.getMessage());
 
             for (SingerDTO singer : singerDTOS) {
                 if (idSinger == singer.getId()) {
@@ -51,7 +54,9 @@ public class StatisticsService implements IStatisticsService {
         }
     }
 
-    private AllStatisticDTO createResultObject(Map<SingerDTO, Integer> mapSinger, Map<GenreDTO, Integer> mapGenre, Map<String, LocalDateTime> mapUser) {
+    private AllStatisticDTO createResultObject(Map<SingerDTO, Integer> mapSinger,
+                                               Map<GenreDTO, Integer> mapGenre,
+                                               Map<LocalDateTime,String> mapUser) {
         return new AllStatisticDTO(
                 mapSinger.entrySet().stream()
                         .sorted(Map.Entry.comparingByValue(Collections.reverseOrder(Integer::compare)))
@@ -62,7 +67,7 @@ public class StatisticsService implements IStatisticsService {
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue
                                 , (v1, v2) -> v1, LinkedHashMap::new)),
                 mapUser.entrySet().stream()
-                        .sorted(Map.Entry.comparingByValue(Collections.reverseOrder(LocalDateTime::compareTo)))
+                        .sorted(Map.Entry.comparingByKey(Collections.reverseOrder(LocalDateTime::compareTo)))
                         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue
                                 , (v1, v2) -> v1, LinkedHashMap::new))
         );
@@ -72,7 +77,7 @@ public class StatisticsService implements IStatisticsService {
     public AllStatisticDTO getAllSort() {
         Map<SingerDTO, Integer> mapSinger = new HashMap<>();
         Map<GenreDTO, Integer> mapGenre = new HashMap<>();
-        Map<String, LocalDateTime> mapUser = new HashMap<>();
+        Map<LocalDateTime,String> mapUser = new HashMap<>();
         List<SingerDTO> singerDTOS = iSingerService.get();
         List<GenreDTO> genreDTOS = iGenreService.get();
 

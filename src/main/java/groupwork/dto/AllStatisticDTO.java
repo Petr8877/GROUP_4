@@ -10,11 +10,11 @@ public class AllStatisticDTO {
 
     private final Map<SingerDTO, Integer> mapSingers;
     private final Map<GenreDTO, Integer> mapGenres;
-    private final Map<String, LocalDateTime> mapUserInfo;
+    private final Map<LocalDateTime, String> mapUserInfo;
 
     public AllStatisticDTO(Map<SingerDTO, Integer> mapSingers,
                            Map<GenreDTO, Integer> mapGenres,
-                           Map<String, LocalDateTime> mapUserInfo) {
+                           Map<LocalDateTime, String > mapUserInfo) {
         this.mapSingers = mapSingers;
         this.mapGenres = mapGenres;
         this.mapUserInfo = mapUserInfo;
@@ -28,7 +28,7 @@ public class AllStatisticDTO {
         return mapGenres;
     }
 
-    public Map<String, LocalDateTime> getMapUserInfo() {
+    public Map<LocalDateTime, String> getMapUserInfo() {
         return mapUserInfo;
     }
 
