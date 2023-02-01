@@ -7,12 +7,12 @@ import java.util.List;
 public interface ISingerDao {
     List<SingerEntity> getSingerList();
 
-    boolean isContain(int id);
+    boolean isContain(long id);
 
     void delete(SingerEntity singerEntity);
 
     void create(SingerEntity singerEntity);
 
     void update(SingerEntity singerEntity);
-    SingerEntity get(int id);
+    SingerEntity get(long id);
 }

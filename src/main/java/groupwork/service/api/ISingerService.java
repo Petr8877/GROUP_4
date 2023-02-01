@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ISingerService {
 
-    boolean checkNumber(int number);
+    boolean checkNumber(long number);
 
     List<SingerDTO> get();
 
@@ -15,7 +15,7 @@ public interface ISingerService {
 
     void create(SingerDTO singerDTO);
 
-    void update(int id, SingerDTO singerDTO);
-    SingerDTO get(int id);
+    void update(long id, SingerDTO singerDTO);
+    SingerDTO get(long id);
 
 }

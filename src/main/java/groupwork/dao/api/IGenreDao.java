@@ -9,12 +9,12 @@ public interface IGenreDao {
 //исправить на entity
     List<GenreEntity> getGenreList();
 
-    boolean isContain(int id);
+    boolean isContain(long id);
 
     void delete(GenreEntity genreEntity);
 
     void create(GenreEntity genreEntity);
 
     void update( GenreEntity genreEntity);
-    GenreEntity get(Integer id);
+    GenreEntity get(long id);
 }

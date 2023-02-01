@@ -37,7 +37,7 @@ public class GenreDAO_DB implements IGenreDao {
     }
 
     @Override
-    public boolean isContain(int id) {
+    public boolean isContain(long id) {
         boolean result = false;
         EntityManager entityManager = null;
         try {
@@ -63,7 +63,7 @@ public class GenreDAO_DB implements IGenreDao {
 
     @Override
     public void delete(GenreEntity genreEntity) {
-        int id = genreEntity.getId();
+        long id = genreEntity.getId();
         EntityManager entityManager = null;
         try {
             entityManager = manager.getEntityManager();
@@ -104,7 +104,7 @@ public class GenreDAO_DB implements IGenreDao {
 
     @Override
     public void update(GenreEntity genreEntity) {
-        int id = genreEntity.getId();
+        long id = genreEntity.getId();
         EntityManager entityManager = null;
         try {
             entityManager = manager.getEntityManager();
@@ -129,7 +129,7 @@ public class GenreDAO_DB implements IGenreDao {
     }
 
     @Override
-    public GenreEntity get(Integer id) {
+    public GenreEntity get(long id) {
         EntityManager entityManager = null;
         GenreEntity genreEntity;
         try {

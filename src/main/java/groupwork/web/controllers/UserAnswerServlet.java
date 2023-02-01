@@ -50,7 +50,7 @@ public class UserAnswerServlet extends HttpServlet {
                 throw new IllegalArgumentException("Choose one singer");
             }
 
-            int singer = Integer.parseInt(singers[0]);
+            Long singer = Long.parseLong(singers[0]);
 
             String[] genres = parameterMap.get(GENRE_PARAM_NAME);
 
@@ -58,9 +58,9 @@ public class UserAnswerServlet extends HttpServlet {
                 throw new IllegalArgumentException("Choose genres");
             }
 
-            int[] intGenre = Arrays.
+            long[] intGenre = Arrays.
                     stream(genres)
-                    .mapToInt(Integer::parseInt)
+                    .mapToLong(Long::parseLong)
                     .toArray();
             String[] mails = parameterMap.get(EMAIL_TO);
 

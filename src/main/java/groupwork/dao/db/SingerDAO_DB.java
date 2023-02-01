@@ -34,7 +34,7 @@ public class SingerDAO_DB implements ISingerDao {
     }
 
     @Override
-    public boolean isContain(int id) {
+    public boolean isContain(long id) {
         boolean result = false;
         EntityManager entityManager = null;
         try {
@@ -60,7 +60,7 @@ public class SingerDAO_DB implements ISingerDao {
 
     @Override
     public void delete(SingerEntity singerEntity) {
-        int id = singerEntity.getId();
+        long id = singerEntity.getId();
         EntityManager entityManager = null;
         try {
             entityManager = manager.getEntityManager();
@@ -101,7 +101,7 @@ public class SingerDAO_DB implements ISingerDao {
 
     @Override
     public void update(SingerEntity singerEntity) {
-        int id = singerEntity.getId();
+        long id = singerEntity.getId();
         EntityManager entityManager = null;
         try {
             entityManager = manager.getEntityManager();
@@ -125,7 +125,7 @@ public class SingerDAO_DB implements ISingerDao {
         }
     }
     @Override
-    public SingerEntity get(int id) {
+    public SingerEntity get(long id) {
         EntityManager entityManager = null;
         SingerEntity singerEntity;
         try {

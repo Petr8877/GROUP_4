@@ -13,7 +13,7 @@ public class SingerEntity {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name="increment", strategy = "increment")
-    private int id;
+    private long id;
 
     private String name;
 
@@ -21,7 +21,7 @@ public class SingerEntity {
     public SingerEntity() {
     }
 
-    public SingerEntity(int id, String name) {
+    public SingerEntity(long id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -30,11 +30,11 @@ public class SingerEntity {
         this.name = name;
     }
 
-    public SingerEntity(int id) {
+    public SingerEntity(long id) {
         this.id = id;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

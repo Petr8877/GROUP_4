@@ -13,7 +13,7 @@ public class GenreEntity {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
-    private int id;
+    private long id;
 
     private String name;
 
@@ -21,12 +21,12 @@ public class GenreEntity {
     public GenreEntity() {
     }
 
-    public GenreEntity(int id, String name) {
+    public GenreEntity(long id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public GenreEntity(int id) {
+    public GenreEntity(long id) {
         this.id = id;
     }
 
@@ -34,7 +34,7 @@ public class GenreEntity {
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

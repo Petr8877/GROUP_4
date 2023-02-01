@@ -41,17 +41,20 @@ public class VoteService implements IVotesService {
     @Override
     public void save(VoiceDTO voice) {
         check(voice);
+
         SavedVoiceDTO savedVoiceDTO = new SavedVoiceDTO(voice);
-        String email = savedVoiceDTO.getVoice().getMail();
+
+        String email = savedVoiceDTO.getMail();
         LocalDateTime creationTime = savedVoiceDTO.getCreationTime();
-        String message = savedVoiceDTO.getVoice().getMessage();
+        String message = savedVoiceDTO.getMessage();
         long key = savedVoiceDTO.getKey();
         boolean auth = savedVoiceDTO.isAuthorization();
-        int singer_id = savedVoiceDTO.getVoice().getSinger();
+        long  singer_id = savedVoiceDTO.getSinger();
         SingerDTO s = singerService.get(singer_id);
         SingerEntity singer = new SingerEntity(s.getId(), s.getName());
+
         List<GenreEntity> genres = new ArrayList<>();
-        for (int genre_id : savedVoiceDTO.getVoice().getGenre()) {
+        for (long genre_id : savedVoiceDTO.getGenre()) {
             GenreDTO genreDTO = genreService.get(genre_id);
             genres.add(new GenreEntity(genreDTO.getId(), genreDTO.getName()));
         }
@@ -86,10 +89,10 @@ public class VoteService implements IVotesService {
             String email = voice.getEmail();
             LocalDateTime creationTime = voice.getCreationTime();
             String message = voice.getMessage();
-            int id_singer = voice.getSinger().getId();
+            Long id_singer = voice.getId();
 
             List<GenreEntity> genre = voice.getGenres();
-            int[] genres = new int[genre.size()];
+            long[] genres = new long[genre.size()];
             for (int i = 0; i < genres.length; i++) {
                 genres[i] = genre.get(i).getId();
             }
@@ -101,16 +104,16 @@ public class VoteService implements IVotesService {
     }
 
     private void check(VoiceDTO voice) {
-        int singer = voice.getSinger();
+        long singer = voice.getSinger();
         if (!singerService.checkNumber(voice.getSinger())) {
             throw new IllegalArgumentException("Артист №" + singer + " отсутствует в списке выбора");
         }
 
-        int[] genres = voice.getGenre();
+        long[] genres = voice.getGenre();
 
-        Set<Integer> setGenre = new HashSet<>();
+        Set<Long> setGenre = new HashSet<>();
 
-        for (int val : genres) {
+        for (long val : genres) {
             setGenre.add(val);
         }
 
@@ -122,7 +125,7 @@ public class VoteService implements IVotesService {
             throw new IllegalArgumentException("Переданные жанры содержат дубли");
         }
 
-        for (Integer genre : setGenre) {
+        for (Long genre : setGenre) {
             if (!genreService.check(genre)) {
                 throw new IllegalArgumentException("Введенный жанр №" + genre + " не содержится в списке");
             }

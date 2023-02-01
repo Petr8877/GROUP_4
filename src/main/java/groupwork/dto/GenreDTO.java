@@ -4,9 +4,9 @@ import java.util.Objects;
 
 public class GenreDTO {
     private String name;
-    private int id;
+    private long id;
 
-    public GenreDTO(String name, int id) {
+    public GenreDTO(String name, long id) {
         this.name = name;
         this.id = id;
     }
@@ -26,7 +26,7 @@ public class GenreDTO {
         this.name = name;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 

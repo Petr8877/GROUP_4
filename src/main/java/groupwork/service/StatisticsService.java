@@ -28,12 +28,12 @@ public class StatisticsService implements IStatisticsService {
 
     private void calcVoice(Map<SingerDTO, Integer> mapSinger, Map<GenreDTO, Integer> mapGenre, Map<String,
             LocalDateTime> mapUser, List<SingerDTO> singerDTOS, List<GenreDTO> genreDTOS) {
-        List<SavedVoiceDTO> savedVoiceEntities = iVotesService.get();
-        for (SavedVoiceDTO savedVoiceEntity : savedVoiceEntities) {
-            int idSinger = savedVoiceEntity.getVoice().getSinger();
-            int[] idGenre = savedVoiceEntity.getVoice().getGenre();
+        List<SavedVoiceDTO> savedVoiceDTOS = iVotesService.get();
+        for (SavedVoiceDTO savedVoiceDTO : savedVoiceDTOS) {
+            long idSinger = savedVoiceDTO.getSinger();
+            long[] idGenre = savedVoiceDTO.getGenre();
 
-            mapUser.put(savedVoiceEntity.getVoice().getMessage(), savedVoiceEntity.getCreationTime());
+            mapUser.put(savedVoiceDTO.getMessage(), savedVoiceDTO.getCreationTime());
 
             for (SingerDTO singer : singerDTOS) {
                 if (idSinger == singer.getId()) {
@@ -42,7 +42,7 @@ public class StatisticsService implements IStatisticsService {
             }
 
             for (GenreDTO genreDTO : genreDTOS) {
-                for (int i : idGenre) {
+                for (long i : idGenre) {
                     if (i == genreDTO.getId()) {
                         mapGenre.put(genreDTO, mapGenre.get(genreDTO) + 1);
                     }
@@ -73,18 +73,18 @@ public class StatisticsService implements IStatisticsService {
         Map<SingerDTO, Integer> mapSinger = new HashMap<>();
         Map<GenreDTO, Integer> mapGenre = new HashMap<>();
         Map<String, LocalDateTime> mapUser = new HashMap<>();
-        List<SingerDTO> singerEntities = iSingerService.get();
+        List<SingerDTO> singerDTOS = iSingerService.get();
         List<GenreDTO> genreDTOS = iGenreService.get();
 
 
-        for (SingerDTO singer : singerEntities) {
+        for (SingerDTO singer : singerDTOS) {
             mapSinger.put(singer, 0);
         }
         for (GenreDTO genreDTO : genreDTOS) {
             mapGenre.put(genreDTO, 0);
         }
 
-        calcVoice(mapSinger, mapGenre, mapUser, singerEntities, genreDTOS);
+        calcVoice(mapSinger, mapGenre, mapUser, singerDTOS, genreDTOS);
 
         return createResultObject(mapSinger, mapGenre, mapUser);
     }

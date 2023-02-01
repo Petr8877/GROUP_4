@@ -18,7 +18,7 @@ public class GenreService implements IGenreService {
     }
 
     @Override
-    public boolean check(int number) {
+    public boolean check(long number) {
         if (number == 0) {
             throw new IllegalArgumentException("Введите id жанра");
         }
@@ -40,7 +40,7 @@ public class GenreService implements IGenreService {
 
     @Override
     public void delete(GenreDTO genreDTO) {
-        int id = genreDTO.getId();
+        long id = genreDTO.getId();
         if (id == 0) {
             throw new IllegalArgumentException("Введите номер жанра");
         }
@@ -62,7 +62,7 @@ public class GenreService implements IGenreService {
     }
 
     @Override
-    public void update(int id, GenreDTO genreDTO) {
+    public void update(long id, GenreDTO genreDTO) {
         String genre = genreDTO.getName();
 
         if (genre == null || genre.isBlank()) {
@@ -82,7 +82,7 @@ public class GenreService implements IGenreService {
     }
 
     @Override
-    public GenreDTO get(int id) {
+    public GenreDTO get(long id) {
         GenreEntity genreEntity = this.dao.get(id);
         return new GenreDTO(genreEntity.getName(), genreEntity.getId());
     }

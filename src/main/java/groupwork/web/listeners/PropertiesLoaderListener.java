@@ -39,7 +39,6 @@ public class PropertiesLoaderListener implements ServletContextListener {
         deregisterDrivers(getDrivers());
     }
 
-
     private Enumeration<Driver> getDrivers(){
         return DriverManager.getDrivers();
     }

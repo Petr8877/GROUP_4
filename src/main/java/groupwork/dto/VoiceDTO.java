@@ -4,12 +4,12 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class VoiceDTO {
-    private int singer;
-    private int[] genre;
+    private long singer;
+    private long[] genre;
     private String message;
     private String mail;
 
-    public VoiceDTO(int singer, int[] genre, String message, String mail) {
+    public VoiceDTO(long singer, long[] genre, String message, String mail) {
         this.mail = mail;
         this.singer = singer;
         this.genre = genre;
@@ -20,11 +20,11 @@ public class VoiceDTO {
         return mail;
     }
 
-    public int getSinger() {
+    public long getSinger() {
         return singer;
     }
 
-    public int[] getGenre() {
+    public long[] getGenre() {
         return genre;
     }
 

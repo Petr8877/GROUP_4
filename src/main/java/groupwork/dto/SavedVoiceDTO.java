@@ -40,6 +40,21 @@ public class SavedVoiceDTO implements Comparable<SavedVoiceDTO>{
     public void setVoice(VoiceDTO voice) {
         this.voice = voice;
     }
+    public String getMail() {
+        return voice.getMail();
+    }
+
+    public long getSinger() {
+        return voice.getSinger();
+    }
+
+    public long[] getGenre() {
+        return voice.getGenre();
+    }
+
+    public String getMessage() {
+        return voice.getMessage();
+    }
 
     public LocalDateTime getCreationTime() {
         return creationTime;

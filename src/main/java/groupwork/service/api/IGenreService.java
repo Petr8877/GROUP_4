@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IGenreService {
 
-    boolean check(int number);
+    boolean check(long number);
 
     List<GenreDTO> get();
 
@@ -16,7 +16,7 @@ public interface IGenreService {
 
     void create(GenreDTO genreDTO);
 
-    void update(int id, GenreDTO genreDTO);
-    GenreDTO get(int id);
+    void update(long id, GenreDTO genreDTO);
+    GenreDTO get(long id);
 
 }

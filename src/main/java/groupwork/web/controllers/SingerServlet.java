@@ -41,7 +41,7 @@ public class SingerServlet extends HttpServlet {
                 throw new IllegalArgumentException("Enter one singer to update");
             }
 
-            int singerID = Integer.parseInt(singers[0]);
+            long singerID = Long.parseLong(singers[0]);
             String newSinger = newSingers[0];
 
             singerService.update(singerID, new SingerDTO(newSinger, singerID));

@@ -17,7 +17,7 @@ public class SingerService implements ISingerService {
     }
 
     @Override
-    public boolean checkNumber(int number) {
+    public boolean checkNumber(long number) {
         if (number == 0) {
             throw new IllegalArgumentException("Введите номер исполнителя");
         }
@@ -40,7 +40,7 @@ public class SingerService implements ISingerService {
 
     @Override
     public void delete(SingerDTO singerDTO) {
-        int id = singerDTO.getId();
+        long id = singerDTO.getId();
         if(dao.isContain(id)){
             dao.delete(new SingerEntity(id));
         }else {
@@ -59,7 +59,7 @@ public class SingerService implements ISingerService {
     }
 
     @Override
-    public void update(int id, SingerDTO singerDTO) {
+    public void update(long id, SingerDTO singerDTO) {
         String singer = singerDTO.getName();
         if (singer == null || singer.isBlank()) {
             throw new IllegalArgumentException("Не введено новое имя исполнителя");
@@ -73,7 +73,7 @@ public class SingerService implements ISingerService {
     }
 
     @Override
-    public SingerDTO get(int id) {
+    public SingerDTO get(long id) {
         SingerEntity singerEntity = this.dao.get(id);
         return new SingerDTO(singerEntity.getName(), singerEntity.getId());
 
