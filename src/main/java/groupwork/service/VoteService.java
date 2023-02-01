@@ -15,6 +15,8 @@ import groupwork.service.api.IVotesService;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.regex.Pattern;
 
 public class VoteService implements IVotesService {
@@ -24,6 +26,8 @@ public class VoteService implements IVotesService {
 
     private final IGenreService genreService;
     private final IMailService mailService;
+
+    private ExecutorService executorService = Executors.newFixedThreadPool(5);
 
     public VoteService(IVotingDao voiceDao, ISingerService singerService, IGenreService genreService,
                        MailService mailService) {
@@ -38,30 +42,47 @@ public class VoteService implements IVotesService {
     public void save(VoiceDTO voice) {
         check(voice);
         SavedVoiceDTO savedVoiceDTO = new SavedVoiceDTO(voice);
-//        create new entity
         String email = savedVoiceDTO.getVoice().getMail();
         LocalDateTime creationTime = savedVoiceDTO.getCreationTime();
         String message = savedVoiceDTO.getVoice().getMessage();
+        long key = savedVoiceDTO.getKey();
+        boolean auth = savedVoiceDTO.isAuthorization();
         int singer_id = savedVoiceDTO.getVoice().getSinger();
         SingerDTO s = singerService.get(singer_id);
-        SingerEntity singer = new SingerEntity(s.getId(),s.getName());
-        List<GenreEntity>genres = new ArrayList<>();
-        for (int genre_id:savedVoiceDTO.getVoice().getGenre() ) {
+        SingerEntity singer = new SingerEntity(s.getId(), s.getName());
+        List<GenreEntity> genres = new ArrayList<>();
+        for (int genre_id : savedVoiceDTO.getVoice().getGenre()) {
             GenreDTO genreDTO = genreService.get(genre_id);
             genres.add(new GenreEntity(genreDTO.getId(), genreDTO.getName()));
         }
 
-        SavedVoice savedVoice = new SavedVoice(singer,genres,message,email,creationTime);
-        votingDao.save(savedVoice);
-        mailService.send(savedVoiceDTO);
+        SavedVoice savedVoice = new SavedVoice(singer, genres, message, email, creationTime, key, auth);
+        long id = votingDao.save(savedVoice);
+        executorService.submit(new Thread(() -> mailService.send(savedVoice, id)));
+        //mailService.send(savedVoiceDTO);
 
     }
 
     @Override
+    public Map<Long, Long> getIdAndKey() {
+        Map<Long, Long> map = new HashMap<>();
+        List<SavedVoice> savedVoices = votingDao.getVoiceList();
+        for (SavedVoice savedVoice : savedVoices) {
+            map.put(savedVoice.getId(), savedVoice.getKey());
+        }
+        return map;
+    }
+
+    @Override
+    public void authorization(long id) {
+        votingDao.authorization(id);
+    }
+
+    @Override
     public List<SavedVoiceDTO> get() {
-        List<SavedVoiceDTO> savedVoiceDTOS= new ArrayList<>();
+        List<SavedVoiceDTO> savedVoiceDTOS = new ArrayList<>();
         List<SavedVoice> all = votingDao.getVoiceList();
-        for (SavedVoice voice: all) {
+        for (SavedVoice voice : all) {
             String email = voice.getEmail();
             LocalDateTime creationTime = voice.getCreationTime();
             String message = voice.getMessage();
@@ -73,8 +94,8 @@ public class VoteService implements IVotesService {
                 genres[i] = genre.get(i).getId();
             }
 
-            VoiceDTO voiceDTO = new VoiceDTO(id_singer,genres , message, email);
-            savedVoiceDTOS.add(new SavedVoiceDTO(voiceDTO,creationTime));
+            VoiceDTO voiceDTO = new VoiceDTO(id_singer, genres, message, email);
+            savedVoiceDTOS.add(new SavedVoiceDTO(voiceDTO, creationTime));
         }
         return savedVoiceDTOS;
     }
@@ -112,10 +133,10 @@ public class VoteService implements IVotesService {
             throw new IllegalArgumentException("Нужно ввести информацию о себе");
         }
 
-       String email = voice.getMail();
-       Pattern pattern = Pattern.compile("^[a-zA-Z0-9!#$%&'*+/=?^_`{|},~\\-]+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\\-]+)*@+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?+\\.+[a-zA-Z]*$");
-       if (!pattern.matcher(email).matches()){
-           throw new IllegalArgumentException("E-MAIL IS NOT CORRECT");
-       }
+        String email = voice.getMail();
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9!#$%&'*+/=?^_`{|},~\\-]+(?:\\\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~\\-]+)*@+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?+\\.+[a-zA-Z]*$");
+        if (!pattern.matcher(email).matches()) {
+            throw new IllegalArgumentException("E-MAIL IS NOT CORRECT");
+        }
     }
 }

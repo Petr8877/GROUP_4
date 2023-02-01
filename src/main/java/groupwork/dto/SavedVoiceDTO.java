@@ -6,14 +6,31 @@ public class SavedVoiceDTO implements Comparable<SavedVoiceDTO>{
     private VoiceDTO voice;
     private LocalDateTime creationTime;
 
+    private long key;
+
+    private boolean authorization;
+
     public SavedVoiceDTO(VoiceDTO voice) {
         this.voice = voice;
         this.creationTime = LocalDateTime.now();
+        this.key = (long) (Math.random()*10000);
+        this.authorization = false;
     }
 
     public SavedVoiceDTO(VoiceDTO voice, LocalDateTime creationTime) {
         this.voice = voice;
         this.creationTime = creationTime;
+        this.key = (long) (Math.random()*10000);
+        this.authorization = false;
+
+    }
+
+    public boolean isAuthorization() {
+        return authorization;
+    }
+
+    public long getKey() {
+        return key;
     }
 
     public VoiceDTO getVoice() {
@@ -42,12 +59,12 @@ public class SavedVoiceDTO implements Comparable<SavedVoiceDTO>{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SavedVoiceDTO that = (SavedVoiceDTO) o;
-        return Objects.equals(voice, that.voice) && Objects.equals(creationTime, that.creationTime);
+        return key == that.key && Objects.equals(voice, that.voice) && Objects.equals(creationTime, that.creationTime);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(voice, creationTime);
+        return Objects.hash(voice, creationTime, key);
     }
 
     @Override

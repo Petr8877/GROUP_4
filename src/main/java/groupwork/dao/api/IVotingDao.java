@@ -3,10 +3,14 @@ package groupwork.dao.api;
 import groupwork.entity.SavedVoice;
 
 import java.util.List;
+import java.util.Map;
 
 public interface IVotingDao {
     List<SavedVoice> getVoiceList();
 
+    //Map<Long, Long> getIdAndKey();
 
-    void save(SavedVoice voice);
+    void authorization (long id);
+
+    long save(SavedVoice voice);
 }

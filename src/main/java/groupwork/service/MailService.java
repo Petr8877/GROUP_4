@@ -3,6 +3,9 @@ package groupwork.service;
 
 import groupwork.dto.SavedVoiceDTO;
 import groupwork.dto.VoiceDTO;
+import groupwork.entity.GenreEntity;
+import groupwork.entity.SavedVoice;
+import groupwork.entity.SingerEntity;
 import groupwork.service.api.IGenreService;
 import groupwork.service.api.IMailService;
 import groupwork.service.api.ISingerService;
@@ -12,9 +15,10 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Properties;
 
-public class MailService  implements IMailService {
+public class MailService implements IMailService {
     private Properties properties;
     private ISingerService singerService;
     private IGenreService genreService;
@@ -26,47 +30,69 @@ public class MailService  implements IMailService {
     }
 
     @Override
-    public void send (SavedVoiceDTO savedVoiceEntity) {
+    public void send(SavedVoice savedVoiceEntity, long id) {
+        boolean send = false;
+        int count = 0;
 
-        try {
-            Session session = new SessionCreator(properties).createSession();
-            session.setDebug(true);
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(properties.getProperty("mail.user.name")));
-            String email = savedVoiceEntity.getVoice().getMail();
-            message.setRecipients(
-                    Message.RecipientType.TO, InternetAddress.parse(email));
-            message.setSubject("You have successfully voted");
-            String msg =  createMailText(savedVoiceEntity);
-            message.setText(msg);
-            Transport.send(message);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        Session session = new SessionCreator(properties).createSession();
+        session.setDebug(true);
+        Message message = new MimeMessage(session);
+        while (!send && count <= 5) {
+            try {
+                count++;
+                message.setFrom(new InternetAddress(properties.getProperty("mail.user.name")));
+                String email = savedVoiceEntity.getEmail();
+                message.setRecipients(
+                        Message.RecipientType.TO, InternetAddress.parse(email));
+                message.setSubject("You have successfully voted");
+                String msg = createMailText(savedVoiceEntity, id);
+                message.setText(msg);
+                Transport.send(message);
+                send = true;
+            } catch (Exception e) {
+                try {
+                    Thread.sleep(300000);
+                } catch (InterruptedException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
         }
-
     }
-    private String createMailText(SavedVoiceDTO savedVoiceEntity){
+
+    private String createMailText(SavedVoice savedVoiceEntity, long id) {
         StringBuilder builder = new StringBuilder();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
 
-        VoiceDTO voice = savedVoiceEntity.getVoice();
+        //VoiceDTO voice = savedVoiceEntity.getVoice();
 
-        int singerID = voice.getSinger();
-        int[] genreID = voice.getGenre();
-        String message = voice.getMessage();
+        //int singerID =  voice.getSinger();
+        SingerEntity singerEntity = savedVoiceEntity.getSinger();
+        //int[] genreID = voice.getGenre();
+        List<GenreEntity> genreEntities = savedVoiceEntity.getGenres();
+        String message = savedVoiceEntity.getMessage();
         LocalDateTime creationTime = savedVoiceEntity.getCreationTime();
 
-        String singer = singerService.get(singerID).getName();
+        String singer = singerEntity.getName();
 
-        builder.append("Ваш голос: исполнитель - ").append(singer)
-                .append(", жанры - ");
+        builder.append("Ваш голос:").append("\n").append("Исполнитель - ").append(singer)
+                .append("\n").append("Жанры - ");
 
-        for (int genre : genreID) {
-            builder.append(genreService.get(genre)).append(", ");
+        for (GenreEntity genreEntity : genreEntities) {
+            builder.append(genreEntity.getName()).append(", ");
         }
+//        for (int genre : genreID) {
+//            builder.append(genreService.get(genre)).append(", ");
+//        }
+        builder.append("\n");
 
-        builder.append("информация о себе - ").append(message)
-                .append(", дата и время голосования - ").append(dtf.format(creationTime));
+        builder.append("Информация о себе - ").append(message).append("\n")
+                .append("Дата и время голосования - ").append(dtf.format(creationTime));
+
+        builder.append("\n").append("\n");
+
+        builder.append("Для подтверждения перейдите по следующей ссылке:").append("\n")
+                .append("http://localhost:8080/groupwork/check?id=").append(id).append("&key=")
+                .append(savedVoiceEntity.getKey());
 
         return builder.toString();
     }

@@ -40,15 +40,37 @@ public class SavedVoice {
     private String email;
     private LocalDateTime creationTime;
 
+    private long key;
+
+    private boolean auth;
+
     public SavedVoice() {
     }
 
-    public SavedVoice(SingerEntity singer, List<GenreEntity> genres, String message, String email, LocalDateTime creationTime) {
+    public SavedVoice(SingerEntity singer, List<GenreEntity> genres, String message, String email, LocalDateTime creationTime, long key, boolean auth) {
         this.singer = singer;
         this.genres = genres;
         this.message = message;
         this.email = email;
         this.creationTime = creationTime;
+        this.key = key;
+        this.auth = auth;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public long getKey() {
+        return key;
+    }
+
+    public boolean isAuthorization() {
+        return auth;
+    }
+
+    public void setAuthorization(boolean auth) {
+        this.auth = auth;
     }
 
     public SingerEntity getSinger() {
