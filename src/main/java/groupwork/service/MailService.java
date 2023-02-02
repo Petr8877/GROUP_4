@@ -63,11 +63,7 @@ public class MailService implements IMailService {
         StringBuilder builder = new StringBuilder();
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss dd-MM-yyyy");
 
-        //VoiceDTO voice = savedVoiceEntity.getVoice();
-
-        //int singerID =  voice.getSinger();
         SingerEntity singerEntity = savedVoiceEntity.getSinger();
-        //int[] genreID = voice.getGenre();
         List<GenreEntity> genreEntities = savedVoiceEntity.getGenres();
         String message = savedVoiceEntity.getMessage();
         LocalDateTime creationTime = savedVoiceEntity.getCreationTime();
@@ -80,9 +76,6 @@ public class MailService implements IMailService {
         for (GenreEntity genreEntity : genreEntities) {
             builder.append(genreEntity.getName()).append(", ");
         }
-//        for (int genre : genreID) {
-//            builder.append(genreService.get(genre)).append(", ");
-//        }
         builder.append("\n");
 
         builder.append("Информация о себе - ").append(message).append("\n")
@@ -91,7 +84,7 @@ public class MailService implements IMailService {
         builder.append("\n").append("\n");
 
         builder.append("Для подтверждения перейдите по следующей ссылке:").append("\n")
-                .append("http://localhost:8080/groupwork/check?id=").append(id).append("&key=")
+                .append("http://localhost:8080/groupwork-1/check?id=").append(id).append("&key=")
                 .append(savedVoiceEntity.getKey());
 
         return builder.toString();

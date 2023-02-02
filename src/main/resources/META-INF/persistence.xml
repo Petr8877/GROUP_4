@@ -8,11 +8,11 @@
         <class>groupwork.entity.SavedVoice</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
-            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/group_voting"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5434/voting"/>
             <property name="javax.persistence.jdbc.user" value="postgres"/>
-            <property name="javax.persistence.jdbc.password" value="pass"/>
+            <property name="javax.persistence.jdbc.password" value="kasper"/>
             <property name="hibernate.show_sql" value="true"/>
-            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="hibernate.hbm2ddl.auto" value="none"/>
         </properties>
     </persistence-unit>
 </persistence>
