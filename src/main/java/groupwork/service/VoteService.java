@@ -89,7 +89,7 @@ public class VoteService implements IVotesService {
             String email = voice.getMail();
             LocalDateTime creationTime = voice.getDt_create();
             String message = voice.getAbout();
-            Long id_singer = voice.getId();
+            Long id_singer = voice.getSinger().getId();
 
             List<GenreEntity> genre = voice.getGenres();
             long[] genres = new long[genre.size()];

@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS app.vote_artists
 (
-    voice_id bigint NOT NULL,
+    voice_id bigserial,
     singer_id bigint NOT NULL,
     CONSTRAINT vote1a_id_user_key UNIQUE (voice_id),
     CONSTRAINT vote1a_id_artist_fkey FOREIGN KEY (singer_id)

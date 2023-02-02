@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS app.votes
 (
-    id bigint NOT NULL DEFAULT nextval('app.votes_id_seq'::regclass),
+    id bigserial,
     dt_create timestamp without time zone,
     about text COLLATE pg_catalog."default" NOT NULL,
     mail text COLLATE pg_catalog."default" NOT NULL,
