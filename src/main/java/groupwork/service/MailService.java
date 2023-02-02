@@ -1,8 +1,6 @@
 package groupwork.service;
 
 
-import groupwork.dto.SavedVoiceDTO;
-import groupwork.dto.VoiceDTO;
 import groupwork.entity.GenreEntity;
 import groupwork.entity.SavedVoice;
 import groupwork.entity.SingerEntity;
@@ -41,7 +39,7 @@ public class MailService implements IMailService {
             try {
                 count++;
                 message.setFrom(new InternetAddress(properties.getProperty("mail.user.name")));
-                String email = savedVoiceEntity.getEmail();
+                String email = savedVoiceEntity.getMail();
                 message.setRecipients(
                         Message.RecipientType.TO, InternetAddress.parse(email));
                 message.setSubject("You have successfully voted");
@@ -65,8 +63,8 @@ public class MailService implements IMailService {
 
         SingerEntity singerEntity = savedVoiceEntity.getSinger();
         List<GenreEntity> genreEntities = savedVoiceEntity.getGenres();
-        String message = savedVoiceEntity.getMessage();
-        LocalDateTime creationTime = savedVoiceEntity.getCreationTime();
+        String message = savedVoiceEntity.getAbout();
+        LocalDateTime creationTime = savedVoiceEntity.getDt_create();
 
         String singer = singerEntity.getName();
 

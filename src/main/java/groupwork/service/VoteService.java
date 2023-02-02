@@ -86,9 +86,9 @@ public class VoteService implements IVotesService {
         List<SavedVoiceDTO> savedVoiceDTOS = new ArrayList<>();
         List<SavedVoice> all = votingDao.getVoiceList();
         for (SavedVoice voice : all) {
-            String email = voice.getEmail();
-            LocalDateTime creationTime = voice.getCreationTime();
-            String message = voice.getMessage();
+            String email = voice.getMail();
+            LocalDateTime creationTime = voice.getDt_create();
+            String message = voice.getAbout();
             Long id_singer = voice.getId();
 
             List<GenreEntity> genre = voice.getGenres();

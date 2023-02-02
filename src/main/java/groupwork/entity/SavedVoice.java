@@ -36,9 +36,9 @@ public class SavedVoice {
     )
     private List<GenreEntity> genres = new ArrayList<>();
 
-    private String message;
-    private String email;
-    private LocalDateTime creationTime;
+    private String about;
+    private String mail;
+    private LocalDateTime dt_create;
 
     private long key;
 
@@ -50,9 +50,9 @@ public class SavedVoice {
     public SavedVoice(SingerEntity singer, List<GenreEntity> genres, String message, String email, LocalDateTime creationTime, long key, boolean auth) {
         this.singer = singer;
         this.genres = genres;
-        this.message = message;
-        this.email = email;
-        this.creationTime = creationTime;
+        this.about = message;
+        this.mail = email;
+        this.dt_create = creationTime;
         this.key = key;
         this.auth = auth;
     }
@@ -81,15 +81,15 @@ public class SavedVoice {
         return genres;
     }
 
-    public String getMessage() {
-        return message;
+    public String getAbout() {
+        return about;
     }
 
-    public String getEmail() {
-        return email;
+    public String getMail() {
+        return mail;
     }
 
-    public LocalDateTime getCreationTime() {
-        return creationTime;
+    public LocalDateTime getDt_create() {
+        return dt_create;
     }
 }
